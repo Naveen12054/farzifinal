@@ -1,0 +1,1200 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beds</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+    
+    <!-- CSS 
+    ========================= -->
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+    
+    <!-- Modernizer JS -->
+    <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+<script src="jquery-3.6.4.min.js"></script>
+<link rel="stylesheet" href="font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        
+body {
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+
+.social-link {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border-radius: 50%;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.social-link:hover,
+.social-link:focus {
+  background: #ddd;
+  text-decoration: none;
+  color: #555;
+}
+
+.progress {
+  height: 10px;
+}   
+    .text-button {
+  background: none;
+  border: none;
+  color: inherit; /* Inherits text color from the parent element */
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+  padding: 0; /* Remove padding if there's any */
+  font-size: inherit; /* Inherit font size from the parent element */
+  text-decoration: none; /* Add underline to mimic a link or normal text */
+  /* Add any other desired styles here */
+}
+    </style>
+</head>
+
+  <body class="bg-dark">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand font-weight-bold ml-5 mr-5" href="#">Farzi</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse ml-5" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{% url 'index' %}" class="nav-link text-light font-weight-bold"><b>Home</b></a>
+                </li>
+                <li class="nav-item">
+                    <button class="text-button nav-link font-weight-bold mt-2" id="button1">All Categories</button>
+                </li>
+                <li class="nav-item">
+                    <button class="text-button nav-link font-weight-bold mt-2" id="button2">Sofa</button>
+                </li>
+                <li class="nav-item">
+                    <button class="text-button nav-link font-weight-bold mt-2" id="button3">Chair</button>
+                </li>
+                <li class="nav-item">
+                    <button class="text-button nav-link font-weight-bold mt-2" id="button4">Bed</button>
+                </li>
+                <li class="nav-item">
+                    <button class="text-button nav-link font-weight-bold mt-2" id="button5">Outdoor</button>
+                </li>
+                <li class="nav-item">
+                    <!-- <button class="text-button nav-link font-weight-bold" id="button6">Cart</button> -->
+                </li>
+                <li class="nav-item">
+                    <!-- <button class="text-button nav-link font-weight-bold" id="button7" data-toggle="modal" data-target="#exampleModal">Show Div 7</button> -->
+                </li>
+            </ul>
+            {% if  user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href="{% url 'wishlist' %}" class="nav-link text-light font-weight-bold"><b>{{ user.email }}</b></a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'wishlist' %}" class="nav-link">
+                        <i class="fas fa-heart" style="font-size: 20px;"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'cart' %}" class="nav-link">
+                        <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
+                    </a>
+                </li>
+            </ul>
+            {% endif %}
+        </div>
+    </nav>
+    
+
+  <div class="container-fluid ">
+      <div class="card shadow col-12  p-4 bg-dark ">
+        <div class="row">
+
+            <div class="card col-12">
+        
+    <div id="div1" class="content mt-1">
+
+        <h1 class="mt-5 pt-5 text-center"><strong>All Products</strong></h1>
+
+<br>        
+        
+
+<div class="row justify-content-center pb-5 mb-4">
+    {% for product3 in products3 %}
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ product3.product_images1.url }}" alt="" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ product3.brand_name }} <br> {{ product3.product_name }}</h5>
+                    <p class="small text-muted">₹{{ product3.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'singleview' product3.id %}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_wishlist' product3.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_cart' product3.id %}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+    </div>
+
+    <div id="div2" class="content">
+        <h1 class="mt-5 pt-5 text-center"><strong>Sofa</strong></h1>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button8">Modular sofas</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button9">Fabric sofas</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button10">Recliners</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button11">Chaise longues</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+<br>        
+        
+
+<div class="row justify-content-center pb-5 mb-4">
+    {% for product in products %}
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ product.product_images1.url }}" alt="" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ product.brand_name }} <br> {{ product.product_name }}</h5>
+                    <p class="small text-muted">{{ product.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'singleview' product.id %}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_wishlist' product.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_cart' product.id %}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    </div>
+
+
+    <div id="div3" class="content">
+
+        <h1 class="mt-5 pt-5 text-center"><strong>Chair</strong></h1>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button12">Arm Chairs</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button13">Accent Chair</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button14">Recliner Chair</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button15">Club Chair</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+<br>        
+        
+
+<div class="row justify-content-center pb-5 mb-4">
+    {% for product1 in products1 %}
+
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ product1.product_images1.url }}" alt="" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ product1.brand_name }} <br> {{ product1.product_name }}</h5>
+                    <p class="small text-muted">{{ product1.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'singleview' product1.id %}" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_wishlist' product1.id %}" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="{% url 'add_cart' product1.id %}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    </div>
+    <div id="div4" class="content">
+        <h1 class="mt-5 pt-5 text-center"><strong>Beds</strong></h1>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button16">Divan beds</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button17">Upholstred beds</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button18">Double beds</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button19">King beds</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+<br>  
+
+<div class="container">
+    <div class="row justify-content-center pb-5 mb-4"> <!-- Added justify-content-center class here -->
+      {% for product2 in products2 %}
+      <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card-->
+        <div class="card shadow-sm border-0 rounded">
+          <div class="card-body p-0 text-center">
+            <img src="{{ product2.product_images1.url }}" alt="" class="w-100 card-img-top">
+            <div class="p-4">
+              <h5 class="mb-0">{{ product2.brand_name }} <br> {{ product2.product_name }}</h5>
+              <p class="small text-muted">{{ product2.price }}</p>
+              
+              <ul class="social mb-0 list-inline mt-3">
+                <li class="list-inline-item m-0"> </li>
+                <li class="list-inline-item m-0">
+                    <a href="{% url 'singleview' product2.id %}" class="btn btn-primary">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item m-0">
+                    <a href="{% url 'add_wishlist' product2.id %}" class="btn btn-outline-danger">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                </li>
+                <li class="list-inline-item m-0">
+                    <a href="{% url 'add_cart' product2.id %}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+    </div>
+    <div id="div5" class="content">
+        <h1 class="mt-5 pt-5 text-center"><strong>Outdoor</strong></h1>
+
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button20">Swings</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button21">Loungers</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button22">Seating</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="text-button nav-link font-weight-bold" id="button23">Hammocks</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+<br>
+<br>        
+ 
+
+
+        <div class="row pb-5 mb-4 justify-content-center"> <!-- Added justify-content-center class here -->
+            {% for product4 in products4 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+              <!-- Card-->
+              <div class="card shadow-sm border-0 rounded">
+                <div class="card-body p-0"><img src="{{ product4.product_images1.url }}" alt="" class="w-100 card-img-top">
+                  <div class="p-4">
+                    <h5 class="mb-0">{{ product4.brand_name }} <br> {{ product4.product_name }}</h5>
+                    <p class="small text-muted">{{ product4.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                      <li class="list-inline-item m-0"> </li>
+                      <li class="list-inline-item m-0">
+                          <a href="#" class="btn btn-primary">
+                              <i class="fas fa-eye"></i> 
+                          </a>
+                      </li>
+                      <li class="list-inline-item m-0">
+                          <a href="#" class="btn btn-outline-danger">
+                              <i class="fas fa-heart"></i> 
+                          </a>
+                      </li>
+                      <li class="list-inline-item m-0">
+                          <a href="#" class="btn btn-primary">
+                              <i class="fas fa-shopping-cart"></i> 
+                          </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          
+    </div>
+    
+    <div id="div6" class="content">This is Div 6</div>
+    <div id="div7" class="content">This is Div 7</div>
+    <div id="div8" class="content">
+        
+     
+<br>
+<br>        
+        
+
+<div class="row justify-content-center pb-5 mb-4">
+    {% for products5 in products5 %}
+    
+  
+
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ products5.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ products5.brand_name }} <br> {{ products5.product_name }}</h5>
+                    <p class="small text-muted">{{ products5.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p ><span class="larger-text">No items match the condition.</span></p>
+    {% endfor %}
+</div>
+
+
+    </div>
+    <div id="div9" class="content">
+        <br>
+<br>        
+        
+
+<div class="row justify-content-center pb-5 mb-4">
+    {% for products6 in products6 %}
+    
+  
+
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ products6.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ products6.brand_name }} <br> {{ products6.product_name }}</h5>
+                    <p class="small text-muted">{{ products6.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p ><span class="larger-text">No items match the condition.</span></p>
+    {% endfor %}
+</div>
+
+
+    </div>
+    <div id="div10" class="content">
+        <br>
+        <br>        
+    <div class="row justify-content-center pb-5 mb-4">
+    {% for products7 in products7 %}
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+        <!-- Card with fixed height -->
+        <div class="card shadow-sm border-0 rounded fixed-card-height">
+            <div class="card-body p-0">
+                <img src="{{ products7.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                <div class="p-4 text-center">
+                    <h5 class="mb-0 fixed-content-height">{{ products7.brand_name }} <br> {{ products7.product_name }}</h5>
+                    <p class="small text-muted">{{ products7.price }}</p>
+                    <ul class="social mb-0 list-inline mt-3">
+                        <li class="list-inline-item m-0"> </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-outline-danger">
+                                <i class="fas fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item m-0">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p ><span class="larger-text">No items match the condition.</span></p>
+    {% endfor %}
+</div>
+
+
+    </div>
+    <div id="div11" class="content">
+        <br>
+        <br>        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products8 in products8 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products8.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products8.brand_name }} <br> {{ products8.product_name }}</h5>
+                            <p class="small text-muted">{{ products8.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+        
+        
+    </div>
+    <div id="div12" class="content">
+        <br>
+        <br>        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products9 in products9 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products9.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products9.brand_name }} <br> {{ products9.product_name }}</h5>
+                            <p class="small text-muted">{{ products9.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+       
+    </div>
+    <div id="div13" class="content">
+        <br>
+        <br>        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products10 in products10 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products10.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products10.brand_name }} <br> {{ products10.product_name }}</h5>
+                            <p class="small text-muted">{{ products10.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+       
+    </div>
+    <div id="div14" class="content">
+        <br>
+        <br>        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products11 in products11 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products11.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products11.brand_name }} <br> {{ products11.product_name }}</h5>
+                            <p class="small text-muted">{{ products11.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="div15" class="content">
+        <br>
+        <br>        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products12 in products12 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products12.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products12.brand_name }} <br> {{ products12.product_name }}</h5>
+                            <p class="small text-muted">{{ products12.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div id="div16" class="content">
+
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products13 in products13 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products13.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products13.brand_name }} <br> {{ products13.product_name }}</h5>
+                            <p class="small text-muted">{{ products13.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+
+
+    </div>
+    <div id="div17" class="content">
+        
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products14 in products14 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products14.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products14.brand_name }} <br> {{ products14.product_name }}</h5>
+                            <p class="small text-muted">{{ products14.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="div18" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products15 in products15 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products15.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products15.brand_name }} <br> {{ products15.product_name }}</h5>
+                            <p class="small text-muted">{{ products15.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="div19" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products16 in products16 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products16.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products16.brand_name }} <br> {{ products16.product_name }}</h5>
+                            <p class="small text-muted">{{ products16.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+    <div id="div20" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products17 in products17 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products17.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products17.brand_name }} <br> {{ products17.product_name }}</h5>
+                            <p class="small text-muted">{{ products17.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="div21" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products18 in products18 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products18.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products18.brand_name }} <br> {{ products18.product_name }}</h5>
+                            <p class="small text-muted">{{ products18.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div id="div22" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products19 in products19 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products19.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products19.brand_name }} <br> {{ products19.product_name }}</h5>
+                            <p class="small text-muted">{{ products19.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="div23" class="content">
+        <div class="row justify-content-center pb-5 mb-4">
+            {% for products20 in products20 %}
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                <!-- Card with fixed height -->
+                <div class="card shadow-sm border-0 rounded fixed-card-height">
+                    <div class="card-body p-0">
+                        <img src="{{ products20.product_images1.url }}" alt="sdjvlnlsldn" class="w-100 card-img-top fixed-image-height">
+                        <div class="p-4 text-center">
+                            <h5 class="mb-0 fixed-content-height">{{ products20.brand_name }} <br> {{ products20.product_name }}</h5>
+                            <p class="small text-muted">{{ products20.price }}</p>
+                            <ul class="social mb-0 list-inline mt-3">
+                                <li class="list-inline-item m-0"> </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-outline-danger">
+                                        <i class="fas fa-heart"></i>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item m-0">
+                                    <a href="#" class="btn btn-primary">
+                                        <i class="fas fa-shopping-cart"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p ><span class="larger-text">No items match the condition.</span></p>
+            {% endfor %}
+        </div>
+    </div>
+
+
+</div>  
+</div>
+      </div>
+  </div>
+  
+    <script>
+        // Get references to the buttons and div elements
+        const buttons = [
+            document.getElementById("button1"),
+            document.getElementById("button2"),
+            document.getElementById("button3"),
+            document.getElementById("button4"),
+            document.getElementById("button5"),
+            document.getElementById("button6"),
+            document.getElementById("button7"),
+            document.getElementById("button8"),
+            document.getElementById("button9"),
+            document.getElementById("button10"),
+            document.getElementById("button11"),
+            document.getElementById("button12"),
+            document.getElementById("button13"),
+            document.getElementById("button14"),
+            document.getElementById("button15"),
+            document.getElementById("button16"),
+            document.getElementById("button17"),
+            document.getElementById("button18"),
+            document.getElementById("button19"),
+            document.getElementById("button20"),
+            document.getElementById("button21"),
+            document.getElementById("button22"),
+            document.getElementById("button23")
+
+
+
+
+
+
+
+        ];
+
+        const divs = [
+            document.getElementById("div1"),
+            document.getElementById("div2"),
+            document.getElementById("div3"),
+            document.getElementById("div4"),
+            document.getElementById("div5"),
+            document.getElementById("div6"),
+            document.getElementById("div7"),
+            document.getElementById("div8"),
+            document.getElementById("div9"),
+            document.getElementById("div10"),
+            document.getElementById("div11"),
+            document.getElementById("div12"),
+            document.getElementById("div13"),
+            document.getElementById("div14"),
+            document.getElementById("div15"),
+            document.getElementById("div16"),
+            document.getElementById("div17"),
+            document.getElementById("div18"),
+            document.getElementById("div19"),
+            document.getElementById("div20"),
+            document.getElementById("div21"),
+            document.getElementById("div22"),
+            document.getElementById("div23")
+
+
+
+
+
+
+
+
+        ];
+
+        // Initially hide all divs except div1
+        divs.slice(1).forEach((div) => {
+            div.style.display = "none";
+        });
+
+        // Add click event listeners to the buttons
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", function () {
+                // Hide all divs
+                divs.forEach((div) => {
+                    div.style.display = "none";
+                });
+                // Show the corresponding div
+                divs[index].style.display = "block";
+            });
+        });
+    </script>
+    <style>
+        .fixed-image-height {
+            max-height: 300px; /* Set the desired fixed height for the image */
+        }
+        .fixed-card-height {
+        height: 500px; /* Set the desired fixed height for the card */
+    }
+        /* .fixed-content-height {
+        max-height: 60px; /* Set the desired fixed height for the content */
+        overflow: hidden; /* Hide overflowing content */
+    } */
+        
+    </style>
+</body>
+</html>
