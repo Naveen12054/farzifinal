@@ -1,0 +1,594 @@
+{% load static %}
+
+
+  <script>
+    $(document).ready(function () {
+      $("#subcategory1_name").keyup(function () {
+        validatesub1Name("#subcategory1_name");
+      });
+      $("#subcategory2_name").keyup(function () {
+        validatesub2Name("#subcategory2_name");
+      });
+      $("#subcategory3_name").keyup(function () {
+        validatesub3Name("#subcategory3_name");
+      });
+      $("#subcategory4_name").keyup(function () {
+        validatesub4Name("#subcategory4_name");
+      });
+      $("#category_name").keyup(function () {
+        validatecat("#category_name");
+      });
+
+    });
+
+    function validatesub1Name(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      var submitButton = $("#btn1");
+      if (name.trim() === "") {
+        $("#subcatspan").html("Enter the  First SubCategory").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else if (!lettersWithSpaces.test(name)) {
+        $("#subcatspan").html("Subcategory field contains alphabetical values").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else {
+        $("#subcatspan").html("");
+        submitButton.prop("disabled", false);
+        return true
+      }
+    }
+
+    function validatesub2Name(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      var submitButton = $("#btn1");
+      if (name.trim() === "") {
+        $("#subcat2span").html("Enter the  Second SubCategory").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else if (!lettersWithSpaces.test(name)) {
+        $("#subcat2span").html("Subcategory field contains alphabetical values").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else {
+        $("#subcat2span").html("");
+        submitButton.prop("disabled", false);
+        return true
+      }
+    }
+    function validatesub3Name(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      var submitButton = $("#btn1");
+      if (name.trim() === "") {
+        $("#subcat3span").html("Enter the  Third SubCategory").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else if (!lettersWithSpaces.test(name)) {
+        $("#subcat3span").html("Subcategory field contains alphabetical values").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else {
+        $("#subcat3span").html("");
+        submitButton.prop("disabled", false);
+        return true
+      }
+    }
+    function validatesub4Name(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      var submitButton = $("#btn1");
+      if (name.trim() === "") {
+        $("#subcat4span").html("Enter the  Fourth SubCategory").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else if (!lettersWithSpaces.test(name)) {
+        $("#subcat4span").html("Subcategory field contains alphabetical values").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else {
+        $("#subcat4span").html("");
+        submitButton.prop("disabled", false);
+        return true
+      }
+    }
+    function validatecat(fieldId) {
+      var name = $(fieldId).val();
+      var lettersWithSpaces = /^[A-Za-z\s]+$/;
+      var submitButton = $("#btn1");
+      if (name.trim() === "") {
+        $("#subcat").html("Enter the Category name").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else if (!lettersWithSpaces.test(name)) {
+        $("#subcat").html("category field contains alphabetical values").css("color", "red");
+        submitButton.prop("disabled", true);
+        return false
+      } else {
+        $("#subcat").html("");
+        submitButton.prop("disabled", false);
+        return true
+      }
+    }
+  </script>
+</head>
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.min.css' %}">
+    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}">
+    
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/search.css' %}">
+    
+    <!-- Modernizer JS -->
+    <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+
+
+</head>
+<style>
+  
+  ul.navbar {
+            list-style-type: none;
+            padding: 0;
+            background-color: #333;
+            display: flex;
+            justify-content: center; /* Center-align the contents horizontally */
+            position: fixed; /* Make the navbar fixed */
+            top: 0; /* Position it at the top of the viewport */
+            width: 100%; /* Full width */
+            z-index: 999; /* Set a high z-index to make it appear above other contents */
+        }
+
+        ul.navbar li {
+            position: relative;
+            padding: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        ul.navbar li:hover .subcategories {
+            display: block;
+        }
+
+        ul.subcategories {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.subcategories li {
+            padding: 10px;
+        }
+
+        ul.subcategories li:hover {
+            background-color: #444;
+        }
+
+        /* Add some padding to the content to avoid overlapping with the fixed navbar */
+        .content {
+            padding-top: 50px; /* Adjust this value as needed */
+        }
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+       body{
+        background-color:#eee;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+       }
+
+       .height{
+        height: 10vh;
+       }
+       
+
+       .search{
+       position: relative;
+       box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+         
+       }
+
+       .search input{
+
+        height: 60px;
+        text-indent: 25px;
+        border: 2px solid #d6d4d4;
+
+
+       }
+
+
+       .search input:focus{
+
+        box-shadow: none;
+        border: 2px solid blue;
+
+
+       }
+
+       .search .fa-search{
+
+        position: absolute;
+        top: 20px;
+        left: 16px;
+
+       }
+
+       .search button{
+
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: 50px;
+        width: 110px;
+        background: blue;
+
+       }
+       /* Initially hide the sub-tag */
+.sub-tag {
+    display: none;
+}
+
+/* Show the sub-tag on hover */
+.user-email:hover .sub-tag {
+    display: block;
+}
+
+</style>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/typicons/typicons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/simple-line-icons/css/simple-line-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="{% static 'js/select.dataTables.min.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+<body>
+  <div class="container-scroller"> 
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div >
+          <a class="navbar-brand brand-logo" href="{% url 'index' %}" >
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo"  />
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="{% url 'index' %}">
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo" />
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+        <ul class="navbar-nav text-center">
+          <h2 class="text-dark "><b>Admin Dashboard</b></h2>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          
+          <!-- <li class="nav-item d-none d-lg-block">
+            <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
+              <span class="input-group-addon input-group-prepend border-right">
+                <span class="icon-calendar input-group-text calendar-icon"></span>
+              </span>
+              <input type="text" class="form-control">
+            </div>
+          </li> -->
+          <!-- <li class="nav-item">
+            <form class="search-form" action="#">
+              <i class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            </form>
+          </li> -->
+          
+          <ul style="padding-left: 300px;" class="navbar-nav ms-auto ">
+          
+            <li class="nav-item "> 
+              <a class="nav-link " >
+                <i class="menu-icon mdi mdi-account-circle-outline"></i>
+                <span class="menu-title"> 
+                  <b>{{user.email}}</b>
+                </span>
+                <span class="count"></span>
+              </a></li>
+            <li class="nav-item ">
+              <a class="nav-link "  href="{% url 'cart'  %}" >
+                <span class="menu-title"><b>
+                  Logout</b></span>
+                <i class="menu-icon mdi mdi-logout"></i>
+  
+              </a>
+            </li>
+          </ul>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_settings-panel.html -->
+      
+      <div id="right-sidebar" class="settings-panel">
+        <i class="settings-close ti-close"></i>
+        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="todo-tab" data-bs-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="chats-tab" data-bs-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-category">Panel</li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admindashboard' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'newcategory' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Add Category</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'category' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Manage Category</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'display_all_objects' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Saller Profiles</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item nav-category">Categories</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">UI Elements</span>
+              <i class="menu-arrow"></i> 
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+              </ul>
+            </div>
+          </li> -->
+
+
+          <li class="nav-item nav-category">Account</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <span class="menu-title"> 
+                <b>{{user.email}}</b>
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <!-- <li class="nav-item"> <a class="nav-link" href="{% url 'sellerprofile' %}"> Profile </a></li> -->
+              </ul>
+            </div>
+          </li>
+          <!-- <li class="nav-item nav-category">help</li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="menu-icon mdi mdi-file-document"></i>
+              <span class="menu-title">Logout</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row ">
+            <div class="col-sm-12 bg-light">
+
+
+            
+              <div class="row d-flex justify-content-center">
+                <div class=" col-md-6">
+      
+                  <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group w-100 ">
+                      <label class="form-label" for="form3Examplev2">Category name</label>
+                      <input type="text" id="category_name" name="category_name" class="form-control form-control-lg">
+                      <span id="subcat"></span>
+                    </div>
+      
+                    <div class="form-group w-100 ">
+                      <label class="form-label" for="form3Examplev2">Category Desctription</label>
+                      <textarea class="form-control form-control-lg" id="descriptioncat" name="descriptioncat"></textarea>
+                    </div>
+      
+                    <div class="form-group w-100 ">
+      
+                      <label class="form-label" for="form3Examplev5">Select Photo</label>
+      
+                      <input type="file" id="form3Examplev5" name="category_image" class="form-control form-control-lg"
+                        value="{{ cate.category_image }}" />
+                    </div>
+                    <div class="form-group col-md-6 pd-20">
+                      <button type="submit" id="btn1" class="btn btn-light   btn-outline-primary btn-lg" name="cat" data-mdb-ripple-color="dark">Add
+                        Category</button>
+                    </div>
+      
+                  </form>
+                  <div class="form-group w-100 ">
+                    <label class="form-label" for="form3Examplev2">
+                      <h6>
+                        Existing Categories
+                      </h6>
+                      {% for new_category in new_category %}
+                      {{ new_category.category_name }}
+                      {% endfor %}</label>
+                  </div>
+                  
+                </div>
+      
+      
+               
+                <div class="col-md-6">
+                  <form action="" method="POST" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <div class="form-group w-100">
+                          <label class="form-label" for="form3Examplev2">Category name</label>
+              
+                          <select class="form-control form-control-lg" id="category_id" name="category_id" required>
+                            <option value="">Choose the Category</option>
+
+                              {% for new_category in new_category %}
+                              <option value="{{ new_category.id }}">{{ new_category.category_name }}</option>
+                              {% endfor %}
+                          </select>
+              
+                      </div>
+                      <div class="form-group w-100 ">
+                          <label class="form-label" for="form3Examplev2">Subcategory Description</label>
+                          <textarea class="form-control form-control-lg" id="description" name="description"></textarea>
+                      </div>
+                      <div class="form-group w-100 ">
+                          <label class="form-label" for="form3Examplev2">Subcategory name</label>
+                          <input type="text" id="name" name="name" class="form-control form-control-lg" />
+                      </div>
+                      <div class="center-container">
+                          <button type="submit" id="btn2" class="btn btn-light btn-lg btn-outline-primary" name="subcat"
+                              data-mdb-ripple-color="dark">Add Subcategory</button>
+                      </div>
+                  </form>
+                  <div class="form-group w-100 ">
+                      <label class="form-label" for="form3Examplev2">
+                          <h6>
+                              Existing Subcategories
+                          </h6>
+                      </label>
+                      <div id="existing-subcategories">
+                          <!-- Existing subcategories will be displayed here -->
+                      </div>
+                  </div>
+              </div>
+              
+              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+              <script>
+                  $(document).ready(function () {
+                      $('#category_id').change(function () {
+                          var categoryId = $(this).val();
+                          $.ajax({
+                              type: "GET",
+                              url: "{% url 'get_subcategories' %}?category_id=" + categoryId,
+                              success: function (data) {
+                                  $('#existing-subcategories').html(data);
+                              }
+                          });
+                      });
+                  });
+              </script>
+              
+
+              </div>
+      
+            
+
+
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'vendors/progressbar.js/progressbar.min.js' %}"></script>
+
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/template.js' %}"></script>
+  <script src="{% static 'js/settings.js' %}"></script>
+  <script src="{% static 'js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/Chart.roundedBarCharts.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+</html>
+

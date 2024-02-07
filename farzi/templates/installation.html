@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Booking Form HTML Template</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/bootstrapins.min.css' %}" />
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="{% static 'css/styleins.css' %}" />
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="booking" class="section">
+        <div class="section-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-md-push-5">
+                        <div class="booking-cta">
+                            <h1>We help you install your products</h1>
+                            <p>Transform your space effortlessly with our professional furniture installation service, ensuring seamless assembly and placement for a polished and functional interior..
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-pull-7">
+                        <div class="booking-form">
+                            <form method="post">
+								{% csrf_token %}
+                                <div class="form-group">
+                                    <span class="form-label">Order ID</span>
+                                    <input class="form-control" type="text" name="order_id" placeholder="Enter Order ID">
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <span class="form-label">Date</span>
+                                            <input class="form-control" type="date" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="timeslot">Select Time Slot:</label>
+                                            <select class="form-control" id="timeslot" name="timeslot">
+                                                <option value="9:00 AM">9:00 AM</option>
+                                                <option value="10:00 AM">10:00 AM</option>
+                                                <option value="11:00 AM">11:00 AM</option>
+                                                <option value="12:00 PM">12:00 PM</option>
+                                                <option value="1:00 PM">1:00 PM</option>
+                                                <option value="2:00 PM">2:00 PM</option>
+                                                <option value="3:00 PM">3:00 PM</option>
+                                                <option value="4:00 PM">4:00 PM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-11 ">
+                                        <div class="form-group">
+                                            <span class="form-label">Contact Number</span>
+                                            <input class="form-control" type="text"name="contact_number" placeholder="Enter contact number">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11 ">
+                                        <div class="form-group">
+                                            <span class="form-label">Registered email</span>
+                                            <input class="form-control" type="text" name="registered_email" value="{{user.email}}" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-11 ">
+                                        <div class="form-group">
+                                            <span class="form-label">Location on map</span>
+                                            <input class="form-control" name="location_on_map" type="text">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-btn">
+                                    <button type="submit" id="checkAvailabilityBtn" class="submit-btn">Check availability</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

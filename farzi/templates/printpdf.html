@@ -1,0 +1,150 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farzi Booking Invoice</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f5f5f5;
+    }
+
+    .invoice {
+        max-width: 100%;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .invoice-header {
+        text-align: center;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .invoice-header h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .invoice-details {
+        margin-top: 20px;
+    }
+
+    .invoice-details p {
+        margin: 0;
+        line-height: 1.0;
+    }
+
+    .invoice-items {
+        margin-top: 20px;
+    }
+
+    .invoice-items table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .invoice-items th,
+    .invoice-items td {
+        border: 1px solid #ddd;
+        padding: 8px; /* Increase padding for better alignment */
+        text-align: left;
+        word-break: break-word;
+    }
+
+    .invoice-items th {
+        background-color: #f2f2f2;
+    }
+
+    .invoice-total {
+        margin-top: 20px;
+        text-align: right;
+    }
+
+    .invoice-total p {
+        margin: 0;
+        font-weight: bold; /* Make the total amount bold */
+    }
+    .image-container {
+            position: relative;
+            margin-left:50px;
+            width: 400px;
+            height: 300px;
+            overflow: hidden;
+        }
+</style>
+
+</head>
+
+<body>
+  <div class="invoice">
+    <div class="image-container">
+      <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="img" />
+  </div>
+    <div class="invoice-header">
+      <h1>Farzi Furniture Store</h1>
+    </div>
+    
+    <div class="invoice-details">
+      <p><strong>Invoice Date:</strong> {% now "Y-m-d H:i" %}</p>
+    </div>
+    <div class="invoice-items">
+      <h2>Invoice Items</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Prushased On</th>
+            <th>Payment id</th>
+            <th>Price</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for payment in user_payments1 %}
+
+          <tr>
+            <td>
+              
+              {{ payment.product }}
+            </td>
+            <td>
+              {{ payment.order.timestamp }}
+            </td>
+            <td>
+              {{ payment.order.razorpay_order_id }}
+            </td>
+            <td>{{ payment.price }}</td>
+
+            <td>
+              {{ payment.quantity }}
+            </td>
+          </tr>
+      <p><strong>Total Amount:</strong> {{ payment.total_price }}</p>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="invoice-total">
+      
+      
+
+    </div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Furniture Rental</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+        }
+
+        button {
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #cart {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4">Furniture Rental</h1>
+
+    <div class="row" id="product-list">
+        <!-- Sample furniture products -->
+        <div class="col-md-4 product" data-product-id="1" data-product-price="50">
+            <h2>Chair</h2>
+            <p>Price: $50 per month</p>
+            <div class="form-group">
+                <label for="quantity-chair">Quantity:</label>
+                <input type="number" class="form-control" id="quantity-chair" min="1" value="1">
+            </div>
+            <div class="form-group">
+                <label for="tenure-chair">Tenure (months):</label>
+                <input type="number" class="form-control" id="tenure-chair" min="1" value="1">
+            </div>
+            <button class="btn btn-primary" onclick="checkPrice(1, 'Chair')">Check Price</button>
+            <button class="btn btn-success d-none" id="addToCartBtn" onclick="addToRentCart(1, 'Chair')">Add to Rent Cart</button>
+            <p class="mt-2"><strong>Price: $<span id="price-chair">0</span></strong></p>
+        </div>
+
+        <!-- Add more furniture products similarly -->
+
+    </div>
+
+    <div class="row" id="cart">
+        <div class="col-md-12">
+            <h2 class="mt-4">Rent Cart</h2>
+            <ul id="rent-cart-list" class="list-group"></ul>
+            <p>Total: $<span id="rent-total-price">0</span></p>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    let rentCart = [];
+
+    function checkPrice(productId, productName) {
+        const quantity = parseInt(document.getElementById(`quantity-${productName.toLowerCase()}`).value);
+        const tenure = parseInt(document.getElementById(`tenure-${productName.toLowerCase()}`).value);
+        const price = parseInt(document.querySelector(`[data-product-id="${productId}"]`).getAttribute('data-product-price'));
+
+        const itemTotal = quantity * tenure * price;
+
+        // Display the price
+        document.getElementById(`price-${productName.toLowerCase()}`).textContent = itemTotal;
+
+        // Show the "Add to Rent Cart" button
+        document.getElementById('addToCartBtn').classList.remove('d-none');
+    }
+
+    function addToRentCart(productId, productName) {
+        const quantity = parseInt(document.getElementById(`quantity-${productName.toLowerCase()}`).value);
+        const tenure = parseInt(document.getElementById(`tenure-${productName.toLowerCase()}`).value);
+        const price = parseInt(document.querySelector(`[data-product-id="${productId}"]`).getAttribute('data-product-price'));
+
+        const itemTotal = quantity * tenure * price;
+
+        const item = {
+            productId,
+            productName,
+            quantity,
+            tenure,
+            total: itemTotal
+        };
+
+        rentCart.push(item);
+
+        updateRentCartUI();
+    }
+
+    function updateRentCartUI() {
+        const rentCartList = document.getElementById('rent-cart-list');
+        const rentTotalPriceElement = document.getElementById('rent-total-price');
+
+        // Clear existing rent cart items
+        rentCartList.innerHTML = '';
+
+        // Populate rent cart items
+        let rentTotalPrice = 0;
+        rentCart.forEach(item => {
+            const rentCartItem = document.createElement('li');
+            rentCartItem.classList.add('list-group-item');
+            rentCartItem.textContent = `${item.quantity} ${item.productName}(s) for ${item.tenure} months - $${item.total}`;
+            rentCartList.appendChild(rentCartItem);
+
+            rentTotalPrice += item.total;
+        });
+
+        // Update rent total price
+        rentTotalPriceElement.textContent = rentTotalPrice;
+
+        // Hide the "Add to Rent Cart" button after adding to rent cart
+        document.getElementById('addToCartBtn').classList.add('d-none');
+        // Reset the displayed price
+        document.getElementById('price-chair').textContent = 0;
+    }
+</script>
+
+</body>
+</html>

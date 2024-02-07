@@ -1,0 +1,549 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+<style>
+        
+    body{margin-top:20px;
+        background:#f1f2f7;
+        }
+        
+        /*panel*/
+        .panel {
+            border: none;
+            box-shadow: none;
+        }
+        
+        .panel-heading {
+            border-color:#eff2f7 ;
+            font-size: 16px;
+            font-weight: 300;
+        }
+        
+        .panel-title {
+            color: #2A3542;
+            font-size: 14px;
+            font-weight: 400;
+            margin-bottom: 0;
+            margin-top: 0;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        
+        /*product list*/
+        
+        .prod-cat li a{
+            border-bottom: 1px dashed #d9d9d9;
+        }
+        
+        .prod-cat li a {
+            color: #3b3b3b;
+        }
+        
+        .prod-cat li ul {
+            margin-left: 30px;
+        }
+        
+        .prod-cat li ul li a{
+            border-bottom:none;
+        }
+        .prod-cat li ul li a:hover,.prod-cat li ul li a:focus, .prod-cat li ul li.active a , .prod-cat li a:hover,.prod-cat li a:focus, .prod-cat li a.active{
+            background: none;
+            color: #ff7261;
+        }
+        
+        .pro-lab{
+            margin-right: 20px;
+            font-weight: normal;
+        }
+        
+        .pro-sort {
+            padding-right: 20px;
+            float: left;
+        }
+        
+        .pro-page-list {
+            margin: 5px 0 0 0;
+        }
+        
+        .product-list img{
+            width: 100%;
+            border-radius: 4px 4px 0 0;
+            -webkit-border-radius: 4px 4px 0 0;
+        }
+        
+        .product-list .pro-img-box {
+            position: relative;
+        }
+        .adtocart {
+            background: #fc5959;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            color: #fff;
+            display: inline-block;
+            text-align: center;
+            border: 3px solid #fff;
+            left: 45%;
+            bottom: -25px;
+            position: absolute;
+        }
+        
+        .adtocart i{
+            color: #fff;
+            font-size: 25px;
+            line-height: 42px;
+        }
+        
+        .pro-title {
+            color: #5A5A5A;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        
+        .product-list .price {
+            color:#fc5959 ;
+            font-size: 15px;
+        }
+        
+        .pro-img-details {
+            margin-left: -15px;
+        }
+        
+        .pro-img-details img {
+            width: 100%;
+        }
+        
+        .pro-d-title {
+            font-size: 16px;
+            margin-top: 0;
+        }
+        
+        .product_meta {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+            margin: 15px 0;
+        }
+        
+        .product_meta span {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .product_meta a, .pro-price{
+            color:#fc5959 ;
+        }
+        
+        .pro-price, .amount-old {
+            font-size: 18px;
+            padding: 0 10px;
+        }
+        
+        .amount-old {
+            text-decoration: line-through;
+        }
+        
+        .quantity {
+            width: 120px;
+        }
+        
+        .pro-img-list {
+            margin: 10px 0 0 -15px;
+            width: 100%;
+            display: inline-block;
+        }
+        
+        .pro-img-list a {
+            float: left;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .pro-d-head {
+            font-size: 18px;
+            font-weight: 300;
+        }
+        /* Remove default button styles */
+.text-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  color: inherit; /* Inherit text color from parent element */
+  font-size: inherit; /* Inherit font size from parent element */
+  text-decoration: none; /* Add underline to mimic a link or plain text */
+}
+
+/* Style the button on hover (optional) */
+.text-button:hover {
+  text-decoration: none;
+  color: #ff7261; /* Remove underline on hover if desired */
+  /* Add other hover styles if needed */
+}
+
+
+        
+</style>
+<div class="container bootdey">
+    <div class="col-md-3">
+        <section class="panel">
+            <div class="panel-body">
+                <input type="text" placeholder="Keyword Search" class="form-control" />
+            </div>
+        </section>
+        <section class="panel">
+            <header class="panel-heading">
+        <button class="text-button" id="button1">All</button>
+                
+            </header>
+            <div class="panel-body">
+                <ul class="nav prod-cat">
+                    <li>
+        <button class="text-button" id="button2">Sofa</button>
+        <hr>
+                        <ul class="nav">
+                            <li class="active"><button class="text-button" id="button2">Chaise Lounges</button></li>
+                            <li><button class="text-button" id="button2">Recliners</button></li>
+                            <li><button class="text-button" id="button2">Modular Sofa</button></li>
+                            <li><button class="text-button" id="button2">Fabric Sofa</button></li>
+                        </ul>
+                    </li>
+                    <hr>
+        <button class="text-button" id="button3">Chair</button>
+        <li>
+                        <hr>
+                                        <ul class="nav">
+                                            <li><button class="text-button" id="button2">Arm Chair</button></li>
+                                            <li><button class="text-button" id="button2">Accent Chair</button></li>
+                                            <li><button class="text-button" id="button2">Reciliner Chair</button></li>
+                                            <li><button class="text-button" id="button2">Club Chair</button></li>
+                                        </ul>
+                                    </li>
+
+                        
+                                    
+                    <hr>        <button class="text-button" id="button4">Bed</button>
+                    <li>
+                                    <hr>
+                                                    <ul class="nav">
+                                                        <li><button class="text-button" id="button2">Divan Bed</button></li>
+                                                        <li><button class="text-button" id="button2">Upholstred beds</button></li>
+                                                        <li><button class="text-button" id="button2">Double beds</button></li>
+                                                        <li><button class="text-button" id="button2">King beds</button></li>
+                                                    </ul>
+                                                </li>
+                                                <hr>       
+             <button class="text-button" id="button5">Outdoor</button>
+             <li>
+                <hr> <ul class="nav">
+                    <li><button class="text-button" id="button2">Swings</button></li>
+                    <li><button class="text-button" id="button2">Loungers</button></li>
+                    <li><button class="text-button" id="button2">Seating</button></li>
+                    <li><button class="text-button" id="button2">Hammocks</button></li>
+                    </ul>
+            </li>   
+                </ul>
+            </div>
+        </section>
+        <!-- <section class="panel">
+            <header class="panel-heading">
+                Category
+            </header>
+            <div class="panel-body">
+                {% for category in products5 %}
+<ul class="nav prod-cat">
+    <li>
+        <a href="#" class="category-link" data-category="{{ category.id }}">
+            <i class="fa fa-angle-right"></i> {{ category.category_name }}
+        </a>
+        <ul class="nav subcategories">
+            <li><a href="#" class="subcategory-link" data-subcategory="{{ category.subcategory1_name }}">{{ category.subcategory1_name }}</a></li>
+            <li><a href="#" class="subcategory-link" data-subcategory="{{ category.subcategory2_name }}">{{ category.subcategory2_name }}</a></li>
+            <li><a href="#" class="subcategory-link" data-subcategory="{{ category.subcategory3_name }}">{{ category.subcategory3_name }}</a></li>
+            <li><a href="#" class="subcategory-link" data-subcategory="{{ category.subcategory4_name }}">{{ category.subcategory4_name }}</a></li>
+        </ul>
+    </li>
+</ul>
+{% endfor %}
+
+            </div>
+        </section> -->
+    </div>
+    <div class="col-md-9">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <ul class="pagination pagination-sm pro-page-list">
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">»</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    <div id="div1" class="content">
+
+      {% for products3 in products3 %}
+        
+        <div class="row product-list">
+            <div class="col-md-4">
+                <section class="panel">
+                    <div class="pro-img-box">
+                        <img src="{{ products3.product_images1.url }}" alt="" />
+                        
+                    </div>
+
+                    <div class="panel-body text-center">
+                        <h4>
+                            <a href="#" class="pro-title">
+                                {{ products3.brand_name }}
+                            </a>
+                        </h4>
+                                {{ products3.price }}
+                                <p class="price"></p>
+                    </div>
+                </section>
+            </div>
+            
+        </div>
+        {% endfor %}
+</div>
+
+
+<div id="div2" class="content">
+    <div class="row pb-5 mb-4">
+      {% for product in products %}
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+      <!-- Card-->
+      <div class="card shadow-sm border-0 rounded " >
+        <div class="card-body p-0"><img src="{{ product.product_images1.url }}" alt="" class="w-100 card-img-top">
+          <div class="p-4">
+            <h5 class="mb-0">{{ product.brand_name }} <br> {{ product.product_name }}</h5>
+            <p class="small text-muted">{{ product.price }}</p>
+            <ul class="social mb-0 list-inline mt-3">
+              <li class="list-inline-item m-0"> </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-primary">
+                      <i class="fas fa-eye"></i> 
+                  </a>
+              </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-outline-danger">
+                      <i class="fas fa-heart"></i> 
+                  </a>
+              </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-primary">
+                      <i class="fas fa-shopping-cart"></i> 
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    {% endfor %}
+</div>
+  </div>
+
+  
+
+
+  <div id="div3" class="content">
+      
+    <div class="row pb-5 mb-4">
+      {% for product1 in products1 %}
+    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+      <!-- Card-->
+      
+      
+
+      <div class="card shadow-sm border-0 rounded " >
+        <div class="card-body p-0"><img src="{{ product1.product_images1.url }}" alt="" class="w-100 card-img-top">
+          <div class="p-4">
+            <h5 class="mb-0">{{ product1.brand_name }} <br> {{ product1.product_name }}</h5>
+            <p class="small text-muted">{{ product1.price }}</p>
+            <ul class="social mb-0 list-inline mt-3">
+              <li class="list-inline-item m-0"> </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-primary">
+                      <i class="fas fa-eye"></i> 
+                  </a>
+              </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-outline-danger">
+                      <i class="fas fa-heart"></i> 
+                  </a>
+              </li>
+              <li class="list-inline-item m-0">
+                  <a href="#" class="btn btn-primary">
+                      <i class="fas fa-shopping-cart"></i> 
+                  </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    {% endfor %}
+</div>
+    </div>
+
+
+    <div id="div4" class="content">
+      
+        <div class="row pb-5 mb-4">
+          {% for product2 in products2 %}
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <!-- Card-->
+          
+          
+    
+          <div class="card shadow-sm border-0 rounded " >
+            <div class="card-body p-0"><img src="{{ product2.product_images1.url }}" alt="" class="w-100 card-img-top">
+              <div class="p-4">
+                <h5 class="mb-0">{{ product2.brand_name }} <br> {{ product2.product_name }}</h5>
+                <p class="small text-muted">{{ product2.price }}</p>
+                <ul class="social mb-0 list-inline mt-3">
+                  <li class="list-inline-item m-0"> </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-primary">
+                          <i class="fas fa-eye"></i> 
+                      </a>
+                  </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-outline-danger">
+                          <i class="fas fa-heart"></i> 
+                      </a>
+                  </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-primary">
+                          <i class="fas fa-shopping-cart"></i> 
+                      </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    
+        {% endfor %}
+    </div>
+        </div>
+
+
+        
+    <div id="div5" class="content">
+      
+        <div class="row pb-5 mb-4">
+          {% for product4 in products4 %}
+        <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+          <!-- Card-->
+          
+          
+    
+          <div class="card shadow-sm border-0 rounded " >
+            <div class="card-body p-0"><img src="{{ product4.product_images1.url }}" alt="" class="w-100 card-img-top">
+              <div class="p-4">
+                <h5 class="mb-0">{{ product4.brand_name }} <br> {{ product4.product_name }}</h5>
+                <p class="small text-muted">{{ product4.price }}</p>
+                <ul class="social mb-0 list-inline mt-3">
+                  <li class="list-inline-item m-0"> </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-primary">
+                          <i class="fas fa-eye"></i> 
+                      </a>
+                  </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-outline-danger">
+                          <i class="fas fa-heart"></i> 
+                      </a>
+                  </li>
+                  <li class="list-inline-item m-0">
+                      <a href="#" class="btn btn-primary">
+                          <i class="fas fa-shopping-cart"></i> 
+                      </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+    
+        {% endfor %}
+    </div>
+        </div>
+        
+        <div id="div6" class="content">This is Div 6</div>
+        <div id="div7" class="content">This is Div 7</div>
+    
+
+
+
+    </div>
+</div>
+
+<script>
+    // Get references to the buttons and div elements
+    const buttons = [
+        document.getElementById("button1"),
+        document.getElementById("button2"),
+        document.getElementById("button3"),
+        document.getElementById("button4"),
+        document.getElementById("button5"),
+        document.getElementById("button6"),
+        document.getElementById("button7")
+    ];
+
+    const divs = [
+        document.getElementById("div1"),
+        document.getElementById("div2"),
+        document.getElementById("div3"),
+        document.getElementById("div4"),
+        document.getElementById("div5"),
+        document.getElementById("div6"),
+        document.getElementById("div7")
+    ];
+
+    // Initially display only div1
+    divs[0].style.display = "block";
+
+    // Add click event listeners to the buttons
+    buttons.forEach((button, index) => {
+        button.addEventListener("click", function () {
+            // Hide all divs
+            divs.forEach((div) => {
+                div.style.display = "none";
+            });
+            // Show the corresponding div
+            divs[index].style.display = "block";
+        });
+    });
+</script>
+
+</body>
+</html>

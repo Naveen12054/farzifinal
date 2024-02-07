@@ -1,0 +1,245 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        .soul-logo {
+            mix-blend-mode: color-burn;
+        }
+
+        .placform::placeholder {
+            position: absolute;
+            left: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="vh-100">
+        
+
+
+    <form method="POST">
+        {% csrf_token %}
+    <section class="vh-100" >
+                <div class="container py-5 h-100">
+                <div class="row row-cols-1 row-cols-md-2 d-flex justify-content-center align-items-center h-75">
+                    <div class="col">
+                        <div class="d-flex align-items-center justify-content-center mb-3 pb-1">
+                            <img class="soul-logo" src="{% static 'img/s1.png' %}">
+
+                        </div>
+                        <h5 class="fw-normal mb-3 pb-3 text-center text-dark opacity-100" style="letter-spacing: 1px;">
+                            <img style="width:320px; height:250px;" 
+                            src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai">
+                    </div>
+                    <div class="col ">
+                        <div class="card h-100">
+                            <div class="card-body p-5 p-lg-5 text-black">
+                                <h2 class="fw-normal mb-2 pb-2 text-center "
+                                    style="letter-spacing: 1px; font-weight:bold;"><b>Sign up as Customer</b></h2>
+                                <form method="POST">
+                                   {% csrf_token %}
+                                    <div class="form-outline mb-4 ">
+                                        <div class="d-flex align-items-center position-relative">
+
+                                            <input type="text" id="name" name="name"
+                                                class="form-control form-control-lg placform" placeholder="Enter  Name">
+                                        </div>
+                                        <div id="nameValidation" class="invalid-feedback">
+                                            Please enter a valid name containing only letters.
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-outline mb-3 ">
+                                        <div class="d-flex align-items-center position-relative">
+                                            <input type="email" id="email" name="email"
+                                                class="form-control form-control-lg placform" placeholder="Enter Email">
+                                        </div>
+                                        <div id="emailValidation" class="invalid-feedback">
+                                            Please enter a valid email address.
+                                        </div>
+                                    </div>
+
+                                    <div class="form-outline mb-3 ">
+                                        <div class="d-flex align-items-center position-relative">
+
+                                            <input type="password" id="pass" name="pass" placeholder="Enter Password"
+                                                class="form-control form-control-lg placform"
+                                                placeholder="Enter Password">
+                                        </div>
+                                        <div id="passValidation" class="invalid-feedback">
+                                            Password must be at least 8 characters long and contain at least one
+                                            uppercase
+                                            letter, one lowercase letter, one number, and one special character.
+                                        </div>
+                                        <div id="passValid" class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="form-outline mb-2 ">
+                                        <div class="d-flex align-items-center position-relative">
+
+                                            <input type="password" id="cpass" name="cpass"
+                                                class="form-control form-control-lg placform"
+                                                placeholder="Confirm Password">
+                                        </div>
+                                        <div id="cpassValidation" class="invalid-feedback">
+                                            Passwords do not match.
+                                        </div>
+                                        <div id="cpassValid" class="valid-feedback">
+                                            Passwords match!
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="d-flex justify-content-center mt-md-3">
+                                        <button class="btn btn-dark btn-lg w-50" type="sumbit" id="submit">Register</button>
+                                    </div>
+                                    {% if error_message %}
+                                    <div class="d-flex justify-content-center"><p class="text-danger mt-2 fs-3">{{error_message}}</p></div>
+                                    {% endif %}
+                                    <p class=" mt-1 pb-lg-1 text-center" style="color: #0e2b7a;">Already have an
+                                        account? <a href="{% url 'login' %}" style="color: #0e2b7a;">login</a></p>
+                                    <hr>
+                                    <h6 class="text-center"> Or login with</h6>
+                                    <br>
+                                    {% load socialaccount %}
+                                    <div class=" mb-1">
+                                        <a href="{% provider_login_url 'google' %}"><button class="btn btn-dark btn-lg btn-block w-100" type="button">
+                                            <i class="fab fa-google"></i> Sign in with Google
+                                        </button></a>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const phoneInput = document.getElementById('phone');
+                const passwordInput = document.getElementById('pass');
+                const confirmPasswordInput = document.getElementById('cpass');
+
+
+                nameInput.addEventListener('blur', validateName);
+                emailInput.addEventListener('blur', validateEmail);
+                passwordInput.addEventListener('blur', validatePassword);
+                confirmPasswordInput.addEventListener('blur', validateConfirmPassword);
+                phoneInput.addEventListener('blur', validatePhoneNumber);
+
+                // Validation functions go here
+                function validateName() {
+                    const namePattern = /^[A-Za-z ]+$/;
+                    const nameValidation = document.getElementById('nameValidation');
+                    const nameValid = document.getElementById('nameValid');
+
+                    if (!namePattern.test(nameInput.value)) {
+                        nameInput.classList.add('is-invalid');
+                        nameInput.classList.remove('is-valid');
+                        nameValidation.style.display = 'block';
+                        nameValid.style.display = 'none';
+                    } else {
+                        nameInput.classList.remove('is-invalid');
+                        nameInput.classList.add('is-valid');
+                        nameValidation.style.display = 'none';
+                        nameValid.style.display = 'block';
+                    }
+                }
+
+                function validateEmail() {
+                    const emailPattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                    const emailValidation = document.getElementById('emailValidation');
+                    const emailValid = document.getElementById('emailValid');
+
+                    if (!emailPattern.test(emailInput.value)) {
+                        emailInput.classList.add('is-invalid');
+                        emailInput.classList.remove('is-valid');
+                        emailValidation.style.display = 'block';
+                        emailValid.style.display = 'none';
+                    } else {
+                        emailInput.classList.remove('is-invalid');
+                        emailInput.classList.add('is-valid');
+                        emailValidation.style.display = 'none';
+                        emailValid.style.display = 'block';
+                    }
+                }
+
+                function validatePhoneNumber() {
+                    const phoneNumberPattern = /^(\+\d{1,3}[- ]?)?\d{10}$/; // Adjust the pattern as needed
+                    const phoneValidation = document.getElementById('phoneValidation');
+                    if (!phoneNumberPattern.test(phoneInput.value)) {
+                        phoneInput.classList.add('is-invalid');
+                        phoneInput.classList.remove('is-valid');
+                        phoneValidation.style.display = 'block';
+                    } else {
+                        phoneInput.classList.remove('is-invalid');
+                        phoneInput.classList.add('is-valid');
+                        phoneValidation.style.display = 'none';
+                    }
+                }
+
+                function validatePassword() {
+                    const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+[\]{}|;:'",.<>?/~`]).{8,}$/;
+                    const passValidation = document.getElementById('passValidation');
+                    const passValid = document.getElementById('passValid');
+
+                    if (!passwordPattern.test(passwordInput.value)) {
+                        passwordInput.classList.add('is-invalid');
+                        passwordInput.classList.remove('is-valid');
+                        passValidation.style.display = 'block';
+                        passValid.style.display = 'none';
+                    } else {
+                        passwordInput.classList.remove('is-invalid');
+                        passwordInput.classList.add('is-valid');
+                        passValidation.style.display = 'none';
+                        passValid.style.display = 'block';
+                    }
+                }
+
+                function validateConfirmPassword() {
+                    const confirmPasswordValidation = document.getElementById('cpassValidation');
+                    const confirmPasswordValid = document.getElementById('cpassValid');
+
+                    if (passwordInput.value !== confirmPasswordInput.value) {
+                        confirmPasswordInput.classList.add('is-invalid');
+                        confirmPasswordInput.classList.remove('is-valid');
+                        confirmPasswordValidation.style.display = 'block';
+                        confirmPasswordValid.style.display = 'none';
+                    } else {
+                        confirmPasswordInput.classList.remove('is-invalid');
+                        confirmPasswordInput.classList.add('is-valid');
+                        confirmPasswordValidation.style.display = 'none';
+                        confirmPasswordValid.style.display = 'block';
+                    }
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>

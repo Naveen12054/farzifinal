@@ -1,0 +1,706 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Farzi - Furniture eCommerce Store</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/favicon.ico' %}">
+    
+    <!-- CSS 
+    ========================= -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+   
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/simple-line-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/ionicons.min.css' %}">
+    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/plugins.css' %}">
+    
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/search.css' %}">
+    
+    <!-- Modernizer JS -->
+    <script src="{% static 'assets/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+</head>
+
+<body>
+    <div class="a">
+        {% if  user.is_authenticated %}
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse d-flex text-align-center justify-content-center" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto  " style="justify-content: center;">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'index' %}">Home</a>           
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'seminar2' %}">Upload</a>           
+                  </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'list' %}">All Products</a>           
+                  </li>
+                {% for product2 in products1 %}
+                {% if forloop.counter <= 6 %}
+
+                <li class="nav-item active">
+
+              <a class=" nav-link " href="/list/sub/{{product2}}" style="text-decoration: none;">
+                {{ product2.name }}
+              </a>
+
+            </li>
+          {% endif%}
+
+          {%endfor%}
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'rentuser' %}">Rent</a>           
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'services' %}">Services</a>           
+          </li>
+              </ul>
+            </div>
+          </nav>
+          {% endif%}
+  
+  </div>
+  
+<!-- Main Wrapper Start -->
+<div class="main-wrapper">
+    <!-- header-area start -->
+    <div class="header-area">
+        <div class="header-bottom-area header-sticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-5 col-5 d-flex mt-2">
+                        <div class="logo " style="margin-top: 20px;  margin-right: 10px;">
+                            <a href="{% url 'index' %}">
+                                <img style="width:100px; height:80px;" src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai"></a>
+                        </div>
+                        <style>
+                            .transparent-button {
+                                background-color: transparent;
+                                border: none;
+                                color: #000; /* Text color (black in this example) */
+                                cursor: pointer;
+                                font-size: 16px;
+                                padding: 10px 20px; /* Adjust padding as needed */
+                            }
+                            </style>
+                               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                               <script>
+                                 // Define a function to handle form submission
+                                 function handleFormSubmission() {
+                                   // Get search query from form
+                                   var query = $("#query").val();
+                                   console.log("Form submitted!");
+                                   console.log("Query:", query);
+                     
+                                   // Send AJAX request
+                                   $.ajax({
+                                     type: "GET",
+                                     url: "/search_product/",  // Replace with the actual URL
+                                     data: { query: query },
+                                     dataType: "json",
+                                     success: function (data) {
+                                       // Check if there are any results
+                                       if (data.product.length === 0) {
+                                         // No results found, display the "no-results" message
+                                         $("#results").html("<p>No products found.</p>");
+                                         // Hide the property listings
+                                         $("#pro").hide();
+                                       } else {
+                                         // Results found, display the results
+                                         var resultsHtml = "<div class='row mb-3'>"; // Open a row div with margin
+                     
+                                         data.product.forEach(function (product, index) {
+                                           // Check if it's divisible by 4 to start a new row
+                                           if (index % 4 === 0) {
+                                             resultsHtml += '</div>'; // Close the previous row
+                                             resultsHtml += '<div class="row mb-3">'; // Open a new row with margin
+                                           }
+                     
+                     
+                     
+                                           // Create the property card HTML
+                                           resultsHtml += '<div class="col-md-4 mb-5">';
+                                           resultsHtml += '<div class="card" style="width: 18rem;">';
+                     
+                                           resultsHtml += '<a href="/singleview/' + product.id + '/" style="text-decoration: none;" >';
+                                           resultsHtml += '<img src="' + product.product_images1 + '" class="card-img-top" style="height: 286px;" >';
+                                           resultsHtml += '<div class="card-body">';
+                                           resultsHtml += '<h6 class="text-dark"><b>' + product.brand_name + '</b></h6>';
+                                           resultsHtml += '<h6 class="text-dark"><b>' + product.product_name + '</b></h6>';
+                                           resultsHtml += '</a>'
+                                           resultsHtml += '<div class="r mt-3" style="display: flex;">';
+                                           resultsHtml += '<h6 class="card-text"><b>₹' + product.price + '</b></h6>';
+                                           resultsHtml += '</div>';
+                                           resultsHtml += '</div>';
+                                           resultsHtml += '</div>';
+                                           resultsHtml += '</div>';
+                                         });
+                                         resultsHtml += "</div>"; // Close the last row with margin
+                                         $("#pro").html(resultsHtml); // Replace the content of #pro with resultsHtml
+                                         // Show the property listings
+                                         $("#pro").show();
+                                       }
+                                     },
+                                     error: function (xhr, status, error) {
+                                       // Log any errors to the console
+                                       console.error(xhr.responseText);
+                                     },
+                                   });
+                                 }
+                     
+                                 // Call the form submission handler function when the document is ready
+                                 $(document).ready(function () {
+                                   $("#search-form").submit(function (e) {
+                                     e.preventDefault();
+                                     handleFormSubmission();
+                                   });
+                                 });
+                               </script>
+                     
+            <form id="search-form">
+                        <div class="search mt-4" style="width:500px;"> 
+                            <input type="text" class="search-input" placeholder="Search..." id="query" name="query"> 
+                <button type="submit" class="transparent-button">
+                    <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="hai">
+
+                </button>
+                            
+                        </div> 
+              <form>
+                    </div>
+                    <div class="col-lg-6 d-none d-lg-block " style="margin-top: -30px;">
+                        <div class="main-menu-area text-center ">
+                            <nav class="main-navigation ">
+                            
+                                <ul>
+                                {% if  user.is_authenticated %}
+                                {% if user.role == 1 %}
+
+
+                                    <li><a href="{% url 'wishlist' %}" class="nav-link">
+                                        <img src="{% static 'assets/images/heart.png' %}" alt="" style="height: 20px;">
+                                    </a></li>
+                                    <li><a href="{% url 'cart' %}" class="nav-link">
+                                        <img src="{% static 'assets/images/cart.png' %}" alt="" style="height: 20px;">
+                                    </a></li>
+                                    <li><a href="{% url 'user_orders' %}" class="nav-link">
+                                        <img src="{% static 'assets/images/booking.png' %}" alt="" style="height: 20px;">
+                                    </a></li>
+                                    {% endif%}
+                                    {% endif%}
+                                    
+                            {% if user.is_anonymous %}
+                                    
+                                    <li><a href="{% url 'seller' %}" class="nav-link">Become a Seller</a></li>
+                                    {% endif%}
+
+                                    <li><a href="#" class="nav-link">
+                                        {% comment %} {% if  user.is_authenticated %}
+                                                {% if user.role == 4 %}
+                                                <li><a href="{% url 'admindashboard' %}" class="nav-item nav-link">Dashboard</a></li>
+                                               
+                                                {% elif user.role == 2 %}
+                                                
+                                                <li><a href="{% url 'sellerpage' %}" class="nav-item nav-link">Dashboard</a></li>
+                                                {% elif user.role == 1 %}
+                                                <li><a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a></li>
+                                        {% else %}
+                                       
+                                        {% endif %}
+                                                {% else %}
+                                            
+                                        {% endif %} {% endcomment %}
+                                    </a></li>
+                                    {% comment %} {% if user.name == user.name %}
+                                    {{user.name}}
+                                    <ul class="sub-menu">
+                                        <li><a href="{% url 'logout' %}" class="nav-item nav-link" id="logout">Log Out</a></li>
+                                                <br>
+                                                
+                                    </ul>
+                                    {% else %}
+                                    {{user.email}}
+                                    {%endif%} {% endcomment %}
+                                    <li>
+                                        <b>{{user.name}}</b>
+                                        <ul class="sub-menu">
+                                                {% if  user.is_authenticated %}
+                                                {% if user.role == 1 %}
+                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
+                                                <br>
+                                                <li><a href="{% url 'profile' %}" id="logout" class="nav-item nav-link">Profile</a></li>
+                                                {% elif user.role == 2 %}
+                                                
+                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
+                                                
+                                        {% else %}
+                                        <br>
+                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
+                                                <br>
+                                        {% endif %}
+                                                {% else %}
+                                            </ul>
+                                        </li>
+                                        <li><a href="{% url 'login' %}" class="nav-link">
+                                            <img src="{% static 'assets/images/profile.png' %}" alt="" style="height: 20px;">
+                                        </a></li>
+                                        {% endif %}
+                                        
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- header-area end -->
+    
+    <!-- Hero Slider Start -->
+    <div class="hero-slider hero-slider-one"id="pro">
+        <!-- Single Slide Start -->
+        <div class="single-slide" >
+            <!-- Hero Content One Start -->
+            <div class="hero-content-one container">
+                <div class="row" >
+                    <div class="col-lg-6 col-md-8"> 
+                        <div class="slider-text-info">
+                            <h1 style="color: #E97730;">Maintenece Services</h1>
+                            <p>Elevate the longevity and allure of your furniture with our comprehensive maintenance services, expertly designed to preserve the aesthetic and functionality of your pieces through meticulous care, cleaning, and preventive measures.</p>
+                            {% if  user.is_authenticated %}
+                            {% if user.role == 1 %}
+                            <a href="{% url 'manintenece' %}" class="btn slider-btn uppercase"><span>BOOK APPOINTMENT</span></a>
+                            {% endif %}
+                            {% elif user.is_anonymous %}
+                            <a href="{% url 'login' %}" class="btn slider-btn uppercase"><span>SHOP NOW</span></a>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- Hero Content One End -->
+        </div>
+        <!-- Single Slide End -->
+
+        <!-- Single Slide Start -->
+        <div class="single-slide" style="background-image: url({% static 'assets/images/slider/slide-bg-1.jpg' %})">
+            <!-- Hero Content One Start -->
+            <div class="hero-content-one container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-8"> 
+                        <div class="slider-text-info">
+                            <h1 style="color: #E97730;">Installation Services</h1>
+                            <p>Transform your space effortlessly with our professional furniture installation service, ensuring seamless assembly and placement for a polished and functional interior.</p>
+                            <a href="{% url 'installation' %}" class="btn slider-btn uppercase"><span>SHOP NOW</span></a>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <!-- Hero Content One End -->
+        </div>
+        <!-- Single Slide End -->
+    </div>
+    <!-- Hero Section End -->
+    
+    
+    <!-- product-area start -->
+    
+    </div>
+    <!-- product-area end -->
+
+    
+    
+   
+    <!-- secton-area start -->
+
+    <!-- secton-area end -->
+    
+    <!-- our-brand-area start -->
+    <div class="our-brand-area section-ptb">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                  <h1>My Appointments</h1>
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time </th>
+                            <th>Estimated Cost</th>
+                            <th>Description</th>
+                            <th>Approved/Rejected on</th>
+                            <th>Status</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in user_appointments %}
+                        <tr>
+                            <td>{{ appointment.date }}</td>
+                            <td>{{ appointment.get_time_slot_display }}</td>
+                            <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.estimatedcost }}</td>
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.desc }}</td>
+                            <td>{{ appointment.approved_timestamp }}</td>
+                            <td>{% if appointment.approved == 1 %}
+                              <button  style="background-color: green;color:white;"  id="submitBtn">Approved</button>
+                              <button  style="background-color: blue;color:white;"  id="submitBtn">
+                                Pay Now
+                              </button>
+
+                          {% endif %}
+                          {% if appointment.rejected == 1 %}
+                              <button class="btn btn-success"  id="submitBtn">Rejected</button>
+                          {% endif %}
+                          {% if appointment.rejected == 0 and appointment.approved == 0 %}
+                              <button class="btn btn-success"  id="submitBtn">Not Yet Reviewed</button>
+                          {% endif %}
+                        </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+          </div>
+            </div>
+        </div>
+    </div>
+    <!-- our-brand-area end -->
+    
+    <!-- footer-area start -->
+    
+    <!-- Remove the container if you want to extend the Footer to full width. -->
+
+  <!-- End of .container -->
+
+    <!-- footer-area end -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <footer
+            class="text-center text-lg-start text-white"
+            style="background-color: #45526e"
+            >
+      <!-- Grid container -->
+      <div class="container p-4 pb-0">
+        <!-- Section: Links -->
+        <section class="">
+          <!--Grid row-->
+          <div class="row">
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+              <h3 class="text-uppercase mb-4 font-weight-bold text-light">
+                Farzi
+              </h3>
+              <p>
+                Farzi offers a diverse range of stylish, high-quality home furnishings and decor. Browse, select, and purchase furniture and accessories from the comfort of your home.
+              </p>
+            </div>
+            <!-- Grid column -->
+  
+            <hr class="w-100 clearfix d-md-none" />
+  
+            <!-- Grid column -->
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+              <h4 class="text-uppercase mb-4 font-weight-bold text-light">Products</h4>
+              {% for product in products3 %}
+              <p>
+
+                <a class="text-white" style="text-decoration: none;" href="/list/{{product}}">{{ product.category_name }}</a>
+            </p>
+                {% endfor %}
+
+              
+              
+            </div>
+            <!-- Grid column -->
+  
+            <hr class="w-100 clearfix d-md-none" />
+  
+            <!-- Grid column -->
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">              
+              <h4 class="text-uppercase mb-4 font-weight-bold text-light">Services</h4>
+              <p>
+                <a class="text-white" style="text-decoration: none;" href="{% url 'profile' %}">Profile</a>
+              </p>
+              <p>
+                <a class="text-white" style="text-decoration: none;"href="{% url 'user_orders' %}">Orders</a>
+              </p>
+              <p>
+                <a class="text-white" style="text-decoration: none;" href="{% url 'wishlist' %}">Wishlist</a>
+              </p>
+              <p>
+                <a class="text-white" style="text-decoration: none;" href="{% url 'cart' %}">Cart</a>
+              </p>
+            </div>
+  
+            <!-- Grid column -->
+            <hr class="w-100 clearfix d-md-none" />
+  
+            <!-- Grid column -->
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+              <h4 class="text-uppercase mb-4 font-weight-bold text-light">Contact</h4>
+              <p><i class="bi bi-pin-map-fill mr-2"></i> Farzi Furnitures,Hyderabad,India</p>
+              <p><a href="mailto:farzifurniturestore@gmail.com"><i class="bi bi-envelope-arrow-up mr-2"></i>farzifurniturestore@gmail.com</a>
+              </p>
+              <p>
+                <a href="tel:6252519847"><i class="bi bi-telephone-plus mr-2"></i> 6252519847</a>
+
+              </p>
+              <p>
+                <a href="tel:8281444724"><i class="bi bi-telephone-plus mr-2"></i> 8281444724</a>
+              </p>
+            </div>
+            <!-- Grid column -->
+          </div>
+          <!--Grid row-->
+        </section>
+        <!-- Section: Links -->
+  
+        <hr class="my-3">
+  
+        <!-- Section: Copyright -->
+        <section class="p-3 pt-0">
+          <div class="row d-flex align-items-center">
+            <!-- Grid column -->
+            <div class="col-md-7 col-lg-8 text-center text-md-start">
+              <!-- Copyright -->
+              <div class="p-3">
+               
+              </div>
+              <!-- Copyright -->
+            </div>
+            <!-- Grid column -->
+  
+            <!-- Grid column -->
+            <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+              <!-- Facebook -->
+              <a class="text-white m-1" href="https://www.facebook.com/ikea">
+                <i class="bi bi-facebook"></i>
+              </a>
+              
+  
+              <!-- Twitter -->
+              <a class="text-white m-1" href="https://twitter.com/IKEAFoundation">
+                <i class="bi bi-twitter"></i>
+              </a>
+              
+  
+              <!-- Google -->
+              <a class="text-white m-1" href="mailto:farzifurniturestore@gmail.com">
+                <i class="bi bi-envelope"></i>
+              </a>
+              
+  
+              <!-- Instagram -->
+              <a class="text-white m-1" href="https://wa.me/628251974">
+                <i class="bi bi-whatsapp"></i>
+              </a>
+              
+            </div>
+            <!-- Grid column -->
+          </div>
+        </section>
+        <!-- Section: Copyright -->
+      </div>
+      <!-- Grid container -->
+    </footer>
+   
+    <!-- Modal-wrapper start -->
+    <div class="modal-wrapper">
+        <div class="modal fade " id="exampleModalCenter" >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <!-- modal-inner-area start -->
+                        <div class="modal-inner-area row">
+                            <div class="col-xl-6 col-lg-7 col-md-6">
+                                <div class="product-details-images">
+                                    <div class="product_details_container">
+                                        <!-- product_big_images start -->
+                                        <div class="portfolio-full-image product-details-images">
+                                            <div class="active product-image-position">
+                                                <img src="{% static 'assets/images/product-details/big-img/w1.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="product-image-position">
+                                                <img src="{% static 'assets/images/product-details/big-img/w2.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="product-image-position">
+                                                <img src="{% static 'assets/images/product-details/big-img/w3.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="product-image-position">
+                                                <img src="{% static 'assets/images/product-details/big-img/w4.jpg' %}" alt="#">
+                                            </div>
+                                            <div class="product-image-position">
+                                                <img src="{% static 'assets/images/product-details/big-img/w2.jpg' %}" alt="#">
+                                            </div>
+                                        </div>
+                                        <!-- product_big_images end -->
+                                        
+                                        <!-- Start Small images -->
+                                        <ul class="product_small_images-bottom horizantal-product-active product-details-thumbs">
+                                            <li  class="pot-small-img active">
+                                                <img src="{% static 'assets/images/product-details/small-img/1.jpg' %}" alt="small-image">
+                                            </li>
+                                            <li  class="pot-small-img">
+                                                <img src="{% static 'assets/images/product-details/small-img/2.jpg' %}" alt="small-image">
+                                            </li>
+                                            <li  class="pot-small-img">
+                                                <img src="{% static 'assets/images/product-details/small-img/3.jpg' %}" alt="small-image">
+                                            </li>
+                                            <li  class="pot-small-img">
+                                                <img src="{% static 'assets/images/product-details/small-img/4.jpg' %}" alt="small-image">
+                                            </li>
+                                            <li  class="pot-small-img">
+                                                <img src="{% static 'assets/images/product-details/small-img/2.jpg' %}" alt="small-image">
+                                            </li>
+                                        </ul>
+                                        <!-- End Small images -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-5 col-md-6">
+                                <!-- product_details_info start -->
+                                <div class="product_details_info">
+                                    <h2>Black Clock</h2>
+                                    <!-- pro_rating start -->
+                                    <div class="pro_rating d-flex">
+                                        <ul class="product-rating d-flex">
+                                            <li><span class="icon-star"></span></li>
+                                            <li><span class="icon-star"></span></li>
+                                            <li><span class="icon-star"></span></li>
+                                            <li><span class="icon-star"></span></li>
+                                            <li><span class="icon-star"></span></li>
+                                        </ul>
+                                        <span class="rat_qun"> (Based on 0 Ratings) </span>
+                                    </div>
+                                    <!-- pro_rating end -->
+                                    <!-- pro_details start -->
+                                    <div class="pro_details">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit, sed do eiusmod temf incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, nostr exercitation ullamco laboris nisi ut aliquip ex ea. </p>
+                                    </div>
+                                    <!-- pro_details end -->
+                                    <!-- pro_dtl_prize start -->
+                                    <ul class="pro_dtl_prize">
+                                        <li class="old_prize">$15.21</li>
+                                        <li> $10.00</li>
+                                    </ul>
+                                    <!-- pro_dtl_prize end -->
+                                    <!-- pro_dtl_color start-->
+                                    <div class="pro_dtl_color">
+                                        <h2 class="title_2">Choose Colour</h2>
+                                        <ul class="pro_choose_color">
+                                            <li class="red"><a href="index.html#"><i class="ion-record"></i></a></li>
+                                            <li class="blue"><a href="index.html#"><i class="ion-record"></i></a></li>
+                                            <li class="perpal"><a href="index.html#"><i class="ion-record"></i></a></li>
+                                            <li class="yellow"><a href="index.html#"><i class="ion-record"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- pro_dtl_color end-->
+                                    <!-- pro_dtl_size start -->
+                                    <div class="pro_dtl_size">
+                                        <h2 class="title_2">Size</h2>
+                                        <ul class="pro_choose_size">
+                                            <li><a href="index.html#">S</a></li>
+                                            <li><a href="index.html#">M</a></li>
+                                            <li><a href="index.html#">XL</a></li>
+                                            <li><a href="index.html#">XXL</a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- pro_dtl_size end -->
+                                    <!-- product-quantity-action start -->
+                                    <div class="product-quantity-action">
+                                        <div class="prodict-statas"><span>Quantity :</span></div>
+                                        <div class="product-quantity">
+                                            <form action="index.html#">
+                                                <div class="product-quantity">
+                                                    <div class="cart-plus-minus">
+                                                        <input type="text" value="01" name="qtybutton" class="cart-plus-minus-box">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- product-quantity-action end -->
+                                    <!-- pro_dtl_btn start -->
+                                    <ul class="pro_dtl_btn">
+                                        <li><a href="index.html#"  class="buy_now_btn">buy now</a></li>
+                                        <li><a href="index.html#"><i class="ion-heart"></i></a></li>
+                                    </ul>
+                                    <!-- pro_dtl_btn end -->
+                                    <!-- pro_social_share start -->
+                                    <div class="pro_social_share d-flex">
+                                        <h2 class="title_2">Share :</h2>
+                                        <ul class="pro_social_link">
+                                            <li><a href="index.html#"><i class="ion-social-twitter"></i></a></li>
+                                            <li><a href="index.html#"><i class="ion-social-tumblr"></i></a></li>
+                                            <li><a href="index.html#"><i class="ion-social-facebook"></i></a></li>
+                                            <li><a href="index.html#"><i class="ion-social-instagram-outline"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <!-- pro_social_share end -->
+                                </div>
+                                <!-- product_details_info end -->
+                            </div>
+                        </div>
+                        <!-- modal-inner-area end -->
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    <!-- Modal-wrapper end -->
+    
+</div>
+<!-- Main Wrapper End -->
+
+<!-- JS
+============================================ -->
+
+<!-- jquery -->		
+<script src="{% static 'assets/js/vendor/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+
+<!-- Bootstrap JS -->
+<script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+<!-- Plugins JS -->
+<script src="{% static 'assets/js/plugins.js' %}"></script>
+<!-- Ajax Mail -->
+<script src="{% static 'assets/js/ajax-mail.js' %}"></script>
+<!-- Main JS -->
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+
+</body>
+
+</html>

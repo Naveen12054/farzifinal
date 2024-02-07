@@ -1,0 +1,886 @@
+
+
+{% load static %}
+
+<script>
+ 
+  $(document).ready(function () {
+    $('#category').on('change', function() {
+      // Get the selected value
+      var selectedValue = $(this).val();
+      $.ajax({
+        url: "{% url 'categoryajax' '0' %}".replace('0', selectedValue), // Replace with your API endpoint
+        method: 'GET',
+        dataType: 'json', // Expect JSON response
+        success: function(data) {
+            // Get the select element
+            var selectElement = $('#subcategory');
+    
+            // Clear existing options (optional)
+            selectElement.empty();
+    
+            // Loop through the data and create options
+            for (var i = 0; i < data.length; i++) {
+                var color = data[i];
+                
+                // Create a new option element
+                var option = $('<option>', {
+                    value: color, // The value of the option
+                    text: color    // The text displayed to the user
+                });
+    
+                // Append the option to the select element
+                selectElement.append(option);
+            }
+        },
+        error: function() {
+            // Handle any errors
+            $('#result').html('Error occurred.');
+        }
+    });
+    
+  });
+
+    $("#product_name").keyup(function () {
+      validatepName("#product_name");
+    });
+    $("#price").keyup(function () {
+      validateprice("#price");
+    });
+    $("#quantity").keyup(function () {
+      validatequantity("#quantity");
+    });
+
+  });
+
+  function validatepName(fieldId) {
+    var name = $(fieldId).val();
+    var lettersWithSpaces = /^[A-Za-z\s]+$/;
+    var submitButton = $("#btn1");
+    if (name.trim() === "") {
+      $("#product_namespan").html("Enter the Name").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else if (!lettersWithSpaces.test(name)) {
+      $("#product_namespan").html("Name field required only alphabet characters with spaces").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else {
+      $("#product_namespan").html("");
+      submitButton.prop("disabled", false);
+      return true
+    }
+  }
+  //   price validation
+
+  function validateprice(fieldId) {
+    var name = $(fieldId).val();
+    var lettersWithSpaces =  /^-?\d+$/ ;
+    var submitButton = $("#btn1");
+    if (name.trim() === "") {
+      $("#ownspan").html("Enter the Price").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else if (!lettersWithSpaces.test(name)) {
+      $("#ownspan").html("Price must contain only integer values").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else {
+      $("#ownspan").html("");
+      submitButton.prop("disabled", false);
+      return true
+    }
+  }
+  
+  
+  function validatequantity(fieldId) {
+    var name = $(fieldId).val();
+    var lettersWithSpaces =  /^-?\d+$/ ;
+    var submitButton = $("#btn1");
+    if (name.trim() === "") {
+      $("#qnspan").html("Enter the Quantity").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else if (!lettersWithSpaces.test(name)) {
+      $("#qnspan").html("Quantity must contain only integer values").css("color", "red");
+      submitButton.prop("disabled", true);
+      return false
+    } else {
+      $("#qnspan").html("");
+      submitButton.prop("disabled", false);
+      return true
+    }
+  }
+</script>
+
+
+  
+
+
+
+
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+   
+</body>
+<style>
+  /* Initially hide the sub-tag */
+  .sub-tag {
+      display: none;
+  }
+  
+  /* Show the sub-tag on hover */
+  .user-email:hover .sub-tag {
+      display: block;
+  }
+  ul.navbar {
+            list-style-type: none;
+            padding: 0;
+            background-color: #333;
+            display: flex;
+            justify-content: center; /* Center-align the contents horizontally */
+            position: fixed; /* Make the navbar fixed */
+            top: 0; /* Position it at the top of the viewport */
+            width: 100%; /* Full width */
+            z-index: 999; /* Set a high z-index to make it appear above other contents */
+        }
+
+        ul.navbar li {
+            position: relative;
+            padding: 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        ul.navbar li:hover .subcategories {
+            display: block;
+        }
+
+        ul.subcategories {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.subcategories li {
+            padding: 10px;
+        }
+
+        ul.subcategories li:hover {
+            background-color: #444;
+        }
+
+        /* Add some padding to the content to avoid overlapping with the fixed navbar */
+        .content {
+            padding-top: 50px; /* Adjust this value as needed */
+        }
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+       body{
+        background-color:#eee;
+        font-family: "Poppins", sans-serif;
+        font-weight: 300;
+       }
+
+       .height{
+        height: 10vh;
+       }
+       
+
+       .search{
+       position: relative;
+       box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+         
+       }
+
+       .search input{
+
+        height: 60px;
+        text-indent: 25px;
+        border: 2px solid #d6d4d4;
+
+
+       }
+
+
+       .search input:focus{
+
+        box-shadow: none;
+        border: 2px solid blue;
+
+
+       }
+
+       .search .fa-search{
+
+        position: absolute;
+        top: 20px;
+        left: 16px;
+
+       }
+
+       .search button{
+
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        height: 50px;
+        width: 110px;
+        background: blue;
+
+       }
+</style>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/typicons/typicons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/simple-line-icons/css/simple-line-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="{% static 'js/select.dataTables.min.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+<body>
+  <div class="container-scroller"> 
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div >
+          <a class="navbar-brand brand-logo" href="index.html" >
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo"  />
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="index.html">
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo" />
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top"> 
+        <ul class="navbar-nav">
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          
+          <!-- <li class="nav-item d-none d-lg-block">
+            <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
+              <span class="input-group-addon input-group-prepend border-right">
+                <span class="icon-calendar input-group-text calendar-icon"></span>
+              </span>
+              <input type="text" class="form-control">
+            </div>
+          </li> -->
+          <!-- <li class="nav-item">
+            <form class="search-form" action="#">
+              <i class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            </form>
+          </li> -->
+          <li class="nav-item "> 
+            <a class="nav-link" >
+              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <span class="menu-title"> 
+                <b>{{user.email}}</b>
+              </span>
+              <span class="count"></span>
+            </a></li>
+          <li class="nav-item ">
+            <a class="nav-link "  href="{% url 'logout'  %}" >
+              <span class="menu-title"><b>
+                Logout</b></span>
+              <i class="menu-icon mdi mdi-logout"></i>
+
+            </a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_settings-panel.html -->
+      
+      <div id="right-sidebar" class="settings-panel">
+        <i class="settings-close ti-close"></i>
+        <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="todo-tab" data-bs-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="chats-tab" data-bs-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section">CHATS</a>
+          </li>
+        </ul>
+
+      </div>
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-category">Panel</li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sellerpage' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'product' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">My Products</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sellerindex' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Add Products</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sellerindex' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Sales</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item nav-category">Categories</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <span class="menu-title">UI Elements</span>
+              <i class="menu-arrow"></i> 
+            </a>
+            <div class="collapse" id="ui-basic">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
+                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
+              </ul>
+            </div>
+          </li> -->
+          <!-- <li class="nav-item nav-category">Categories</li>
+          {% for product in products3 %}
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">
+                {{ product.category_name }}
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="form-elements">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="pages/forms/basic_elements.html">Basic Elements</a></li>
+              </ul>
+            </div>
+          </li>
+          {% endfor %} -->
+
+
+          
+          <li class="nav-item nav-category">Account</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <span class="menu-title"> 
+                <b>{{user.email}}</b>
+              </span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="auth">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{% url 'sellerprofile' %}"> Profile </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'sellerprofile' %}">
+              <i class="menu-icon mdi mdi-file-account"></i>
+              <span class="menu-title">Profile</span>
+            </a>
+          </li>
+          <!-- <li class="nav-item nav-category">help</li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">
+              <i class="menu-icon mdi mdi-file-document"></i>
+              <span class="menu-title">Logout</span>
+            </a>
+          </li>
+
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-sm-12">
+        
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+              <section class="gray pt-5 pb-5">
+                
+              
+                  <div class="row justify-content-center">
+              
+                    
+                      <div class="dashboard-body">
+              
+                        <div class="dashboard-wraper">
+                          <div class="row">
+              
+                            <div class="col-lg-12 col-md-12">
+                              <div class="submit-page px-0">
+              
+                                <!-- Basic Information -->
+                                <div class="frm_submit_block  mb-5">
+                                  <div class="frm_submit_wrap">
+                                    <div class="row">
+                                      
+                                      <div class="form-group col-md-6 pd-20">
+                                        <label class="mt-2 mb-1">First Name</label>
+                                        <input type="text" name="first_name" class="form-control" id="first_name_input" value="{{ user.first_name }}">
+                                        <div id="first_name_error" style="color: red;"></div>
+                                    </div>
+                                    
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">Last Name</label>
+                                      <input type="text" name="last_name" class="form-control" id="last_name_input" value="{{ user.last_name }}">
+                                      <div id="last_name_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">Email</label>
+                                      <input type="text" name="email" class="form-control" value="{{ user.email }}" disabled>
+                                  </div>
+                                  
+                                  <div class="form-group col-md-6 pd-20">
+                                    <label class="mt-2 mb-1">Phone Number</label>
+                                    <input type="text" id="phone_no" name="phone_no" class="form-control" value="{{ user_profile.phone_no }}">
+                                    <div id="phone_no_error" style="color: red;"></div>
+                                </div>
+                                
+                                <div class="form-group col-md-6 pd-20">
+                                  <label class="mt-2 mb-1">Owner Name</label>
+                                  <input type="text" id="ownername" name="ownername" class="form-control" value="{{ user_profile.ownername }}">
+                                  <div id="ownername_error" style="color: red;"></div>
+                              </div>
+                              
+                              <div class="form-group col-md-6 pd-20">
+                                <label class="mt-2 mb-1">GST Number</label>
+                                <input type="text" id="gstno" name="gstno" class="form-control" value="{{ user_profile.gstno }}">
+                                <div id="gstno_error" style="color: red;"></div>
+                            </div>
+                            
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">PAN Number</label>
+                                      <input type="text" id="panno" name="panno" class="form-control" value="{{ user_profile.panno }}">
+                                      <div id="panno_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">Store Location from Map</label>
+                                      <input type="text" id="map" name="map"  class="form-control" value="{{ user_profile.map }}" >
+                                    </div>
+                                  <div class="form-group col-md-6 pd-20">
+                                    <label class="mt-2 mb-1">Address Line 1</label>
+                                    <input type="text" name="addressline1" class="form-control" value="{{ user_profile.addressline1 }}" >
+                                  </div>
+                                  
+                                  <div class="form-group col-md-6 pd-20">
+                                    <label class="mt-2 mb-1">Address Line 2</label>
+                                    <input type="text" name="addressline2" class="form-control" value="{{ user_profile.addressline2 }}" >
+                                  </div>
+                                  <div class="form-group col-md-6 pd-20">
+                                    <label class="mt-2 mb-1">City</label>
+                                    <input type="text" name="city" class="form-control" id="city_input" value="{{ user_profile.city }}">
+                                    <div id="city_error" style="color: red;"></div>
+                                </div>
+                                
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">District</label>
+                                      <input type="text" name="district" class="form-control" id="district_input" value="{{ user_profile.district }}">
+                                      <div id="district_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                    
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">State</label>
+                                      <input type="text" name="state" class="form-control" id="state_input" value="{{ user_profile.state }}">
+                                      <div id="state_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">Country</label>
+                                      <input type="text" name="country" class="form-control" id="country_input" value="{{ user_profile.country }}">
+                                      <div id="country_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                    <div class="form-group col-md-6 pd-20">
+                                      <label class="mt-2 mb-1">Pincode</label>
+                                      <input type="text" name="pin_code" class="form-control" id="pincode_input" value="{{ user_profile.pin_code }}">
+                                      <div id="pincode_error" style="color: red;"></div>
+                                  </div>
+                                  
+                                  <div class="form-group col-md-6 pd-20">
+                                    <label class="mt-2 mb-1">Alternate Phone Number</label>
+                                    <input type="text" id="aphone_no" name="aphone_no" class="form-control" value="{{ user_profile.aphone_no }}">
+                                    <div id="aphone_no_error" style="color: red;"></div>
+                                </div>
+                                
+                                      <!-- More form fields... -->
+              
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div class="form-group col-lg-12 col-md-12 text-center">
+                                  <button class="btn btn-success" type="submit">Update</button>
+                                </div>
+              
+              
+                          </div>
+              
+                        </div>
+                        <!-- row -->
+              
+                      </div>
+                    </div>
+              
+                  </div>
+                </div>
+              </section>
+              </form>
+              
+              
+              
+        
+        
+                </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'vendors/progressbar.js/progressbar.min.js' %}"></script>
+
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/template.js' %}"></script>
+  <script src="{% static 'js/settings.js' %}"></script>
+  <script src="{% static 'js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/Chart.roundedBarCharts.js' %}"></script>
+  <!-- End custom js for this page-->
+  <script>
+    // Get a reference to the first name input field and the error message div.
+const firstNameInput = document.getElementById('first_name_input');
+const firstNameErrorMessage = document.getElementById('first_name_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+firstNameInput.addEventListener('input', function () {
+    const inputValue = firstNameInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        firstNameErrorMessage.textContent = "Only letters and spaces are allowed.";
+        firstNameInput.classList.add('is-invalid');
+    } else {
+        firstNameErrorMessage.textContent = "";
+        firstNameInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the last name input field and the error message div.
+const lastNameInput = document.getElementById('last_name_input');
+const lastNameErrorMessage = document.getElementById('last_name_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+lastNameInput.addEventListener('input', function () {
+    const inputValue = lastNameInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        lastNameErrorMessage.textContent = "Only letters and spaces are allowed.";
+        lastNameInput.classList.add('is-invalid');
+    } else {
+        lastNameErrorMessage.textContent = "";
+        lastNameInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the phone number input field and the error message div.
+const phoneNoInput = document.getElementById('phone_no');
+const phoneNoErrorMessage = document.getElementById('phone_no_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+phoneNoInput.addEventListener('input', function () {
+    const inputValue = phoneNoInput.value;
+    const regex = /^\d{10}$/; // Exactly 10 digits (numbers) are allowed.
+
+    if (!regex.test(inputValue)) {
+        phoneNoErrorMessage.textContent = "Please enter exactly 10 numbers.";
+        phoneNoInput.classList.add('is-invalid');
+    } else {
+        phoneNoErrorMessage.textContent = "";
+        phoneNoInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the owner name input field and the error message div.
+const ownerNameInput = document.getElementById('ownername');
+const ownerNameErrorMessage = document.getElementById('ownername_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+ownerNameInput.addEventListener('input', function () {
+    const inputValue = ownerNameInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        ownerNameErrorMessage.textContent = "Only letters and spaces are allowed.";
+        ownerNameInput.classList.add('is-invalid');
+    } else {
+        ownerNameErrorMessage.textContent = "";
+        ownerNameInput.classList.remove('is-invalid');
+    }
+});
+
+// Get a reference to the pincode input field and the error message div.
+const pincodeInput = document.getElementById('pincode_input');
+const pincodeErrorMessage = document.getElementById('pincode_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+pincodeInput.addEventListener('input', function () {
+    const inputValue = pincodeInput.value;
+    const regex = /^\d{6}$/; // Only 6 digits (numbers) are allowed.
+
+    if (!regex.test(inputValue)) {
+        pincodeErrorMessage.textContent = "Please enter exactly 6 numbers.";
+        pincodeInput.classList.add('is-invalid');
+    } else {
+        pincodeErrorMessage.textContent = "";
+        pincodeInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the alternate phone number input field and the error message div.
+const aphoneNoInput = document.getElementById('aphone_no');
+const aphoneNoErrorMessage = document.getElementById('aphone_no_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+aphoneNoInput.addEventListener('input', function () {
+    const inputValue = aphoneNoInput.value;
+    const regex = /^\d{10}$/; // Only 10 digits (numbers) are allowed.
+
+    if (!regex.test(inputValue)) {
+        aphoneNoErrorMessage.textContent = "Please enter exactly 10 numbers.";
+        aphoneNoInput.classList.add('is-invalid');
+    } else {
+        aphoneNoErrorMessage.textContent = "";
+        aphoneNoInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the country input field and the error message div.
+const countryInput = document.getElementById('country_input');
+const countryErrorMessage = document.getElementById('country_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+countryInput.addEventListener('input', function () {
+    const inputValue = countryInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        countryErrorMessage.textContent = "Only letters and spaces are allowed.";
+        countryInput.classList.add('is-invalid');
+    } else {
+        countryErrorMessage.textContent = "";
+        countryInput.classList.remove('is-invalid');
+    }
+});
+
+// Get a reference to the state input field and the error message div.
+const stateInput = document.getElementById('state_input');
+const stateErrorMessage = document.getElementById('state_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+stateInput.addEventListener('input', function () {
+    const inputValue = stateInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        stateErrorMessage.textContent = "Only letters and spaces are allowed.";
+        stateInput.classList.add('is-invalid');
+    } else {
+        stateErrorMessage.textContent = "";
+        stateInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the district input field and the error message div.
+const districtInput = document.getElementById('district_input');
+const districtErrorMessage = document.getElementById('district_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+districtInput.addEventListener('input', function () {
+    const inputValue = districtInput.value;
+    const regex = /^[A-Za-z\s]*$/; // Only letters and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        districtErrorMessage.textContent = "Only letters and spaces are allowed.";
+        districtInput.classList.add('is-invalid');
+    } else {
+        districtErrorMessage.textContent = "";
+        districtInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the city input field and the error message div.
+const cityInput = document.getElementById('city_input');
+const cityErrorMessage = document.getElementById('city_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+cityInput.addEventListener('input', function () {
+    const inputValue = cityInput.value;
+    const regex = /^[A-Za-z0-9\s]*$/; // Letters, numbers, and spaces are allowed.
+
+    if (!regex.test(inputValue)) {
+        cityErrorMessage.textContent = "Only letters, spaces, and numbers are allowed.";
+        cityInput.classList.add('is-invalid');
+    } else {
+        cityErrorMessage.textContent = "";
+        cityInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the PAN number input field and the error message div.
+const panNoInput = document.getElementById('panno');
+const panNoErrorMessage = document.getElementById('panno_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+panNoInput.addEventListener('input', function () {
+    const inputValue = panNoInput.value;
+    const regex = /^[A-Z]{5}[0-9]{4}[A-Z]$/; // PAN format: AAAAA9999A
+
+    if (!regex.test(inputValue)) {
+        panNoErrorMessage.textContent = "Please enter a valid PAN number (e.g., ABCDE1234F).";
+        panNoInput.classList.add('is-invalid');
+    } else {
+        panNoErrorMessage.textContent = "";
+        panNoInput.classList.remove('is-invalid');
+    }
+});
+// Get a reference to the GST number input field and the error message div.
+const gstNoInput = document.getElementById('gstno');
+const gstNoErrorMessage = document.getElementById('gstno_error');
+
+// Add an input event listener to the input field to perform real-time validation.
+gstNoInput.addEventListener('input', function () {
+    const inputValue = gstNoInput.value;
+    const regex = /^[A-Za-z0-9]{15}$/; // Assuming GST format is 15 alphanumeric characters.
+
+    if (!regex.test(inputValue)) {
+        gstNoErrorMessage.textContent = "Please enter a valid GST number (e.g., ABC123456789012).";
+        gstNoInput.classList.add('is-invalid');
+    } else {
+        gstNoErrorMessage.textContent = "";
+        gstNoInput.classList.remove('is-invalid');
+    }
+});
+
+
+
+
+
+  </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+          
+<!--       
+    {{ user.email }}
+    {% for i in stdata %}
+                    {{ i.category_name }}
+                    
+                    {% endfor %} -->
+    <!-- Bootstrap JS and jQuery (you need to include these scripts) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+     
+      
+
+  
+</body>
+</html>
