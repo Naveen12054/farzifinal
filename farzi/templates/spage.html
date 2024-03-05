@@ -45,8 +45,16 @@
         <i class="checkmark">✓</i>
       </div>
         <h1>Success</h1> 
+        {% if  user.is_authenticated %}
+
         <p>Delivery agent registration Successfull;<br/> An email has been sent to the delivery agent to login;<br/> 
-             complete the profile to enjoy all the services.<br/> <a href="https://mail.google.com/">Check here</a></p>
+             complete the profile to enjoy all the services.<br/></p>
+          {% else %}
+          <p>Application submitted successfully;<br/> Stay tuned and check your email.<br/> 
+            </p>
+            <a class="nav-link mt-5" href="{% url 'index' %}">Return to home page</a>           
+          {% endif %}
+
       </div>
     </body>
 </html>

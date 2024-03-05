@@ -94,7 +94,7 @@ def register(request):
                 return render(request, 'login.html', {'error_message': error_message})
             
             else:
-                user = User(name=name1, email=email, role=role)
+                user = User(name=name1, email=email, role=role,first_name=name1)
                 user.set_password(password)  # Set the password securely
                 user.save()
                 user_profile=UserProfile(user=user)
@@ -216,7 +216,7 @@ def seller(request):
                 return render(request, 'login.html', {'error_message': error_message})
             
             else:
-                user = User(name=name1, email=email, role=role)
+                user = User(name=name1, email=email, role=role,first_name=name1)
                 user.set_password(password)  # Set the password securely
                 user.save()
                 user_profile = SellerProfile(user=user)

@@ -297,7 +297,7 @@
           </li>
 
             <a class="nav-link text-dark ml-5" >
-                <b>{{user.email}}</b>
+                <b>{{user.first_name}}</b>
 
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
               
@@ -358,7 +358,7 @@
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title"> 
-                <b>{{user.email}}</b>
+                <b>{{user.first_name}}</b>
               </span>
               <i class="menu-arrow"></i>
             </a>
@@ -460,7 +460,7 @@
 <button class="btn btn-success" type="submit" style="color: white; background-color: blue  ;">Update</button>
 </div>
 </form>
-
+<a class="nav-link" href="{% url 'deliveryaddress' %}"> Add Delivery address</a>
 
 
             </div>

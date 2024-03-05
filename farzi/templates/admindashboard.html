@@ -213,7 +213,7 @@
             <a class="nav-link " >
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title"> 
-                <b>{{user.email}}</b>
+                <b>{{user.name}}</b>
               </span>
               <span class="count"></span>
             </a></li>
@@ -279,24 +279,40 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'newcategory' %}">
+            <a class="nav-link" href="{% url 'adminuserdashboard' %}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Add Category</span>
+              <span class="menu-title">Manage Users</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'category' %}">
+            <a class="nav-link" href="{% url 'adminproductandcategorydashboard' %}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Manage Category</span>
+              <span class="menu-title">Products and Categories</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'display_all_objects' %}">
+            <a class="nav-link" href="{% url 'adminreports' %}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Saller Profiles</span>
+              <span class="menu-title">Reports</span>
             </a>
           </li>
-          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'serviceadmin' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Services</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'serviceadmin' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Orders</span>
+            </a>
+          </li><li class="nav-item">
+            <a class="nav-link" href="{% url 'adminrentdashboard' %}">
+              <i class="mdi mdi-grid-large menu-icon"></i>
+              <span class="menu-title">Rent</span>
+            </a>
+          </li>
           <!-- <li class="nav-item nav-category">Categories</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -334,8 +350,8 @@
                             <i class="icon-pencil primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'display_all_objects' %}" style="text-decoration: none; color: black;">Seller Profiles</a> </b></h4>
-                            <span>Manage your Seller</span>
+                            <h4><b><a href="{% url 'adminuserdashboard' %}" style="text-decoration: none; color: black;">Manage Users</a> </b></h4>
+                            <span>Manage All The Users In One Place.</span>
                           </div>
                           <div class="align-self-center">
                             <!-- <h1>18,000</h1> -->
@@ -356,8 +372,8 @@
                             <i class="icon-rocket danger font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'category' %}" style="text-decoration: none; color: black;">Category Management</a> </b></h4>
-                            <span>View and delete listed products</span>
+                            <h4><b><a href="{% url 'adminproductandcategorydashboard' %}" style="text-decoration: none; color: black;">Products and Categories({{ productcount }})</a> </b></h4>
+                            <span>Manage Products and Categories.</span>
                           </div>
                           <div class="align-self-center"> 
                             <!-- <h1>84,695</h1> -->
@@ -376,55 +392,11 @@
                       <div class="card-body cleartfix">
                         <div class="media align-items-stretch">
                           <div class="align-self-center">
-                            <i class="icon-cup primary font-large-2 mr-2"></i>
-                          </div>
-                          <div class="media-body">
-                            <h4><b><a href="{% url 'newcategory' %}" style="text-decoration: none; color: black;">Add Category</a> </b></h4>
-                            <span>Add a new Category to cataloge</span>
-                          </div>
-                          <div class="align-self-center">
-                            <!-- <h1>18,000</h1> -->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-            
-                <div class="col-xl-6 col-md-12">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="card-body cleartfix">
-                        <div class="media align-items-stretch">
-                          <div class="align-self-center">
-                            <i class="icon-graph success font-large-2 mr-2"></i>
-                          </div>
-                          <div class="media-body">
-                            <h4><b><a href="{% url 'list' %}" style="text-decoration: none; color: black;">View Products({{ productcount }})</a> </b></h4>
-                            <span>View products listed by sellers</span>
-                          </div>
-                          <div class="align-self-center"> 
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> 
-            
-              </div>
-              <div class="row ">
-                <div class="col-xl-6 col-md-12">
-                  <div class="card overflow-hidden">
-                    <div class="card-content">
-                      <div class="card-body cleartfix">
-                        <div class="media align-items-stretch">
-                          <div class="align-self-center">
                             {% comment %} <i class="bi bi-person-lines-fill primary font-large-2 mr-2"></i> {% endcomment %}
                             <i class="icon-pencil primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'salesadmin' %}" style="text-decoration: none; color: black;">Sales Report</a> </b></h4>
+                            <h4><b><a href="{% url 'adminreports' %}" style="text-decoration: none; color: black;"> Report</a> </b></h4>
                             <span>Sales Tracking</span>
                           </div>
                           <div class="align-self-center">
@@ -446,8 +418,8 @@
                             <i class="icon-rocket danger font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'category' %}" style="text-decoration: none; color: black;">Services</a> </b></h4>
-                            <span>View and delete listed products</span>
+                            <h4><b><a href="{% url 'serviceadmin' %}" style="text-decoration: none; color: black;">Services</a> </b></h4>
+                            <span>View the service requests.</span>
                           </div>
                           <div class="align-self-center"> 
                             <!-- <h1>84,695</h1> -->
@@ -469,8 +441,8 @@
                             <i class="icon-cup primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'addrent' %}" style="text-decoration: none; color: black;">Rent a new Product</a> </b></h4>
-                            <span>Add a new Category to cataloge</span>
+                            <h4><b><a href="{% url 'admindeliveryagentsdashboard' %}" style="text-decoration: none; color: black;">Orders</a> </b></h4>
+                            <span>View Orders</span>
                           </div>
                           <div class="align-self-center">
                             <!-- <h1>18,000</h1> -->
@@ -480,30 +452,6 @@
                     </div>
                   </div>
                 </div>
-            
-                <div class="col-xl-6 col-md-12">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="card-body cleartfix">
-                        <div class="media align-items-stretch">
-                          <div class="align-self-center">
-                            <i class="icon-graph success font-large-2 mr-2"></i>
-                          </div>
-                          <div class="media-body">
-                            <h4><b><a href="{% url 'list' %}" style="text-decoration: none; color: black;">Rented Products({{ productcount }})</a> </b></h4>
-                            <span>View products listed by sellers</span>
-                          </div>
-                          <div class="align-self-center"> 
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> 
-            
-              </div>
-              <div class="row ">
                 <div class="col-xl-6 col-md-12">
                   <div class="card overflow-hidden">
                     <div class="card-content">
@@ -513,8 +461,8 @@
                             <i class="icon-cup primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'deliveryagentadmin' %}" style="text-decoration: none; color: black;">Delivery Agents</a> </b></h4>
-                            <span>View delivery agents</span>
+                            <h4><b><a href="{% url 'adminrentdashboard' %}" style="text-decoration: none; color: black;">Rent </a> </b></h4>
+                            <span>Manage all rent actions.</span>
                           </div>
                           <div class="align-self-center">
                           </div>
@@ -523,46 +471,10 @@
                     </div>
                   </div>
                 </div>
-            
-                <div class="col-xl-6 col-md-12">
-                  <div class="card">
-                    <div class="card-content">
-                      <div class="card-body cleartfix">
-                        <div class="media align-items-stretch">
-                          <div class="align-self-center">
-                            <i class="icon-graph success font-large-2 mr-2"></i>
-                          </div>
-                          <div class="media-body">
-                            <h4><b><a href="{% url 'list' %}" style="text-decoration: none; color: black;">Rented Products({{ productcount }})</a> </b></h4>
-                            <span>View products listed by sellers</span>
-                          </div>
-                          <div class="align-self-center"> 
-                            
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> 
+                
             
               </div>
-              <span class="text-black">
-                Number Of Users
-              </span>
-              <span>{{ user_count }}</span>
-              <span class="text-bold-500">
-                Number Of Customers
-                  </span>
-                  <span >{{ count }}</span>
-                  <span class="text-bold-500">
-                    Number Of  Successfull Orders
-                      </span>
-                      <span >{{ count1 }}</span>
-                      
-                  <span class="text-bold-500">
-                    Number Of Orders
-                      </span>
-                      <span >{{ total_amount }}</span>
+                  
 
             </div>
           </div>

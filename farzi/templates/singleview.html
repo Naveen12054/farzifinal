@@ -537,9 +537,6 @@
                             
                             </div>
                             <!--Grid column-->
-                            <div class="col-md-1 mb-4">
-                            </div>
-                            <!--Grid column-->
                             <div class="col-md-6 mb-4 tt">
                                 <!--Content-->
                                 <div class="p-4">
@@ -569,38 +566,38 @@
                 
                                     <form class="d-flex justify-content-left">
                                         <!-- Default input -->
-                                        
-                      {% if user.role == 1 %}
-                        
-                                        {% if product.id in user_wishlist_ids %}
-                                    <a href="{% url 'delete_wishlistpage' product.id %}"class="mr-1 btn btn-danger">
-                                        Remove Wishlist
-                                    </a>
-                                    {% else %}
-                                    <a href="{% url 'add_wishlist' product.id %}" class="mr-1 btn btn-info">
-                                        Add to Wishlist
-                                    </a>
-                                    {% endif %}
-                                    
-                                    {% if product.id in user_cart_ids %}
-                                    <a href="{% url 'cart' %}" class="btn btn-danger mr-3">
-                                        View Cart
-                                    </a>
-                                    {% else %}
-                                    <a href="{% url 'add_cart1' product.id %}" class="btn btn-danger mr-3">
-                                        Add to Cart
-                                    </a>
-                                    {% endif %}
-                                        {% comment %} <button class="btn  btn btn-success"  id="pay-btn">Buy Now</button> {% endcomment %}
-                                        <a href="{% url 'buyNowComplete' product.id %}" class="btn btn-success mr-3">
-                                          Buy Now
-                                      </a>
-                      {% endif%}
-                      {% if user.role == 4 %}
-                      
-                      <strong><p class="mt-4" style="font-size: 20px;">Stock Left: {{product.quantity}}</p></strong>
+                                              
+                                          {% if user.role == 1 %}
+                              
+                                              {% if product.id in user_wishlist_ids %}
+                                          <a href="{% url 'delete_wishlistpage' product.id %}"class="mr-1 btn btn-danger">
+                                              Remove Wishlist
+                                          </a>
+                                          {% else %}
+                                          <a href="{% url 'add_wishlist' product.id %}" class="mr-1 btn btn-info">
+                                              Add to Wishlist
+                                          </a>
+                                          {% endif %}
+                                          
+                                          {% if product.id in user_cart_ids %}
+                                          <a href="{% url 'cart' %}" class="btn btn-danger mr-3">
+                                              View Cart
+                                          </a>
+                                          {% else %}
+                                          <a href="{% url 'add_cart1' product.id %}" class="btn btn-danger mr-3">
+                                              Add to Cart
+                                          </a>
+                                          {% endif %}
+                                              {% comment %} <button class="btn  btn btn-success"  id="pay-btn">Buy Now</button> {% endcomment %}
+                                              <a href="{% url 'buyNowComplete' product.id %}" class="btn btn-success mr-3">
+                                                Buy Now
+                                            </a>
+                                          {% endif%}
+                                          {% if user.role == 4 %}
+                                          
+                                          <strong><p class="mt-4" style="font-size: 20px;">Stock Left: {{product.quantity}}</p></strong>
 
-                      {% endif%}
+                                          {% endif%}
                                     </form>
                                 </div>
                                 <!--Content-->

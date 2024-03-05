@@ -168,15 +168,6 @@
               <img src="{% static 'assets\css\box.png' %}" style=" height: 35px; width: 30px;">
             </a>
           </li>
-
-            <a class="nav-link text-dark ml-5" >
-                <b>{{user.email}}</b>
-
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-              
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
-            </div>
-          </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
           <span class="mdi mdi-menu"></span>
@@ -231,16 +222,13 @@
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title"> 
-                <b>{{user.email}}</b>
+                <b>{{user.name}}</b>
               </span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{% url 'profile' %}"> Profile </a></li>
-                <li class="nav-item"> <a class="nav-link" href="{% url 'login' %}"> Orders </a></li>
-                <li class="nav-item"> <a class="nav-link" href="{% url 'cart' %}"> Cart </a></li>
-                <li class="nav-item"> <a class="nav-link" href="{% url 'wishlist' %}"> Wishlist </a></li>
 
 
 
@@ -278,7 +266,7 @@
                     
             
                     <div class="col-xl-8">
-            <table id="example">
+                     <table id="example">
                         {% for i in cart_books %}
                         <tr>
                           <div class="card border shadow-none">
@@ -400,9 +388,9 @@
                                             
                                         </table>
                                          <!-- Assuming you have a list of products to display -->
-    <a href="{% url 'order1'  %}" class="btn btn-success mr-3">
-        Buy Now
-    </a>
+                                          <a href="{% url 'order1'  %}" class="btn btn-success mr-3">
+                                              Buy Now
+                                          </a>
 
 
                                     </div>

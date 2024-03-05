@@ -1,7 +1,9 @@
 from datetime import datetime
 from django.db import models
 from django.utils import timezone
+from jsonschema import ValidationError
 from accounts.models import Category, CustomUser
+
 
 class FurniturePrediction(models.Model):
     image = models.ImageField(upload_to='uploads/')
@@ -23,9 +25,35 @@ class install(models.Model):
 
     def str(self):
             return str(self.name)
+
+
+class Addressuser(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    street_address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    latitude = models.CharField(max_length=255)
+    longitude = models.CharField(max_length=255,null=True)
+    state = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=255)
+    contact_number = models.CharField(max_length=20)
+    alternate_contact_number = models.CharField(max_length=20, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Address"
+
+    def save(self, *args, **kwargs):
+        max_addresses = 8
+        existing_addresses = Addressuser.objects.filter(user=self.user).count()
+        if existing_addresses >= max_addresses:
+            raise ValidationError(f"A user can only have a maximum of {max_addresses} addresses.")
+        super().save(*args, **kwargs)
+
+
+
 class Furniturerent(models.Model):
     product_code = models.CharField(max_length=255)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255,null=True)
     description = models.TextField()
     condition= models.CharField(max_length=100)
     product_images1 = models.FileField(upload_to='sample/', null=True, blank=True, max_length=255)
@@ -40,25 +68,68 @@ class Furniturerent(models.Model):
     material = models.CharField(max_length=255)
     security_deposit = models.DecimalField(max_digits=10, decimal_places=2)
     quality_standard = models.CharField(max_length=255)
+    rentproduct=models.BooleanField(default=True)
+    status1=models.BooleanField(default=True)
+    def update_condition(self):
+        today = timezone.now().date()
+        if self.start_date <= today <= self.end_date:
+            self.condition = "Renting"
+        else:
+            self.condition = "Not Available"
+        self.save()
+
+    
     def __str__(self):
         return self.product_code
+
+class Rent(models.Model):
+    user=models.ForeignKey(CustomUser,on_delete=models.CASCADE,null=True)
+    address=models.ForeignKey(Addressuser,on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(Furniturerent, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    status=models.BooleanField(max_length=555,default=False)
+    rejected=models.BooleanField(max_length=555,default=False)
+    paid=models.BooleanField(max_length=555,default=False)
+
+
 class deliveryagent(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     pin = models.CharField(max_length=6)
     mobile = models.CharField(max_length=10)
+    status=models.BooleanField(default=False)
+    rejected=models.BooleanField(default=False)
+
+
 
     def __str__(self):
         return self.name
+class deliveryagentcantidates(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    pin = models.CharField(max_length=6)
+    mobile = models.CharField(max_length=10)
+    status=models.BooleanField(default=False)
+    rejected=models.BooleanField(default=False)
+
+
+
+    def __str__(self):
+        return self.name
+
+
 class DeliveryAgentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    insurance_policy_number = models.CharField(max_length=50)
+    latitude = models.CharField(max_length=50)
     insurance_expiry_date = models.DateField()
-    insurance_company = models.CharField(max_length=100)
+    longitude = models.CharField(max_length=100)
     bank_name = models.CharField(max_length=100)
     banking_name = models.CharField(max_length=100)
     account_number = models.CharField(max_length=20)

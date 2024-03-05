@@ -158,7 +158,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Star Admin2 </title>
+  <title>Fazri Furniture Store </title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
   <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
@@ -197,7 +197,7 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav text-center">
-          <h2 class="text-dark "><b>Admin Dashboard</b></h2>
+          <h2 class="text-dark "><b>Admin Dashboard: Delivery Agents</b></h2>
         </ul>
         <ul class="navbar-nav ms-auto">
           
@@ -285,9 +285,6 @@
                 <li class="nav-item"> <a class="nav-link" href="{% url 'cart' %}"> Cart </a></li>
                 <li class="nav-item"> <a class="nav-link" href="{% url 'wishlist' %}"> Wishlist </a></li>
 
-
-
-
               </ul>
             </div>
           </li>
@@ -305,115 +302,7 @@
         <div class="content-wrapper">
           <div class="row">
             <div class="col-sm-12">
-        
-
-
-
-
-                <div class="table-responsive">
-                    <table class="table project-list-table table-nowrap align-middle table-borderless" id="example">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="ps-4" style="width: 50px;"></th>
-                                <th scope="col"></th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Mobile Number</th>
-                                <th scope="col">PAN Number</th>
-                                <th scope="col" >GST Number</th>
-                                
-                                <th scope="col" >Actions</th>
-                                <th scope="col" >Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                        {% for custom_user in objects %}
-                        {% if custom_user.role == 2 %}
-                            <tr>
-                                <td>
-                                    <a href="#" class="text-body">
-                                        <td>
-                                            <li class="list-inline-item">
-                                      {% for seller_profile in seller_profiles %}
-                                                {% if seller_profile.user_id == custom_user.id %}
-                                                    
-                                                    <a style="margin-left: -50px;" href="{{ seller_profile.map }}">
-                                                        <img src="{% static 'assets\css\vector-location-icon.jpg' %}"
-                                                         alt="Image Description" width="40" height="30">
-                        
-                                                    </a>
-                        
-                                                {% endif %}
-                                            {% endfor %}  
-                                     </td>
-                                        <td>{{ custom_user.name }}</td>
-                                        <td>{{ custom_user.email }}</td>
-                                    </a></td>
-                                <td><span class="badge badge-soft-success mb-0">
-                                    {% for seller_profile in seller_profiles %}
-                                        {% if seller_profile.user_id == custom_user.id %}
-                                            {{ seller_profile.phone_no }}
-                                        {% endif %}
-                                    {% endfor %}</span></td>
-
-                                    <td><span class="badge badge-soft-danger mb-0">
-                        {% for seller_profile in seller_profiles %}
-                            {% if seller_profile.user_id == custom_user.id %}
-                                {{ seller_profile.panno }}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                
-                    
-                                    <td><span class="badge badge-soft-primary mb-0">
-                        {% for seller_profile in seller_profiles %}
-                            {% if seller_profile.user_id == custom_user.id %}
-                                {{ seller_profile.gstno }}
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                                <td>
-                                    <ul class="list-inline mb-0">
-                                        {% comment %} <li class="list-inline-item">
-                                            <a href="" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit" class="px-2 text-primary">
-                                            <i class="bx bx-pencil font-size-18"></i></a>
-                                        </li>
-                                         {% endcomment %}
-
-                                         
-                                         <li class="list-inline-item">
-                                            <a href="{% url 'inactiveseller' custom_user.id %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete" class="px-2 text-danger"><i class="bx bx-trash-alt font-size-18"></i></a>
-                                        </li> 
-                                         
-                                        {% comment %} <li class="list-inline-item dropdown">
-                                            <a class="text-muted dropdown-toggle font-size-18 px-2" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true"><i class="bx bx-dots-vertical-rounded"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-end">
-                                                <a class="dropdown-item" href="#">Action</a><a class="dropdown-item" href="#">Another action</a><a class="dropdown-item" href="#">Something else here</a>
-                                            </div>
-                                        </li> {% endcomment %}
-                                    </ul>
-                                </td>
-                                
-                                <td>
-                                    {% if custom_user.is_active %}
-                                    
-                                    <img src="{% static 'assets\css\check.png' %}"
-                                    alt="Image Description" width="40" height="30">
-                                    {% else %}
-                                    <img src="{% static 'assets\css\hibernation.png' %}"
-                                    
-                                    alt="Image Description" width="40" height="30">
-                                    {% endif %}
-                                </td>
-                            </tr>
-                            
-                {% endif %}
-                {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-          
+               
 <body class="vh-100">
     <form method="POST">
         {% csrf_token %}
@@ -426,12 +315,12 @@
                             style="border-radius: 1rem;">
                             <div class="card-body p-5 p-lg-5 text-black">
                                 <h2 class="fw-normal mb-1 pb-2 text-center "
-                                    style="letter-spacing: 1px; font-weight:bold;"><b>Sign up</b></h2>
+                                    style="letter-spacing: 1px; font-weight:bold;"><b>Add a new Delivery Agent</b></h2>
                                 <form method="POST">
                                    {% csrf_token %}
                                     <div class="form-outline mb-4 ">
                                         <div class="d-flex align-items-center position-relative">
-                                            <input type="text" id="name" name="name"
+                                            <input type="text" id="name" name="name" value="{{app.name}}"
                                                 class="form-control form-control-lg placform" placeholder="Enter Name">
                                         </div>
                                         <div id="nameValidation" class="invalid-feedback">
@@ -442,7 +331,7 @@
 
                                     <div class="form-outline mb-3 ">
                                         <div class="d-flex align-items-center position-relative">
-                                            <input type="email" id="email" name="email"
+                                            <input type="email" id="email" name="email" value="{{app.email}}"
                                                 class="form-control form-control-lg placform" placeholder="Enter Email">
                                         </div>
                                         <div id="emailValidation" class="invalid-feedback">
@@ -453,23 +342,7 @@
                                     <div class="form-outline mb-3 ">
                                         <div class="d-flex align-items-center position-relative">
 
-                                            <input type="password" id="pass" name="pass" placeholder="Enter Password"
-                                                class="form-control form-control-lg placform"
-                                                placeholder="Enter Password">
-                                        </div>
-                                        <div id="passValidation" class="invalid-feedback">
-                                            Password must be at least 8 characters long and contain at least one
-                                            uppercase
-                                            letter, one lowercase letter, one number, and one special character.
-                                        </div>
-                                        <div id="passValid" class="valid-feedback">
-                                            Looks good!
-                                        </div>
-                                    </div>
-                                    <div class="form-outline mb-3 ">
-                                        <div class="d-flex align-items-center position-relative">
-
-                                            <input type="number" id="pin" name="pin" placeholder="Enter Pincode"
+                                            <input type="number" id="pin" name="pin" placeholder="Enter Pincode"  value="{{app.pin}}"
                                                 class="form-control form-control-lg placform"
                                                 placeholder="Enter Pincode">
                                         </div>
@@ -483,7 +356,7 @@
                                     <div class="form-outline mb-3 ">
                                         <div class="d-flex align-items-center position-relative">
 
-                                            <input type="number" id="mobile" name="mobile" placeholder="Enter Phone number"
+                                            <input type="number" id="mobile" name="mobile" placeholder="Enter Phone number" value="{{app.mobile}}"
                                                 class="form-control form-control-lg placform"
                                                 placeholder="Enter Pincode">
                                         </div>
@@ -509,7 +382,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+                
         </section>
         <script>
             document.addEventListener('DOMContentLoaded', function () {

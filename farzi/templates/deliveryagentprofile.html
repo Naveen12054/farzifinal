@@ -1,7 +1,21 @@
 <!-- deliveryagent_profile.html -->
+{% load static %} 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/typicons/typicons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/simple-line-icons/css/simple-line-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="{% static 'js/select.dataTables.min.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Your Profile</title>
@@ -14,82 +28,113 @@
             }
         */
     </style>
+    <style>
+        body {
+          text-align: center;
+          padding: 40px 0;
+          background: #EBF0F5;
+        }
+          h1 {
+            color: #88B04B;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-weight: 900;
+            font-size: 40px;
+            margin-bottom: 10px;
+          }
+          p {
+            color: #404F5E;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-size:20px;
+            margin: 0;
+          }
+        i {
+          color: #9ABC66;
+          font-size: 100px;
+          line-height: 200px;
+          margin-left:-15px;
+        }
+        .card {
+          background: white;
+          padding: 60px;
+          border-radius: 4px;
+          box-shadow: 0 2px 3px #C8D0D8;
+          display: inline-block;
+          margin: 0 auto;
+        }
+      </style>
 </head>
 <body>
     <h2>Complete Your Profile</h2>
-    <form method="POST">
+    <div class="card">
+        <h1 style="color: coral;">Farzi Furniture Store</h1> 
+                  <div class="card">
+                    <div class="card-body">
+      
+      <form method="POST" class="forms-sample">
         {% csrf_token %}
 
        
 
         <!-- Full Name -->
-        <div>
-            <label for="first_name">First Name:</label>
-            <input type="text" id="first_name" name="first_name" required>
-        </div>
-        <div>
-            <label for="last_name">Last Name:</label>
-            <input type="text" id="last_name" name="last_name" required>
-        </div>
- <!-- Profile Photo -->
-        <div>
-            <label for="profile_photo">Profile Photo:</label>
-            <input type="file" id="profile_photo" name="profile_photo" accept="image/*">
-        </div>
-        <!-- Insurance Policy Number -->
-        <div>
-            <label for="insurance_policy_number">Insurance Policy Number:</label>
-            <input type="text" id="insurance_policy_number" name="insurance_policy_number" required>
-        </div>
+                <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" placeholder="Enter Name" value="{{user.name}}" required >
+            </div>
 
-        <!-- Insurance Policy Expiry Date -->
-        <div>
-            <label for="insurance_expiry_date">Insurance Policy Expiry Date:</label>
-            <input type="date" id="insurance_expiry_date" name="insurance_expiry_date" required>
-        </div>
+            
+    <!-- Profile Photo -->
+            <div class="form-group">
+                <label for="profile_photo">Profile Photo:</label>
+                <input type="file" id="profile_photo" name="profile_photo"  accept="image/*">
+            </div>
+            <!-- Insurance Policy Number -->
+            <div class="form-group">
+                <label for="insurance_policy_number">Latitude:</label>
+                <input type="text" id="insurance_policy_number" name="insurance_policy_number" required>
+            </div>
 
-        <!-- Insurance Company -->
-        <div>
-            <label for="insurance_company">Insurance Company:</label>
-            <input type="text" id="insurance_company" name="insurance_company" required>
-        </div>
+            <div class="form-group">
+                <label for="longitude">Longitude:</label>
+                <input type="text" id="longitude" name="longitude" required>
+            </div>
 
-        <!-- Bank Name -->
-        <div>
-            <label for="bank_name">Bank Name:</label>
-            <input type="text" id="bank_name" name="bank_name" required>
-        </div>
-        <div>
-            <label for="banking_name">Banking Name:</label>
-            <input type="text" id="banking_name" name="banking_name" required>
-        </div>
+            <div class="form-group">
+                <label for="bank_name">Bank Name:</label>
+                <input type="text" id="bank_name" name="bank_name" required>
+            </div>
+            <div class="form-group">
+                <label for="banking_name">Banking Name:</label>
+                <input type="text" id="banking_name" name="banking_name" required>
+            </div>
+            <div class="form-group">
+                <label for="account_number">Account Number:</label>
+                <input type="text" id="account_number" name="account_number" required>
+            </div>
+            <div class="form-group">
+                <label for="routing_number">IFSC Code:</label>
+                <input type="text" id="routing_number" name="routing_number" required>
+            </div>
+            <div class="form-group">
+                <label for="max_delivery_distance">Maximum Delivery Distance(in kms):</label>
+                <input type="number" id="max_delivery_distance" name="max_delivery_distance" required>
+            </div>
+            <div class="form-group">
+                <label for="emergency_contact">Emergency Contact:</label>
+                <input type="text" id="emergency_contact" name="emergency_contact" required>
+            </div>
 
-        <!-- Account Number -->
-        <div>
-            <label for="account_number">Account Number:</label>
-            <input type="text" id="account_number" name="account_number" required>
-        </div>
-
-        <!-- Routing Number -->
-        <div>
-            <label for="routing_number">IFSC Code:</label>
-            <input type="text" id="routing_number" name="routing_number" required>
-        </div>
-
-        <!-- Maximum Delivery Distance -->
-        <div>
-            <label for="max_delivery_distance">Maximum Delivery Distance(in kms):</label>
-            <input type="number" id="max_delivery_distance" name="max_delivery_distance" required>
-        </div>
-
-        <!-- Emergency Contact -->
-        <div>
-            <label for="emergency_contact">Emergency Contact:</label>
-            <input type="text" id="emergency_contact" name="emergency_contact" required>
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit">Save Profile</button>
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary me-2">Save Profile</button>
     </form>
-</body>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+      </div>
+    </body>
+   </body>
 </html>

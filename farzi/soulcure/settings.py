@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'main','accounts','rest',
+    'main','accounts','rest','serviceapp',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +179,7 @@ DEFAULT_FROM_EMAIL = 'farzifurniturestore@gmail.com'
 
 RAZOR_KEY_ID = 'rzp_test_fjqYIUpj3jhcLp'
 RAZOR_KEY_SECRET = 'uoduwdbq9Ha6QCYcXqO7fVGK'
+
+TWILIO_ACCOUNT_SID = 'ACdd73defbb24e5f653611d4906eafff25'
+TWILIO_AUTH_TOKEN = 'cf333437aa65df405dbbb2b9c4d6c719'
+TWILIO_PHONE_NUMBER ='+15169287244'

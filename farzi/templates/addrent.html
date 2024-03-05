@@ -303,14 +303,18 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
-          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <div class="search" style="width: 600px;">
-                          <i class="fa fa-search"></i>
-                          <input type="text" class="form-control" placeholder="Have a question? Ask Now">
-                          <button class="btn btn-primary">Search</button>
-                        </div>
-                        
-          </li>
+          <li class="nav-item "> 
+            <a href="{% url 'admindashboard' %}" class="btn btn-link text-muted " style="text-decoration:none"; >
+                Admin Dashboard
+              </a> >
+            <a href="{% url 'adminrentdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
+              Rent 
+              </a> >
+              <a href="{% url 'adminrentdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
+                Add Products
+                </a> 
+            </li>
+            
         </ul>
         <ul class="navbar-nav ms-auto">
           
@@ -441,16 +445,9 @@
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{% url 'sellerprofile' %}"> Profile </a></li>
-              </ul>
+              
             </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'sellerprofile' %}">
-              <i class="menu-icon mdi mdi-file-account"></i>
-              <span class="menu-title">Profile</span>
-            </a>
+          
           </li>
           <!-- <li class="nav-item nav-category">help</li> -->
           <li class="nav-item">
@@ -515,77 +512,59 @@
             
             <div class="form-group col-md-6 pd-20"> 
                 <label for="productHeight">Material Type:</label>
-                <input type="text" class="form-control" id="material" name="material" required>
+                <select class="form-control bg-light text-dark" id="material" name="material"required>
+                  <option value="">Choose type...</option>
+                  <option value="Metal">Metal</option>
+                  <option value="Wood">Wood</option>
+                  <option value="Plastic/Fiber">Plastic/Fiber</option>
+                  <!-- Add more options as needed -->
+              </select>
                 <span id="materialspan"></span>
             </div>
             <div class="form-group col-md-6 pd-20"> 
                 <label for="productBreadth">Security Deposit:</label>
-                <input type="text" class="form-control" id="security" name="security" required>
+                <input type="text" class="form-control" id="security_deposit" name="security_deposit" required>
                 <span id="securityspan"></span>
             </div>
                                 
               <div class="form-group col-md-6 pd-20">
                 <label for="brandName">Quality Stantard:</label>
-                  <select class="form-control bg-light text-dark" id="brand_name" name="brand_name"required>
+                  <select class="form-control bg-light text-dark" id="quality_standard" name="quality_standard"required>
                     <option value="">Choose quality...</option>
-                    <option value="IKEA">Good</option>
-                    <option value="Ashley Furniture">Excellent</option>
+                    <option value="Good">Good</option>
+                    <option value="Excellent">Excellent</option>
                     <!-- Add more options as needed -->
                 </select></div>
 
                 <div class="form-group col-md-6 pd-20">
                     <label for="brandName">Category </label>
-                      <select class="form-control bg-light text-dark" id="brand_name" name="brand_name"required>
+                      <select class="form-control bg-light text-dark" id="category" name="category"required>
                         <option value="">Choose category...</option>
-                        <option value="IKEA">Sofa</option>
-                        <option value="Ashley Furniture">Bed</option>
-                        <option value="Ashley Furniture">Table</option>
+                        <option value="Sofa ">Sofa  </option>
+                        <option value="Chair">Chair</option>
+                        <option value="Bed">Bed</option>
+                        <option value="Table">Table</option>
 
                         <!-- Add more options as needed -->
                     </select></div>                
             
 
-                     
-            
-              <div class="form-group col-md-6 pd-20"> 
-                <label for="productImages">Add a Product Image</label>
-                <input
-                  type="file"
-                  id="form3Examplev5"
-                  name="product_images1"
-                  class="form-control-file"
-                />
-              </div> 
-
-                    
-                <div class="form-group col-md-6 pd-20"> 
-                <label for="productImages">Add a Product Image</label>
-                <input
-                  type="file"
-                  id="form3Examplev5"
-                  name="product_images2"
-                  class="form-control-file"
-                />
-              </div>
-
-
-              <div class="form-group col-md-6 pd-20"> 
-                <label for="productImages">Add a Product Image</label>
-                <input
-                  type="file"
-                  id="form3Examplev5"
-                  name="product_images3"
-                  class="form-control-file"
-                />
-              </div>
-              <div class="form-group col-md-6 pd-20">    <label for="productImages">Add another Product Image</label>
-                <input
-                  type="file"
-                  id="form3Examplev5"
-                  name="product_images4"
-                  class="form-control-file"
-                />
-              </div>
+                    <div class="form-group col-md-6 pd-20"> 
+                      <label for="productImage1">Product Image 1:</label>
+                      <input type="file" class="form-control-file" id="product_images1" name="product_images1">
+                  </div>
+                  <div class="form-group col-md-6 pd-20"> 
+                      <label for="productImage2">Product Image 2:</label>
+                      <input type="file" class="form-control-file" id="product_images2" name="product_images2">
+                  </div>
+                  <div class="form-group col-md-6 pd-20"> 
+                      <label for="productImage3">Product Image 3:</label>
+                      <input type="file" class="form-control-file" id="product_images3" name="product_images3">
+                  </div>
+                  <div class="form-group col-md-6 pd-20"> 
+                      <label for="productImage4">Product Image 4:</label>
+                      <input type="file" class="form-control-file" id="product_images4" name="product_images4">
+                  </div>
             </div>
                                 
              

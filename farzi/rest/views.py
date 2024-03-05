@@ -6,11 +6,14 @@ from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
-from accounts.models import Category, CustomUser
+from html5lib import serialize
+from sympy import Q
+from accounts.models import Category, CustomUser, Product
 from accounts.views import User
 from rest.forms import AppointmentForm
-from .models import Appointment, DeliveryAgentProfile, FurniturePrediction, Furniturerent, deliveryagent
+from .models import Addressuser, Appointment, DeliveryAgentProfile, FurniturePrediction, Furniturerent, Rent, deliveryagent, deliveryagentcantidates
 import os
+from twilio.rest import Client
 from PIL import Image
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
 from tensorflow.keras.applications.inception_v3 import preprocess_input
@@ -52,6 +55,31 @@ def seminar2(request):
     return render(request, 'seminar2.html', {'predicted_label': predicted_label, 'latest_prediction': latest_prediction})
 
 model = keras.models.load_model('models/furniture_model.h5')
+def send_whatsapp_message(to, body):
+    # Your Twilio account SID and auth token
+    account_sid = 'ACdd73defbb24e5f653611d4906eafff25'
+    auth_token = 'cf333437aa65df405dbbb2b9c4d6c719'
+    twilio_number = '+916282519724'  # Should be your WhatsApp sandbox number
+
+    # Initialize Twilio client
+    client = Client(account_sid, auth_token)
+
+    try:
+        message = client.messages.create(
+            from_=f'whatsapp:{twilio_number}',
+            body=body,
+            to=f'whatsapp:{to}'
+        )
+        return True, message.sid
+    except Exception as e:
+        return False, str(e)
+
+# Usage example
+success, message_id = send_whatsapp_message('recipient_number', 'Your message here')
+if success:
+    print(f'Message sent successfully. Message SID: {message_id}')
+else:
+    print(f'Failed to send message: {message_id}')
 
 def result(request):
     # Retrieve the latest prediction from the database
@@ -66,12 +94,69 @@ def result(request):
 
     return render(request, 'result.html', context)
 
+def check_availability(request):
+    if request.method == 'POST' and request.is_ajax():
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        quantity = int(request.POST.get('quantity'))
+        product_id = request.POST.get('product_id')
+        product = get_object_or_404(Furniturerent, id=product_id)
+        is_available = product.is_available(start_date, end_date, quantity)
+        return JsonResponse({'available': is_available})
+    else:
+        return JsonResponse({'error': 'Invalid request'}, status=400)
+
+def rentuser(request,t_id):
+    user=request.user
+    app = get_object_or_404(Furniturerent, id=t_id)
+    furniture = Furniturerent.objects.all()
+    add = Addressuser.objects.filter(user=user)
+    print("first vheck")
+    max_quantity = app.condition
+    print(max_quantity)
+    if request.method == 'POST':
+        print("Testing")
+        # Retrieve form data from POST request
+        selected_address_id = request.POST.get('selected_address')
+        quantity = int(request.POST.get('quantity-chair'))
+        start_date = request.POST.get('startdate-chair')
+        end_date = request.POST.get('enddate-chair')
+        product_id = t_id  # Assuming it's hardcoded for now, you may need to modify this
+        product_price = app.rental_price  # Assuming it's hardcoded for now, you may need to modify this
+        
+        # Retrieve the selected address
+        selected_address = Addressuser.objects.get(id=selected_address_id)
+        
+        # Calculate price
+        # Assuming product price is hardcoded for now, you may need to modify this
+        price_per_day = product_price
+        days_difference = (datetime.strptime(end_date, '%Y-%m-%d') - datetime.strptime(start_date, '%Y-%m-%d')).days
+        total_price = price_per_day * days_difference * quantity
+        print("hai")
+        print(total_price)
+        # Create Rent object
+        rent = Rent.objects.create(
+            user=user,  # Assuming the user is logged in and you have a way to retrieve the user
+            address=selected_address,
+            product_id=product_id,
+            quantity=quantity,
+            price=total_price,
+            start_date=start_date,
+            end_date=end_date,
+            status=False,  # Assuming the initial status is False
+            paid=False  # Assuming the initial paid status is False
+        )
+        rent.save()
+        return redirect('index')
+    return render(request, "rentuser.html",{'furniture': furniture,'app':app,'add':add,'max_quantity':max_quantity})
 
 
-def rentuser(request):
-    return render(request, "rentuser.html")
+
+def rentuserlist(request):
+    furniture = Furniturerent.objects.all()
+    return render(request, "rentuserlist.html",{'furniture': furniture})
 def services(request):
-    user_appointments = Appointment.objects.filter(client=request.user)
+    user_appointments = Appointment.objects.filter(client=request.user).order_by('-date')
     return render(request, "services.html",{'user_appointments': user_appointments})
 def installation(request):
     return render(request, "installation.html")
@@ -225,27 +310,32 @@ def install(request):
 
     return render(request, 'install.html')  # Adjust 'your_template_name.html' accordingly
 def addrent(request):
+    print("hello")
+    
     if request.method == 'POST':
         # Extract data from the POST request
         product_code = request.POST['product_code']
         category = request.POST['category']  # Assuming 'category' is the name attribute of the category select field
-
-        description = request.POST['description']
-        condition = request.POST['condition']
+        condition = request.POST['quantity']
         rental_price = request.POST['price']
         status = request.POST.get('status', False)  # If status is not provided, default to False
         length = request.POST['length']
         width = request.POST['breadth']
         height = request.POST['height']
         material = request.POST['material']
-        security_deposit = request.POST['security']
-        quality_standard = request.POST['brand_name']
+        security_deposit = request.POST['security_deposit']
+        quality_standard = request.POST['quality_standard']
+        product_images1 = request.FILES.get('product_images1')
+        product_images2 = request.FILES.get('product_images2')
+        product_images3 = request.FILES.get('product_images3')
+        product_images4 = request.FILES.get('product_images4')
+        print("hai")
+        print(product_images1)
 
         # Create a new instance of the Furniturerent model
         new_product = Furniturerent(
             product_code=product_code,
             category=category,
-            description=description,
             condition=condition,
             rental_price=rental_price,
             status=status,
@@ -255,27 +345,57 @@ def addrent(request):
             material=material,
             security_deposit=security_deposit,
             quality_standard=quality_standard,
+            product_images4=product_images4,
+            product_images3=product_images3,
+            product_images2=product_images2,
+            product_images1=product_images1,
         )
 
         # Save the instance to the database
         new_product.save()
+        return redirect('adminrentdashboard')
 
     # If the request method is not POST, render the form
     return render(request, 'addrent.html')
+import string
+import secrets
 
-def deliveryagentadmin(request):
+def generate_random_password():
+    alphabet = string.ascii_letters + string.digits + string.punctuation
+    while True:
+        password = ''.join(secrets.choice(alphabet) for i in range(8))
+        if (any(c.islower() for c in password) and
+            any(c.isupper() for c in password) and
+            any(c.isdigit() for c in password) and
+            any(c in string.punctuation for c in password)):
+            return password
+        
+def deliveryagentadmin(request,appointment_id):
+    app = get_object_or_404(deliveryagentcantidates, id=appointment_id)
+    users = CustomUser.objects.all()
+    delivery_agents = deliveryagent.objects.all()
+    delivery = DeliveryAgentProfile.objects.all()
+    delivery12 = deliveryagentcantidates.objects.filter(status=False)
+    common_users = []
+    for agent in delivery_agents:
+        # Check if there is a corresponding DeliveryAgentProfile
+        if DeliveryAgentProfile.objects.filter(user=agent.user).exists():
+            # If there is a corresponding profile, add the user to the list
+            common_users.append(agent.user)
+    
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
-        password = request.POST.get('pass')
         pin = request.POST.get('pin')
         mobile = request.POST.get('mobile')
+        password = generate_random_password()
 
         try:
             custom_user = User.objects.create(
                 name=name,
+                first_name=name,
                 email=email,
-                password=password,
+                password = password,
                 role=User.DELIVERY  # Assuming DELIVERY corresponds to the 'Delivery' role
             )
             custom_user.set_password(password)
@@ -287,7 +407,17 @@ def deliveryagentadmin(request):
                 pin=pin,
                 mobile=mobile
             )
-            
+            recipient_number = mobile  # Replace with the recipient's phone number
+            message_body = 'Sample message '     # Replace with the message body
+            success, message_id = send_whatsapp_message(recipient_number, message_body)
+
+            if success:
+                print(f'Message sent successfully. Message SID: {message_id}')
+            else:
+                print(f'Failed to send message: {message_id}')
+
+
+
             email_subject = 'Registration Successful'
             email_body = f'Thank you for registering as a delivery agent. Your password is: {password}\n\n'
             email_body += f'Click on the following link to complete your profile:\nhttp://127.0.0.1:8000/accounts/login/'
@@ -299,11 +429,21 @@ def deliveryagentadmin(request):
                 [email],
                 fail_silently=False,
             )
+            
+            
             return redirect('spage')
         except Exception as e:
             return JsonResponse({'error_message': str(e)}, status=400)
+    context = {
+        'delivery_agents': delivery_agents,
+        'delivery':delivery,
+        'users':users,
+        'common_users': common_users,
+        'delivery12':delivery12,
+        'app':app
+    }
 
-    return render(request, 'deliveryagentadmin.html')
+    return render(request, 'deliveryagentadmin.html',context)
 
 def seller(request):
     if request.method == 'POST':
@@ -331,25 +471,24 @@ def deliveryagentprofile(request):
     if request.method == 'POST':
         # Extract data from the request.POST dictionary
         first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
+        last_name = 0   
         insurance_policy_number = request.POST.get('insurance_policy_number')
-        insurance_expiry_date = request.POST.get('insurance_expiry_date')
-        insurance_company = request.POST.get('insurance_company')
+        longitude = request.POST.get('longitude')
         bank_name = request.POST.get('bank_name')
         banking_name = request.POST.get('banking_name')
         account_number = request.POST.get('account_number')
         routing_number = request.POST.get('routing_number')
         max_delivery_distance = request.POST.get('max_delivery_distance')
         emergency_contact = request.POST.get('emergency_contact')
-
+        current_date = _Date.today()
         # Create DeliveryAgentProfile instance and save to the database
         profile = DeliveryAgentProfile.objects.create(
             user=request.user,  # Assuming you have a User model linked to the DeliveryAgentProfile
             first_name=first_name,
             last_name=last_name,
-            insurance_policy_number=insurance_policy_number,
-            insurance_expiry_date=insurance_expiry_date,
-            insurance_company=insurance_company,
+            latitude=insurance_policy_number,
+            insurance_expiry_date=current_date,
+            longitude=longitude,
             bank_name=bank_name,
             banking_name=banking_name,
             account_number=account_number,
@@ -364,6 +503,12 @@ def spage(request):
     return render(request, "spage.html")
 def deliveryagentdashboard(request):
     return render(request, "deliveryagentdashboard.html")
+def deliverybase(request):
+    return render(request, "deliverybase.html")
+def serviceadmin(request):
+    user_appointments = Appointment.objects.all()
+    return render(request, "serviceadmin.html",{'user_appointments': user_appointments})
+
 def listofservices(request):
     profiles = DeliveryAgentProfile.objects.all()
     appointments = Appointment.objects.all()
@@ -431,4 +576,144 @@ def requestpage(request,appointment_id):
             return redirect('listofservices')
 
     return render(request, "requestpage.html",{'app': app})
+from django.core import serializers
+from django.core.serializers import serialize
+def searchByName(request,name):
+    print(name)
+    # name=name.lower()
+    users = Product.objects.filter(product_name__icontains=name)
+    user_data = serializers.serialize('json', users)
+    print(user_data)
 
+    # Return the serialized data as JSON response
+    return JsonResponse(user_data, safe=False)
+def deliverybase(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        pin = request.POST.get('pin')
+        mobile = request.POST.get('mobile')
+
+        try:
+            custom_user = deliveryagentcantidates.objects.create(
+                name=name,
+                email=email,
+                pin=pin,
+                mobile=mobile # Assuming DELIVERY corresponds to the 'Delivery' role
+            )
+            custom_user.save()
+            
+            
+            email_subject = 'Application recieved  Successfully'
+            email_body = f'Thank you for expressing your intrest in working with Fazri Furniture Store as a delivery agent.\n\n'
+            email_body += f'We will send updates on your application soon. Please wait for the next steps.'
+
+            send_mail(
+                email_subject,
+                email_body,
+                email,  # Use the provided email address as the sender
+                [email],
+                fail_silently=False,
+            )
+            return redirect('spage')
+        except Exception as e:
+            return JsonResponse({'error_message': str(e)}, status=400)
+    return render(request, "deliverybase.html")
+def admindeliveryagentviews(request):
+    # this is for admin to view the cantidates for the job
+    users = CustomUser.objects.all()
+    delivery_agents = deliveryagent.objects.all()
+    delivery = DeliveryAgentProfile.objects.all()
+    common_users = []
+    for agent in delivery_agents:
+        # Check if there is a corresponding DeliveryAgentProfile
+        if DeliveryAgentProfile.objects.filter(user=agent.user).exists():
+            # If there is a corresponding profile, add the user to the list
+            common_users.append(agent.user)
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        password = request.POST.get('pass')
+        pin = request.POST.get('pin')
+        mobile = request.POST.get('mobile')
+
+        try:
+            custom_user = User.objects.create(
+                name=name,
+                email=email,
+                password=password,
+                role=User.DELIVERY  # Assuming DELIVERY corresponds to the 'Delivery' role
+            )
+            custom_user.set_password(password)
+            custom_user.save()
+            deliveryagent.objects.create(
+                user=custom_user,
+                name=custom_user.name,
+                email=custom_user.email,
+                pin=pin,
+                mobile=mobile
+            )
+            
+            email_subject = 'Registration Successful'
+            email_body = f'Thank you for registering as a delivery agent. Your password is: {password}\n\n'
+            email_body += f'Click on the following link to complete your profile:\nhttp://127.0.0.1:8000/accounts/login/'
+
+            send_mail(
+                email_subject,
+                email_body,
+                email,  # Use the provided email address as the sender
+                [email],
+                fail_silently=False,
+            )
+            return redirect('spage')
+        except Exception as e:
+            return JsonResponse({'error_message': str(e)}, status=400)
+    context = {
+        'delivery_agents': delivery_agents,
+        'delivery':delivery,
+        'users':users,
+        'common_users': common_users
+    }
+
+    return render(request, 'admindeliveryagentviews.html',context)
+def adminsidecatidacydelivery(request):
+    users = CustomUser.objects.all()
+    delivery12 = deliveryagentcantidates.objects.filter(status=False)
+   
+    context = {
+        'users':users,
+        'delivery12':delivery12
+    }
+
+    return render(request, 'adminsidecatidacydelivery.html',context)
+def acceptrent(request,appointment_id):
+    app = get_object_or_404(Rent, id=appointment_id)
+    product=app.product.id
+    app.status=1
+    app.save()
+    print(product)
+    productdetails = get_object_or_404(Rent, id=product)
+    print(productdetails)
+    accepted_product = app.product
+    accepted_product.update_condition()
+
+    # Mark other appointments with overlapping dates as rejected if their conditions are not met
+    overlapping_apps = Rent.objects.filter(
+        Q(start_date__range=[app.start_date, app.end_date]) |
+        Q(end_date__range=[app.start_date, app.end_date]) |
+        Q(start_date__lte=app.start_date, end_date__gte=app.end_date)
+    ).exclude(id=appointment_id)
+
+    for overlapping_app in overlapping_apps:
+        overlapping_product = overlapping_app.product
+        overlapping_product.update_condition()
+        if overlapping_product.condition != "Renting":
+            overlapping_app.rejected = True
+            overlapping_app.save()
+    user_appointments = Rent.objects.all().order_by('start_date')
+    context = {
+        'user_appointments': user_appointments,
+        'app':app,
+    }
+    return render(request, "adminrentrequest.html",context)

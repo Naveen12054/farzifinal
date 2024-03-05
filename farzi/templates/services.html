@@ -72,7 +72,7 @@
 
           {%endfor%}
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'rentuser' %}">Rent</a>           
+            <a class="nav-link" href="{% url 'rentuserlist' %}">Rent</a>           
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'services' %}">Services</a>           
@@ -181,16 +181,16 @@
                                  });
                                </script>
                      
-            <form id="search-form">
-                        <div class="search mt-4" style="width:500px;"> 
-                            <input type="text" class="search-input" placeholder="Search..." id="query" name="query"> 
-                <button type="submit" class="transparent-button">
-                    <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="hai">
+                    <form id="search-form">
+                                <div class="search mt-4" style="width:500px;"> 
+                                    <input type="text" class="search-input" placeholder="Search..." id="query" name="query"> 
+                        <button type="submit" class="transparent-button">
+                            <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="hai">
 
-                </button>
-                            
-                        </div> 
-              <form>
+                        </button>
+                                    
+                                </div> 
+                      <form>
                     </div>
                     <div class="col-lg-6 d-none d-lg-block " style="margin-top: -30px;">
                         <div class="main-menu-area text-center ">
@@ -311,22 +311,7 @@
         <!-- Single Slide End -->
 
         <!-- Single Slide Start -->
-        <div class="single-slide" style="background-image: url({% static 'assets/images/slider/slide-bg-1.jpg' %})">
-            <!-- Hero Content One Start -->
-            <div class="hero-content-one container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-8"> 
-                        <div class="slider-text-info">
-                            <h1 style="color: #E97730;">Installation Services</h1>
-                            <p>Transform your space effortlessly with our professional furniture installation service, ensuring seamless assembly and placement for a polished and functional interior.</p>
-                            <a href="{% url 'installation' %}" class="btn slider-btn uppercase"><span>SHOP NOW</span></a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <!-- Hero Content One End -->
-        </div>
+        
         <!-- Single Slide End -->
     </div>
     <!-- Hero Section End -->
@@ -378,8 +363,14 @@
                               </button>
 
                           {% endif %}
+                          <style>
+                            p {
+                                max-width: 200px;
+                            }
+                        </style>
                           {% if appointment.rejected == 1 %}
                               <button class="btn btn-success"  id="submitBtn">Rejected</button>
+                              <p>We regret to inform you that your offer has been rejected. Unfortunately, the required maintenance work cannot be accommodated within the current schedule due to high workload and priority tasks. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment.</p>
                           {% endif %}
                           {% if appointment.rejected == 0 and appointment.approved == 0 %}
                               <button class="btn btn-success"  id="submitBtn">Not Yet Reviewed</button>

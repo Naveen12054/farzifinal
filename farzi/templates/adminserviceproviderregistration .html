@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Provider Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 400px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .form-group .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-group .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .form-group input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Service Provider Registration</h2>
+        <form id="registrationForm" action="#" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div class="error-message" id="nameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone" pattern="[0-9]{10}" required>
+                <div class="error-message" id="phoneError"></div>
+            </div>
+            <div class="form-group">
+                <label for="service">Service:</label>
+                <input type="text" id="service" name="service" required>
+                <div class="error-message" id="serviceError"></div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            var name = document.getElementById('name');
+            var email = document.getElementById('email');
+            var phone = document.getElementById('phone');
+            var service = document.getElementById('service');
+
+            var nameError = document.getElementById('nameError');
+            var emailError = document.getElementById('emailError');
+            var phoneError = document.getElementById('phoneError');
+            var serviceError = document.getElementById('serviceError');
+
+            nameError.textContent = '';
+            emailError.textContent = '';
+            phoneError.textContent = '';
+            serviceError.textContent = '';
+
+            if (name.value.trim() === '') {
+                nameError.textContent = 'Name is required';
+                event.preventDefault();
+            }
+
+            if (email.value.trim() === '') {
+                emailError.textContent = 'Email is required';
+                event.preventDefault();
+            } else if (!isValidEmail(email.value.trim())) {
+                emailError.textContent = 'Invalid email format';
+                event.preventDefault();
+            }
+
+            if (phone.value.trim() === '') {
+                phoneError.textContent = 'Phone is required';
+                event.preventDefault();
+            }
+
+            if (service.value.trim() === '') {
+                serviceError.textContent = 'Service is required';
+                event.preventDefault();
+            }
+        });
+
+        function isValidEmail(email) {
+            var re = /\S+@\S+\.\S+/;
+            return re.test(email);
+        }
+    </script>
+</body>
+</html>

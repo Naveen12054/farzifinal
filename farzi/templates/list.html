@@ -84,6 +84,37 @@
     background: blue;
 
   }
+  #search-results{
+    position: fixed;
+    background-color: white;
+    z-index: 1;
+    top: 75px;
+}
+
+.search-container {
+position: relative;
+width: 50%;
+margin-left: 3px;
+}
+.user-box {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* Style for user image */
+.user-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Style for user name */
+.user-name {
+  font-weight: bold;
+}
 
   .menuCustom {
 
@@ -135,6 +166,7 @@
   .customUL {
     background-color: #ffffff;
   }
+  
 
   .sub-tag {
     display: none;
@@ -144,6 +176,7 @@
   .user-email:hover .sub-tag {
     display: block;
   }
+  
 </style>
 
 </html>
@@ -195,7 +228,7 @@
       <div class="navbar-menu-wrapper d-flex align-items-top">
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <form id="search-form">
+            {% comment %} <form id="search-form">
 
               <div class="search" style="width: 600px;">
                 <i class="fa fa-search"></i>
@@ -203,11 +236,19 @@
                   placeholder="Have to find something? Ask Me">
                 <button type="submit" class="btn btn-primary">Search</button>
               </div>
-              <form>
+              <form> {% endcomment %}
 
+                  <div class="search" style="width: 600px;">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" id="search_bar" name="query"
+                      placeholder="Have to find something? Ask Me">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
           </li>
 
         </ul>
+        <div id="search-results">
+        </div>
         <ul class="navbar-nav ms-auto">
 
           <!-- <li class="nav-item d-none d-lg-block">
@@ -425,7 +466,7 @@
 
           <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-          <script>
+          {% comment %} <script>
             // Define a function to handle form submission
             function handleFormSubmission() {
               // Get search query from form
@@ -500,6 +541,62 @@
                 handleFormSubmission();
               });
             });
+          </script> {% endcomment %}
+          <script>
+            $("#search_bar").keyup(function(){
+            
+              var headers = {
+                  "X-CSRFToken": $("input[name=csrfmiddlewaretoken]").val()
+              };
+              var searchTerm = $(this).val();
+              console.log(searchTerm)
+              if (searchTerm.trim() === "") {
+          // If it's empty, hide the container and return
+          $("#search-results").hide();
+          return;
+      }
+      
+              $.ajax({
+                  type:"GET",
+                  headers: headers,
+                  dataType:'Json',
+                  url:"{% url 'search_by_name' 0 %}".replace('0',searchTerm),
+                  success: function (data) {
+                      // Clear previous results
+                      $("#search-results").empty();
+  
+                      // Parse the JSON data
+                      var users = JSON.parse(data);
+                      console.log(users)
+                      // Loop through the users and create HTML elements
+                      for (var i = 0; i < users.length; i++) {
+                        
+                          
+      var user = users[i];
+      console.log('Hello'+user.fields.product_images1);
+      var userHtml = '<div class="user-box">';
+      
+      userHtml += '<img class="user-img" src="media/' + user.fields.product_images2 + '" alt="User Image">';
+      userHtml += '<a href="/singleview/' + user.pk + '">' + user.fields.product_name + '</a>';
+     
+      userHtml += user.fields.product_name;
+      
+      
+      userHtml += '</p>';
+      userHtml += '</div>';
+  
+      $("#search-results").append(userHtml);
+  }
+  
+                      
+                      // Show the user list
+                      $("#search-results").show();
+                  },
+                  error: function (xhr, status, error) {
+                      console.error(xhr.responseText);
+                  }
+              })
+          })
           </script>
             <div class="col-sm-12">
               {% if user.role == 4 %}
@@ -644,13 +741,7 @@
                     {% endif %}
                 </ul>
             </div>
-
-              
               {% endif %}
-
-
-
-
 
               {% if user.role == 4 %}
 
