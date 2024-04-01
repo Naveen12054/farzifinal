@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import dj_database_url
 
 from pathlib import Path
 import os
@@ -25,7 +26,6 @@ SECRET_KEY = 'django-insecure-t_5duv%tyzdlzn&_7ubz09-&1d6usnup84qy++bfpgbcess(cv
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL='accounts.CustomUser'
 
@@ -83,11 +83,14 @@ WSGI_APPLICATION = 'soulcure.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse("postgres://farzi_user:bHO4TIRnyTVvCk7jzSUnQ5sgg5RCMLyf@dpg-co56j5kf7o1s739a250g-a.singapore-postgres.render.com/farzi")
 }
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
