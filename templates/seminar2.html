@@ -1,0 +1,483 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Furniture Classifier</title>
+</head>
+<body>
+    
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="cc">
+    <h1 style="text-align: center;">Furniture Classifier</h1>
+    
+    <form style="margin-left: 70px; margin-bottom: 20px;" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="image" accept="image/*">
+        <input type="submit" value="Classify">
+    </form>
+
+    {% if predicted_label %}
+        
+        {% if latest_prediction %}
+         <div class="row">
+            <div class="col-md-8 ">
+        <img src="{{ latest_prediction.image.url }}" style="height: 400px; width: 400px; margin-left: 70px;" alt="Uploaded Image">
+
+            </div>
+            <div class="col-md-4 ">
+                <p>Product Category: {{ latest_prediction.prediction }}</p>
+                <a class="" href="/list/{{latest_prediction.prediction}}" style="text-decoration: none;">View more {{ latest_prediction.prediction }}s </a>
+    
+            </div>
+
+         </div>
+
+
+        {% endif %}
+    {% endif %}
+</div>
+    
+</body>
+</html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+
+</body>
+<style>
+  /* Add some padding to the content to avoid overlapping with the fixed navbar */
+  .content {
+    padding-top: 50px;
+    /* Adjust this value as needed */
+  }
+
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+  body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    
+  }
+
+  .height {
+    height: 10vh;
+  }
+
+
+  .search {
+    position: relative;
+    box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+
+  }
+
+  .search input {
+
+    height: 60px;
+    text-indent: 25px;
+    border: 2px solid #d6d4d4;
+
+
+  }
+
+
+  .search input:focus {
+
+    box-shadow: none;
+    border: 2px solid blue;
+
+
+  }
+
+  .search .fa-search {
+
+    position: absolute;
+    top: 20px;
+    left: 16px;
+
+  }
+
+  .search button {
+
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height: 50px;
+    width: 110px;
+    background: blue;
+
+  }
+
+  .menuCustom {
+
+    background-color: rgb(255, 255, 255);
+    border-radius: 0%;
+  }
+
+  .customBorder {
+
+    padding: 10px 30px;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+  }
+
+  .customText {
+
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: -10px;
+    background-color: white;
+
+  }
+
+  .customList {
+    background-color: rgb(255, 255, 255);
+    color: #1F3BB3;
+  }
+
+  .customListVal {
+
+    margin-left: 30px;
+    padding: 5px 5px;
+    background-color: #ffffff;
+    list-style-type: none;
+  }
+
+  .customIcon {
+
+    font-size: 20px;
+    font-size: 20px;
+    /* margin-top: 19px; */
+    position: relative;
+
+    top: 4px;
+  }
+
+  .customUL {
+    background-color: #ffffff;
+  }
+
+  .sub-tag {
+    display: none;
+  }
+
+  /* Show the sub-tag on hover */
+  .user-email:hover .sub-tag {
+    display: block;
+  }
+</style>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin2 </title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="{% static 'vendors/feather/feather.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/mdi/css/materialdesignicons.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/ti-icons/css/themify-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/typicons/typicons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/simple-line-icons/css/simple-line-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'vendors/css/vendor.bundle.base.css' %}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" href="{% static 'vendors/datatables.net-bs4/dataTables.bootstrap4.css' %}">
+  <link rel="stylesheet" href="{% static 'js/select.dataTables.min.css' %}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="{% static 'css/vertical-layout-light/style.css' %}">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+
+  <link href="{% static 'assets/css/list.css' %}" rel="stylesheet" />
+
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+        <div class="me-3">
+          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+            <span class="icon-menu"></span>
+          </button>
+        </div>
+        <div>
+          <a class="navbar-brand brand-logo" href="{% url 'index'  %}">
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo" />
+          </a>
+          <a class="navbar-brand brand-logo-mini" href="{% url 'index'  %}">
+            <img src="{% static 'assets\images\logo\lo.jpg' %}" alt="logo" />
+          </a>
+        </div>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-top">
+        <ul class="navbar-nav">
+          <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+            <form id="search-form">
+
+              <div class="search" style="width: 600px;">
+                <i class="fa fa-search"></i>
+                <input type="text" class="form-control" id="query" name="query"
+                  placeholder="Have to find something? Ask Me">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+              <form>
+
+          </li>
+
+        </ul>
+        <ul class="navbar-nav ms-auto">
+
+          <!-- <li class="nav-item d-none d-lg-block">
+            <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
+              <span class="input-group-addon input-group-prepend border-right">
+                <span class="icon-calendar input-group-text calendar-icon"></span>
+              </span>
+              <input type="text" class="form-control">
+            </div>
+          </li> -->
+          <!-- <li class="nav-item">
+            <form class="search-form" action="#">
+              <i class="icon-search"></i>
+              <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+            </form>
+          </li> -->
+          {% if user.role == 1 %}
+          <li class="nav-item ">
+            <a class="nav-link " href="{% url 'wishlist' %}">
+              <i class="bi bi-heart"></i>
+              <span class="count"></span>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link " href="{% url 'cart'  %}">
+              <img src="{% static 'assets\css\cartfull.png' %}" style=" height: 30px;margin-left: 20px; width: 30px;">
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link ml-3"href="{% url 'user_orders'  %}">
+              <img src="{% static 'assets\css\box.png' %}" style=" height: 35px; width: 30px;">
+            </a>
+          </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <div class="user-email text-dark ml-5">
+              <p class="nav-link "><b>{{ user.email }}</b></p>
+              <div class="sub-tag">
+                <a href="{% url 'logout' %}" class="mdi mdi-power text-dark me-2"
+                  style="text-decoration: none; ">Logout</a>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+          data-bs-toggle="offcanvas">
+          <span class="mdi mdi-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <footer
+          class="text-center text-lg-start text-white"
+          style="background-color: #45526e;margin-top: 150px;"
+          >
+    <!-- Grid container -->
+    <div class="container p-4 pb-0">
+      <!-- Section: Links -->
+      <section class="">
+        <!--Grid row-->
+        <div class="row">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h3 class="text-uppercase mb-4 font-weight-bold text-light">
+              Farzi
+            </h3>
+            <p>
+              Farzi offers a diverse range of stylish, high-quality home furnishings and decor. Browse, select, and purchase furniture and accessories from the comfort of your home.
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <hr class="w-100 clearfix d-md-none" />
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+            <h4 class="text-uppercase mb-4 font-weight-bold text-light">Products</h4>
+            {% for product in products3 %}
+            <p>
+
+              <a class="text-white" href="/list/{{product}}">{{ product.category_name }}</a>
+          </p>
+              {% endfor %}
+
+            
+            
+          </div>
+          <!-- Grid column -->
+
+          <hr class="w-100 clearfix d-md-none" />
+
+          <!-- Grid column -->
+          <style>
+            /* Remove underline for anchor tags with class "text-white" */
+            a.text-white {
+              text-decoration: none;
+            }
+          </style>
+          
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">              
+            <h4 class="text-uppercase mb-4 font-weight-bold text-light">Services</h4>
+            <p>
+              <a class="text-white" href="{% url 'profile' %}">Profile</a>
+            </p>
+            <p>
+              <a class="text-white" href="{% url 'user_orders' %}">Orders</a>
+            </p>
+            <p>
+              <a class="text-white" href="{% url 'wishlist' %}">Wishlist</a>
+            </p>
+            <p>
+              <a class="text-white" href="{% url 'cart' %}">Cart</a>
+            </p>
+          </div>
+
+          <!-- Grid column -->
+          <hr class="w-100 clearfix d-md-none" />
+
+          <!-- Grid column -->
+          <style>
+            /* Apply hover effect to change text color to orange */
+            .contact-link:hover {
+              color: orange;
+            }
+          </style>
+          
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+            <h4 class="text-uppercase mb-4 font-weight-bold text-light">Contact</h4>
+            <p><i class="bi bi-pin-map-fill mr-2"></i> Farzi Furnitures, Hyderabad, India</p>
+            <p><a href="mailto:farzifurniturestore@gmail.com" class="text-white contact-link"><i class="bi bi-envelope-arrow-up mr-2"></i> farzifurniturestore@gmail.com</a></p>
+            <p><a href="tel:6252519847" class="text-white contact-link"><i class="bi bi-telephone-plus mr-2"></i> 6252519847</a></p>
+            <p><a href="tel:8281444724" class="text-white contact-link"><i class="bi bi-telephone-plus mr-2"></i> 8281444724</a></p>
+          </div>
+          
+          
+          <!-- Grid column -->
+        </div>
+        <!--Grid row-->
+      </section>
+      <!-- Section: Links -->
+
+      <hr class="my-3">
+
+      <!-- Section: Copyright -->
+      <section class="p-3 pt-0">
+
+        <div class="row d-flex align-items-center">
+          <!-- Grid column -->
+          <div class="col-md-7 col-lg-8 text-center text-md-start">
+            <!-- Copyright -->
+            <div class="p-3">
+             
+            </div>
+            <!-- Copyright -->
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+            <!-- Facebook -->
+            <a class="text-white m-1" href="https://www.facebook.com/ikea">
+              <i class="bi bi-facebook"></i>
+            </a>
+            
+
+            <!-- Twitter -->
+            <a class="text-white m-1" href="https://twitter.com/IKEAFoundation">
+              <i class="bi bi-twitter"></i>
+            </a>
+            
+
+            <!-- Google -->
+            <a class="text-white m-1" href="mailto:farzifurniturestore@gmail.com">
+              <i class="bi bi-envelope"></i>
+            </a>
+            
+
+            <!-- Instagram -->
+            <a class="text-white m-1" href="https://wa.me/628251974">
+              <i class="bi bi-whatsapp"></i>
+            </a>
+            
+          </div>
+          <!-- Grid column -->
+        </div>
+      </section>
+      <!-- Section: Copyright -->
+    </div>
+    <!-- Grid container -->
+  </footer>
+  <!-- plugins:js -->
+  <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="{% static 'vendors/chart.js/Chart.min.js' %}"></script>
+  <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'vendors/progressbar.js/progressbar.min.js' %}"></script>
+
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="{% static 'js/off-canvas.js' %}"></script>
+  <script src="{% static 'js/hoverable-collapse.js' %}"></script>
+  <script src="{% static 'js/template.js' %}"></script>
+  <script src="{% static 'js/settings.js' %}"></script>
+  <script src="{% static 'js/todolist.js' %}"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/Chart.roundedBarCharts.js' %}"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>

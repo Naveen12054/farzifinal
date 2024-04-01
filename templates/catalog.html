@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <link rel="stylesheet" href="{% static 'assets/css/search.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <!-- Add your CSS and JavaScript links here -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <script>
+    $(document).ready(function () {
+        // Function to perform the search
+        function performSearch() {
+            var searchText = $('#searchInput').val().toLowerCase();
+            $('tbody tr').each(function () {
+                var rowText = $(this).text().toLowerCase();
+                if (rowText.indexOf(searchText) === -1) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        }
+
+        // Event listener for the search button click
+        $('#searchButton').on('click', function () {
+            performSearch();
+        });
+
+        // Event listener for keyup in the search input field
+        $('#searchInput').on('keyup', function () {
+            performSearch();
+        });
+    });
+</script>
+</head>
+<body>
+    <header>
+      <div class="header-area">
+          <div class="header-bottom-area header-sticky">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col-lg-6 col-md-5 col-5 d-flex mt-2">
+                          <div class="logo " style="margin-top: 20px;  margin-right: 10px;">
+                              <a href="{% url 'index' %}">
+                                  <img style="width:100px; height:80px;" src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai"></a>
+                          </div>
+                          <div class="search mt-4" style="width:500px;"> 
+                              <input type="text" class="search-input" placeholder="Search..." name=""> 
+                              <a href="{% url 'index' %}">
+                                  <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="hai"></a>
+                          </div> 
+                          
+                      </div>
+                      <div class="col-lg-6 d-none d-lg-block " style="margin-top: -30px;">
+                          <div class="main-menu-area text-center ">
+                              <nav class="main-navigation ">
+                                  <ul><li><a href="{% url 'wishlist' %}" class="nav-link">
+                                          <img src="{% static 'assets/images/heart.png' %}" alt="" style="height: 20px;">
+                                      </a></li>
+                                      <li><a href="{% url 'cart' %}" class="nav-link">
+                                          <img src="{% static 'assets/images/cart.png' %}" alt="" style="height: 20px;">
+                                      </a></li>
+                                      <li><a href="#" class="nav-link">
+                                          {% if  user.is_authenticated %}
+                                                  {% if user.role == 4 %}
+                                                  <li><a href="{% url 'admindashboard' %}" class="nav-item nav-link">Dashboard</a></li>
+                                                 
+                                                  {% elif user.role == 2 %}
+                                                  
+                                                  <li><a href="{% url 'sellerpage' %}" class="nav-item nav-link">Dashboard</a></li>
+                                                  {% elif user.role == 1 %}
+                                                  <li><a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a></li>
+                                          {% else %}
+                                         
+                                          {% endif %}
+                                                  {% else %}
+                                              
+                                          {% endif %}
+                                      </a></li>
+                                      {% comment %} {% if user.name == user.name %}
+                                      {{user.name}}
+                                      <ul class="sub-menu">
+                                          <li><a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a></li>
+                                                  <br>
+                                                  
+                                      </ul>
+                                      {% else %}
+                                      {{user.email}}
+                                      {%endif%} {% endcomment %}
+                                      <li>
+                                          <b>{{user.email}}</b>
+                                          <ul class="sub-menu">
+                                                  {% if  user.is_authenticated %}
+                                                  {% if user.role == 1 %}
+                                                  <li ><h3>Customer</h3></li>
+                                                  <li><a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a></li>
+                                                  <br>
+                                                  <li><a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a></li>
+                                                  {% elif user.role == 2 %}
+                                                  
+                                                  <li><a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a></li>
+                                                  
+                                          {% else %}
+                                          <br>
+                                                  <li><a href="{% url 'logout' %}" class="nav-item nav-link">Log Out</a></li>
+                                                  <br>
+                                          {% endif %}
+                                                  {% else %}
+                                              </ul>
+                                          </li>
+                                          <li><a href="{% url 'login' %}" class="nav-link">
+                                              <img src="{% static 'assets/images/profile.png' %}" alt="" style="height: 20px;">
+                                          </a></li>
+                                          {% endif %}
+                                  </ul>
+                              </nav>
+                          </div>
+                      </div>
+                      
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- header-area end -->
+      <div class="container-fluid mt-5">
+        <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-6">
+                <div id="custom-search-input">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search by Name" id="searchInput">
+                        <span class="input-group-btn">
+                            <button class="btn btn-info" type="button" id="searchButton">
+                                <i class="glyphicon glyphicon-search"></i>Search 
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Product Catalog Section -->
+    <section class="container mt-5">
+        <h2 class="text-center mb-4">Product Catalog</h2>
+        <div class="row">
+            {% for product in stdata %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ product.product_images1.url }}" class="card-img-top" alt="Product Image">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.brand_name }}</h5>
+                            <p class="card-text">{{ product.product_name }}</p>
+                            <p class="card-text">&#8377; {{ product.price }}</p>
+                          
+                          <a href="{% url 'singleview' product.id %}?product_id={{ product.id }}" class="btn btn-success">View Property</a>
+                          <a href="{% url 'add_wishlist' product.id %}" class="btn btn-danger">
+                              <i class="fas fa-heart"></i> 
+                          </a>
+                          <a href="{% url 'add_cart' product.id %}" class="btn btn-success">
+                              <i class="fas fa-shopping-cart"></i> 
+                          </a>
+                          
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-3 text-center">
+        <p>&copy; Your eCommerce Store</p>
+    </footer>
+
+    <!-- Bootstrap JS, jQuery, and other scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

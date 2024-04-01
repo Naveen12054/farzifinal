@@ -1,0 +1,23 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <h1>Result</h1>
+    
+    <img src="{{ image_path.url }}" alt="Uploaded Image">
+    
+
+    <p>
+    {{ latest_predictiona.prediction }}
+    </p>
+    <img src="{{ latest_predictiona.image.url }}" alt="Uploaded Image">
+
+   
+
+
+</body>
+</html>

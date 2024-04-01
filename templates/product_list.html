@@ -1,0 +1,60 @@
+{% load static %}
+
+<div class="navbar">
+  <ul class="nav">
+      {% for product in products3 %}
+      <li class="nav-item ">
+          <a class="nav-link " href="" aria-haspopup="true" aria-expanded="false">
+              {{ product.category_name }}
+          </a>
+          <p>{{ product.category_name }}</p>
+        
+      </li>
+      {% endfor %}
+  </ul>
+</div>
+
+
+
+  <div class="row">
+
+                    {% for product in products %}
+        <div class="col-md-4 mb-5">
+            <div class="card" style="width: 18rem;">
+                {{ product.category_name }}
+                <img src="{{ product.product_images1.url }}" class="card-img-top" style="height: 286px;" alt="...">
+                <div class="card-body">
+                    <a href="{% url 'singleview' product.id %} " style="text-decoration: none;" >
+                    <h6 class="text-dark"><b>{{ product.brand_name }}</b></h6>
+                    <h6 class="text-dark">{{ product.product_name }}</h6>
+                    </a>
+                   <div class="r mt-3" style="display: flex;">
+                    <h6 class="card-text"><b>₹{{ product.price }}</b></h6>
+                    {% if product.id in user_wishlist_ids %}
+                    <a href="{% url 'delete_wishlist' product.id %}">
+                        <i class="bi bi-heart-fill " style="font-size: 2rem;margin-left: 100px; color: rgb(222, 24, 24);"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'add_wishlist' product.id %}">
+                        <i class="bi bi-heart" style="font-size: 2rem;margin-left: 100px; color: rgb(195, 118, 29);"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if product.id in user_cart_ids %}
+                    <a href="{% url 'cart'  %}">
+                        
+                        <img src="{% static 'assets\css\cartfull.png' %}" style=" height: 30px;margin-left: 20px; width: 30px;">            </a>
+                    {% else %}
+                    <a href="{% url 'add_cart' product.id %}">
+                        <i class="bi bi-cart" style="font-size: 2rem; color: rgb(0, 0, 255); margin-left: 20px;"></i>
+                    </a>
+                    {% endif %}
+                   </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+        
+                </div>
+              

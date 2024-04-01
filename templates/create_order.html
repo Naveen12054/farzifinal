@@ -1,0 +1,157 @@
+        <form class="form-sample" method="POST" id="payment-form">
+            {% csrf_token %}
+
+            <p class="card-description">
+                Address
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Full Name:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="name" name="name" class="form-control" value="{{ user.name }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Contact Email:</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control mt-2" id="email" name="email" value="{{ user.email }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Phone Number:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="phone_no" name="phone_no" class="form-control" value="{{ profile.phone_no }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label">Alternate Number:</label>
+                        <div class="col-sm-8 mt-2">
+                            <input type="text" class="form-control mt-2" id="aphone_no" name="aphone_no" value="{{ profile.aphone_no }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address 1:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="addressline1" name="addressline1" value="{{ profile.addressline1 }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Address 2:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="addressline2" name="addressline2" value="{{ profile.addressline2 }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">City:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="city" name="city" value="{{ profile.city }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">District:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="district" name="district" value="{{ profile.district }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">State:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="state" name="state" value="{{ profile.state }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Country:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="country" name="country" value="{{ profile.country }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Pin Code:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="pin_code" name="pin_code" value="{{ profile.pin_code }}" required class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Landmark:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="card-description">
+                Product Details
+            </p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Brand Name:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" class="form-control" value="{{ product.brand_name }}" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Product Name:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" class="form-control" value="{{ product.product_name }}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Price:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="total_amount" name="total_amount" class="form-control" value="{{ product.price }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">Quantity:</label>
+                        <div class="col-sm-9 mt-2">
+                            <input type="text" id="quantity" name="quantity" class="form-control" value="1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <button class="btn btn-success mt-3" type="submit">Continue</button>
+            </div>
+        </form>
