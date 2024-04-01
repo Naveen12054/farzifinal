@@ -17,23 +17,25 @@ from .models import Addressuser, Appointment, DeliveryAgentProfile, FurniturePre
 import os
 from twilio.rest import Client
 from PIL import Image
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
-from tensorflow.keras.applications.inception_v3 import preprocess_input
+# from tensorflow.keras.preprocessing.image import load_img, img_to_array
+# from tensorflow.keras.applications.inception_v3 import preprocess_input
 import numpy as np
-from tensorflow import keras
+# from tensorflow import keras
 
 def preprocess_image(image_path):
     img = Image.open(image_path)
     img = img.resize((376, 339))
     img_array = np.array(img)
     img_array = np.expand_dims(img_array, axis=0)
-    img_array = preprocess_input(img_array)
+    # img_array = preprocess_input(img_array)
     return img_array
 
 def predict(image_path):
     preprocessed_image = preprocess_image(image_path)
-    prediction = model.predict(preprocessed_image)
-    return prediction
+    #prediction = model.predict(preprocessed_image)
+    #return prediction
+    return image_path
+
 
 def seminar2(request):
     predicted_label = None
