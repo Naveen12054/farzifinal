@@ -40,7 +40,7 @@ def userlogin(request):
                             if user.role==1:
                                 auth_login(request,user)
                                 print(user.role)
-                                return redirect('http://127.0.0.1:8000/')
+                                return redirect('index')
                             elif user.role==2:
                                 auth_login(request,user)
                                 print(user.role)
