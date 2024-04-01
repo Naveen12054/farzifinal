@@ -21,15 +21,15 @@ def index(request):
     products3 = Category.objects.filter(status=False)
     products1 = Subcategory.objects.filter(status=False)
     profiles = DeliveryAgentProfile.objects.all()
-    product = Product.objects.get(id=3)
-    print(product)
+    #product = Product.objects.get(id=3)
+    #print(product)
 
     context = {
         'products12': products12, 
         'stdata':stdata,
         'products3':products3,
         'products1':products1,
-        'product':product,
+        #'product':product,
         'profiles':profiles,
     }
     return render(request,'index.html',context)
