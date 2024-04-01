@@ -31,6 +31,7 @@ debugpy==1.6.7
 decorator==5.1.1
 defusedxml==0.7.1
 distlib==0.3.6
+dj-database-url==2.1.0
 Django==4.2.2
 django-allauth==0.54.0
 django-cors-headers==4.3.1
@@ -118,6 +119,7 @@ prometheus-client==0.17.1
 prompt-toolkit==3.0.39
 protobuf==4.23.4
 psutil==5.9.5
+psycopg2==2.9.9
 pure-eval==0.2.2
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
