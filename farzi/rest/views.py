@@ -56,7 +56,7 @@ def seminar2(request):
 
     return render(request, 'seminar2.html', {'predicted_label': predicted_label, 'latest_prediction': latest_prediction})
 
-model = keras.models.load_model('models/furniture_model.h5')
+# model = keras.models.load_model('models/furniture_model.h5')
 def send_whatsapp_message(to, body):
     # Your Twilio account SID and auth token
     account_sid = 'ACdd73defbb24e5f653611d4906eafff25'
