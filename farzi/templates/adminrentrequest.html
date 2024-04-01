@@ -315,7 +315,7 @@
                 Rent 
                 </a> >
                 <a href="{% url 'adminrentdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
-                  Rent Requests
+                  Rent Orders
                   </a> 
               </li>
               
@@ -837,18 +837,34 @@
                             <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.start_date }}</td>
                             <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.end_date }}</td>
                             <td>
-                            {% if appointment.status == 1 %}
-                              <button  class="btn btn-success"  id="submitBtn">Payment Pending</button>
-                            {% endif %}
                             {% if appointment.paid == 1 %}
-                                <button class="btn btn-danger"  id="submitBtn">Confirmed</button>
+                              <button  class="btn btn-success"  id="submitBtn">Confirmed</button>
                             {% endif %}
-                            {% if appointment.status == 0 and appointment.paid == 0 %}
-                            <a href="{% url 'acceptrent' appointment.id %}">
-                              <button class="btn btn-info"  id="submitBtn">Accept</button>
-                            </a>
-                                
+                            {% if appointment.paid == 0 %}
+                                <button class="btn btn-danger"  id="submitBtn">Yet to Pay</button>
                             {% endif %}
+                            
+                            </td>
+                            </tr>
+                        {% endfor %}
+                        
+                        {% for appointment in user_appointment %}
+                        <tr>
+                            <td>{{ appointment.user.name }}</td>
+                            <td>{{ appointment.product }}</td>
+                            <td>{{ appointment.quantity }}</td>
+                            <td>{{ appointment.product.security_deposit }}</td>
+                            <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.price }}</td>
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.start_date }}</td>
+                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.end_date }}</td>
+                            <td>
+                            {% if appointment.paid == 1 %}
+                              <button  class="btn btn-success"  id="submitBtn">Confirmed</button>
+                            {% endif %}
+                            {% if appointment.paid == 0 %}
+                                <button class="btn btn-danger"  id="submitBtn">Yet to Pay</button>
+                            {% endif %}
+                            
                             </td>
                             </tr>
                         {% endfor %}

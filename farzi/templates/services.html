@@ -294,12 +294,12 @@
                             <p>Elevate the longevity and allure of your furniture with our comprehensive maintenance services, expertly designed to preserve the aesthetic and functionality of your pieces through meticulous care, cleaning, and preventive measures.</p>
                             {% if  user.is_authenticated %}
                             {% if user.role == 1 %}
-                            <a href="{% url 'manintenece' %}" class="btn slider-btn uppercase"><span>BOOK APPOINTMENT</span></a>
+                            <a href="{% url 'servicebooking' %}" class="btn slider-btn uppercase"><span>BOOK APPOINTMENT</span></a>
                             {% endif %}
                             {% elif user.is_anonymous %}
                             <a href="{% url 'login' %}" class="btn slider-btn uppercase"><span>SHOP NOW</span></a>
                             {% endif %}
-
+                            
                         </div>
 
                     </div>
@@ -339,7 +339,7 @@
                     <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Date</th>
+                            <th>Preffered Date</th>
                             <th>Time </th>
                             <th>Estimated Cost</th>
                             <th>Description</th>
@@ -354,30 +354,29 @@
                             <td>{{ appointment.date }}</td>
                             <td>{{ appointment.get_time_slot_display }}</td>
                             <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.estimatedcost }}</td>
-                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.desc }}</td>
+                            <td style="max-width: 800px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.desc }}</td>
                             <td>{{ appointment.approved_timestamp }}</td>
-                            <td>{% if appointment.approved == 1 %}
-                              <button  style="background-color: green;color:white;"  id="submitBtn">Approved</button>
-                              <button  style="background-color: blue;color:white;"  id="submitBtn">
-                                Pay Now
-                              </button>
-
-                          {% endif %}
-                          <style>
-                            p {
-                                max-width: 200px;
-                            }
-                        </style>
-                          {% if appointment.rejected == 1 %}
-                              <button class="btn btn-success"  id="submitBtn">Rejected</button>
-                              <p>We regret to inform you that your offer has been rejected. Unfortunately, the required maintenance work cannot be accommodated within the current schedule due to high workload and priority tasks. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment.</p>
-                          {% endif %}
-                          {% if appointment.rejected == 0 and appointment.approved == 0 %}
+                            <td>
+                      {% if appointment.payment_status == 1 %}
+                      <a href="" id="pay-btn" class="btn btn-success mt-3">
+                        Paid
+                      </a>
+                              {% elif appointment.approved == 1 %}
+                              <a href="{% url 'servicepayment' appointment.id %} " id="pay-btn" class="btn btn-success mt-3">
+                              Approved & Pay now
+                                
+                              </a>
+                          {% elif appointment.rejected == 1 and appointment.payment_status == 0%}
+                              <button class="btn btn-success"  id="submitBtn">Rejected By Serive Provider </button>
+                              <p style="width:250px;">We regret to inform you that your offer has been rejected. Unfortunately, the required maintenance work cannot be accommodated within the current schedule due to high workload and priority tasks. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment.</p>
+                          
+                          {% elif appointment.rejected == 0 and appointment.approved == 0 and appointment.payment_status == 0 %}
                               <button class="btn btn-success"  id="submitBtn">Not Yet Reviewed</button>
-                          {% endif %}
                         </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
+
                     </tbody>
                 </table>
             </div>

@@ -47,14 +47,5 @@ urlpatterns = [
     path('create_order/', views.create_order, name='create_order'),
     path('homepage/', views.homepage, name='homepage'),
     path('print_as_pdf/<int:stid2>/', views.print_as_pdf, name='print_as_pdf'),
-    
-
-    
-
-
-
-
-
-    
 
 ]

@@ -323,14 +323,6 @@
           </li>
           {% endif%}
 
-          <li class="nav-item">
-            <div class="user-email text-dark ml-5">
-                <p class="nav-link "><b>{{ user.email }}</b></p> 
-                <div class="sub-tag">
-                  <a href="{% url 'logout' %}" class="mdi mdi-power text-dark me-2" style="text-decoration: none; ">Logout</a>
-                </div>
-            </div>
-        </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
           <span class="mdi mdi-menu"></span>
@@ -442,11 +434,12 @@
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
               <i class="menu-icon mdi mdi-account-circle-outline"></i>
               <span class="menu-title"> 
-                <b>{{user.email}}</b>
+                <b>{{user.name}}</b>
               </span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="auth">
+              
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{% url 'profile' %}"> Profile </a></li>
                 <li class="nav-item"> <a class="nav-link" href="{% url 'user_orders' %}"> Orders </a></li>
@@ -527,7 +520,7 @@
 
 
             </style>
-                    <div class="container mt-5">
+                    <div class="container mt-4">
                         <!--Grid row-->
                         <div class="row" id="pro">
                             <!--Grid column-->
@@ -547,10 +540,10 @@
                                     <a href="/list/sub/{{product.subcategory}}" class="text-decoration-none">
                                         <span class="badge bg-warning text-dark me-1"> {{product.subcategory}}</span>
                                     </a>
-                                        <a href="" class="text-decoration-none">
+                                        {% comment %} <a href="" class="text-decoration-none">
                                             <span class="badge bg-danger text-light me-1">New Arrival</span>
                                         </a>
-                                        
+                                         {% endcomment %}
                                         <!-- <a href="" class="text-decoration-none">
                                             <span class="badge bg-warning text-dark me-1">Bestseller</span>
                                         </a> -->
@@ -563,7 +556,7 @@
                                         <span class="badge bg-secondary text-light me-1"> {{product.length}} x {{product.breadth}} X {{product.height}}</span>
                                     </a> -->
                                     <p>{{product.product_description}}  </p>
-                
+               
                                     <form class="d-flex justify-content-left">
                                         <!-- Default input -->
                                               
@@ -580,18 +573,63 @@
                                           {% endif %}
                                           
                                           {% if product.id in user_cart_ids %}
-                                          <a href="{% url 'cart' %}" class="btn btn-danger mr-3">
+                                          <a href="{% url 'cart' %}" class="btn btn-danger mr-2">
                                               View Cart
                                           </a>
                                           {% else %}
-                                          <a href="{% url 'add_cart1' product.id %}" class="btn btn-danger mr-3">
+                                          <a href="{% url 'add_cart1' product.id %}" class="btn btn-danger mr-2">
                                               Add to Cart
                                           </a>
                                           {% endif %}
                                               {% comment %} <button class="btn  btn btn-success"  id="pay-btn">Buy Now</button> {% endcomment %}
-                                              <a href="{% url 'buyNowComplete' product.id %}" class="btn btn-success mr-3">
+                                              <a href="{% url 'buyNowComplete' product.id %}" class="btn btn-success mr-2">
                                                 Buy Now
                                             </a>
+                                            
+                                              {% if product.user == request.user %}
+                                              <!-- If the property is added by the logged-in user -->
+                                              <span class="btn btn-info disabled">Added by You</span>
+                                              {% elif product in compare_properties %}
+                                              <!-- If the property is already in the compare list -->
+                                              <a href="{% url 'compare_properties' %}" class="btn btn-primary mt-2">Go to Compare</a>
+                                              {% elif disable_compare_button %}
+                                              <!-- If the user cannot add more properties to compare -->
+                                              <span class="btn btn-danger disabled">Cannot add more properties to compare <a
+                                                  href="{% url 'compare_properties' %}" class="btn btn-warning mt-2">Go to Compare</a></span>
+                            
+                                              {% else %}
+                                              <!-- If the property is not added by the logged-in user and not in the compare list -->
+                                              <a href="{% url 'add_to_compare' product.id %}" class="btn btn-warning mt-2">Add to Compare</a>
+                                              {% endif %}
+                                              {% if order_item_exists == 0 %}
+                                              <span style="color: gold;">★
+                                              </span>{{ average_rating|floatformat:2 }}
+                                                
+                                                {% else %}
+                                              {% if review_item_exists == 0 %}
+
+                                                <a class="btn btn-outline-danger btn-icon-text mt-2" href="{% url 'feedback_page' product.id %}">
+                                                  <i class="ti-upload btn-icon-prepend">
+                                                      Post a Review
+                                                  </i>
+                                                  
+                                              </a>
+                                              {% else %}
+                                              <a class=" text mt-2" style="text-decoration: none;" href="{% url 'feedback_page' product.id %}">
+                                                <span style="color: gold;">★
+                                                </span>{{ average_rating|floatformat:2 }}
+                                                
+                                            </a>
+                                            
+                                              {% endif %}
+                                              
+                                            
+                                                
+
+
+                                            {% endif %}
+
+                                        
                                           {% endif%}
                                           {% if user.role == 4 %}
                                           
@@ -752,7 +790,29 @@
                 </script>
                 <!--Main layout-->
                 
-
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const alertType = urlParams.get('alert');
+              
+                    if (alertType === 'Details_Emailed') {
+                      <!-- showAlert('Details Emailed', 'success'); -->
+                    }
+              
+                    function showAlert(message, alertType) {
+                      const alertDiv = document.createElement('div');
+                      alertDiv.classList.add('alert', alert-${alertType}, 'alert-top');
+                      alertDiv.textContent = message;
+              
+                      const container = document.querySelector('.container');
+                      container.insertBefore(alertDiv, container.firstChild);
+              
+                      setTimeout(function () {
+                        alertDiv.remove();
+                      }, 5000);  // Remove after 5 seconds
+                    }
+                  });
+                </script>
 
             </div>
           </div>

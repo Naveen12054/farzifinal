@@ -306,9 +306,16 @@
         </div>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
-        <ul class="navbar-nav text-center">
-          <h2 class="text-dark "><b>Admin Dashboard</b></h2>
-        </ul>
+        <ul class="navbar-nav text-center ">
+          <li class="nav-item "> 
+              <a href="{% url 'admindashboard' %}" class="btn btn-link text-muted " style="text-decoration:none"; >
+                  Admin Dashboard
+                </a> >
+              <a href="{% url 'adminserviceprovider' %}" class="btn btn-link text-muted " style="text-decoration:none";>
+                Services
+                </a> 
+              </li>
+      </ul>
         <ul class="navbar-nav ms-auto">
           
           <!-- <li class="nav-item d-none d-lg-block">
@@ -790,7 +797,7 @@
           <thead>
             <tr>
               <th>User</th>
-              <th>Date</th>
+              <th>Preffered Date</th>
               <th>Time </th>
               <th>Estimated Cost</th>
               <th>Description</th>
@@ -799,30 +806,39 @@
             </tr>
           </thead>
           <tbody>
-            {% for appointment in user_appointments %}
-
-            <tr>
-            <td>{{ appointment.user.name }}</td>
-
-            <td>{{ appointment.date }}</td>
-                            <td>{{ appointment.get_time_slot_display }}</td>
-                            <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.estimatedcost }}</td>
-                            <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ appointment.desc }}</td>
-                            
-                            <td>{% if appointment.approved == 1 %}
-                              <button  class="btn btn-success"  id="submitBtn">Approved</button>
-                              
-
-                          {% endif %}
-                          {% if appointment.rejected == 1 %}
-                              <button class="btn btn-danger"  id="submitBtn">Rejected</button>
-                          {% endif %}
-                          {% if appointment.rejected == 0 and appointment.approved == 0 %}
-                              <button class="btn btn-info"  id="submitBtn">Not Yet Reviewed</button>
-                          {% endif %}
-                        </td>
-                        </tr>
-                        {% endfor %}
+            {{timezone.now}}
+            {% for paid in done %}
+                        <tr>
+                        <td>{{ paid.user.name }}</td>
+                        <td>{{ paid.date }}</td>
+                                        <td>{{ paid.get_time_slot_display }}</td>
+                                        <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ paid.estimatedcost }}</td>
+                                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ paid.desc }}</td>
+                                        <td>
+                                          
+                                          {% if appointment.date <= timezone.now %}
+                                              Completed
+                                          {% else %}
+                                              Pending
+                                          {% endif %}
+                                          <button  class="btn btn-success"  id="submitBtn">Service done on{{ paid.date }}</button>
+                                    </td>
+                                    </tr>
+            {% endfor %}
+            {% for paid in doneservice %}
+                        <tr>
+                        <td>{{ paid.user.name }}</td>
+                        <td>{{ paid.date }}</td>
+                                        <td>{{ paid.get_time_slot_display }}</td>
+                                        <td style="max-width: 10px; overflow: hidden; text-overflow: ellipsis;">{{ paid.estimatedcost }}</td>
+                                        <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">{{ paid.desc }}</td>
+                                        <td>
+                                          <button  class="btn btn-success"  id="submitBtn">Paid</button>
+                                    </td>
+                                    </tr>
+            {% endfor %}
+            
+                        
           </tbody>
         </table>
         <div class="clearfix">
@@ -843,7 +859,51 @@
             <!-- Rest of your HTML code -->
           </div>
         </div>
+        
       </div>
+      <canvas class="delivery_canvas" id="myChart2" height="500px" width="500px"></canvas>
+    <script>
+        // Retrieve chart data from the template variable
+        var chartData = JSON.parse('{{ chart_data_json|escapejs }}');
+        var datasets = [{
+            'label': 'Appointments Count',
+            'data': counts,
+            'backgroundColor': [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            'borderColor': 'rgba(75, 192, 192, 1)',
+            'borderWidth': 1
+        }]
+        // Extract labels and datasets
+        var labels = chartData.labels;
+        var datasets = chartData.datasets;
+
+        // Create chart using Chart.js
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+      
     </div>
 </body>
 <script>

@@ -345,7 +345,7 @@
                             <i class="icon-pencil primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'salesadmin' %}" style="text-decoration: none; color: black;"> Report</a> </b></h4>
+                            <h4><b><a href="{% url 'salesadmin' %}" style="text-decoration: none; color: black;"> Sales Log</a> </b></h4>
                             <span>Sales Tracking</span>
                           </div>
                           <div class="align-self-center">
@@ -367,8 +367,8 @@
                             <i class="icon-rocket danger font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'serviceadmin' %}" style="text-decoration: none; color: black;">Services</a> </b></h4>
-                            <span>View the service requests.</span>
+                            <h4><b><a href="{% url 'serviceadmin' %}" style="text-decoration: none; color: black;">Services Log</a> </b></h4>
+                            <span>View the services.</span>
                           </div>
                           <div class="align-self-center"> 
                             <!-- <h1>84,695</h1> -->
@@ -380,7 +380,7 @@
                 </div>
               </div>
             
-              <div class="row ">
+              {% comment %} <div class="row ">
                 <div class="col-xl-6 col-md-12">
                   <div class="card overflow-hidden">
                     <div class="card-content">
@@ -423,7 +423,7 @@
                 
             
               </div>
-                  
+                   {% endcomment %}
 
             </div>
           </div>

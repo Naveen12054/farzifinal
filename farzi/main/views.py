@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseNotFound, JsonResponse
 from django.urls import reverse
 from accounts.models import Product,CustomUser,SellerProfile,Category,Subcategory,UserProfile
-from rest.models import DeliveryAgentProfile
+from serviceapp.models import CompareProduct, Feedback
+from rest.models import Addressuser, DeliveryAgentProfile
 from main.models import BookCart,Wishlist,Payment,OrderItem,Order
 import razorpay
 from django.conf import settings
@@ -78,19 +79,25 @@ def decrease_item(request, item_id):
         pass  # Handle the case when the item does not exist in the cart
 
     return redirect('cart')
-
+from django.db.models import Avg
 def singleview(request, product_id):
     products3 = Category.objects.filter(status=False)
     products1 = Subcategory.objects.all()
-    
     user_wishlist = Wishlist.objects.filter(user=request.user)
     user_wishlist_ids = [item.product.id for item in user_wishlist]
-
+    compare_properties = CompareProduct.objects.filter(user=request.user).first()
+    compare_property_list = compare_properties.products.all() if compare_properties else []
     # Fetch products in the user's cart
     user_cart = BookCart.objects.filter(user=request.user)
     user_cart_ids = [item.product.id for item in user_cart]
     # Get the product or return a 404 error if not found
     product = get_object_or_404(Product, id=product_id)
+    star=Feedback.objects.filter(product=product)
+    average_rating = star.aggregate(Avg('rating'))['rating__avg']
+    ratingin=5
+    order_item_exists = OrderItem.objects.filter(user=request.user, product=product).exists()
+    review_item_exists = Feedback.objects.filter(userprofile=request.user, product=product).exists()
+
     
     # Set currency and amount (you can customize these values)
     currency = 'INR'
@@ -108,6 +115,7 @@ def singleview(request, product_id):
         payment_capture='0'
     ))
 
+    rating_range = range(1, 6)
     # Get the order id of the newly created order
     razorpay_order_id = razorpay_order['id']
 
@@ -125,6 +133,13 @@ def singleview(request, product_id):
         'products3':products3,
         'user_wishlist_ids': user_wishlist_ids,
         'user_cart_ids': user_cart_ids,
+        'compare_properties': compare_property_list,
+        'star':star,
+        'order_item_exists':order_item_exists,
+        'average_rating':average_rating,
+        'ratingin':ratingin,
+        'review_item_exists':review_item_exists,
+        'rating_range':rating_range,
         'products1':products1  # Include the product in the context
     }
 
@@ -582,15 +597,46 @@ def get_subcategories(request):
     subcategory_names = [subcategory.name for subcategory in subcategories]
 
     return JsonResponse(subcategory_names, safe=False)
+from collections import Counter
+import json
+from django.db.models import Count
+from django.db.models import Sum
 def salesadmin(request):
     # Query the Order model and include related models (Product and User)
-    orders = Payment.objects.all()
-    orders1 = OrderItem.objects.all()
+    successful_payments = Payment.objects.filter(payment_status=Payment.PaymentStatusChoices.SUCCESSFUL)
+    orders = OrderItem.objects.filter(order__in=successful_payments)
+    categories = set(order.product.category.category_name for order in orders)
+    # Count occurrences of each category
+    category_counts = {category: sum(1 for order in orders if order.product.category.category_name == category) for category in categories}
+    for category, count in category_counts.items():
+        print(f"{category}: {count}")
+    category_counts_json = json.dumps(category_counts)    
+    order = OrderItem.objects.all()
+    orders1 = OrderItem.objects.filter(order__in=successful_payments)
+    orders = OrderItem.objects.filter(order__in=successful_payments)
+    total_price_sum = orders.aggregate(total_price_sum=Sum('total_price'))['total_price_sum']
+    total_arts_uploaded=orders1.count()
+    totalorderscount=orders.count()
+    ordercount=order.count()
+    successful_orders = Payment.objects.filter(payment_status=Payment.PaymentStatusChoices.SUCCESSFUL).values('user__name').annotate(order_count=Count('id'))
 
+    # Print the results
+    for order in successful_orders:
+        print(f"User: {order['user__name']}, Successful Orders Count: {order['order_count']}")
     
+    successful_order = Payment.objects.filter(payment_status=Payment.PaymentStatusChoices.SUCCESSFUL).values('user__name').annotate(order_count=Count('id')).order_by('-order_count')
+
     context = {
         'orders': orders,
-        'orders1':orders1
+        'orders1':orders1,
+        'total_arts_uploaded':total_arts_uploaded,
+        'totalorderscount':totalorderscount,
+        'ordercount':ordercount,
+        'category_counts':category_counts,
+        'category_counts_json':category_counts_json,
+        'total_price_sum':total_price_sum,
+        'successful_order':successful_order,
+        
     }
     return render(request, 'salesadmin.html', context)
 def seminar(request):
@@ -768,8 +814,10 @@ def homepage(request):
 
 def checkout_complete(request):
     user = request.user
+    
     #\cart = get_object_or_404(AddCart, user=user)
     cart_items = BookCart.objects.filter(user=user)
+    products = BookCart.objects.filter(user=user)
     profile = UserProfile.objects.get(user=user) 
     if not cart_items:
         return render(request, 'order1.html')
@@ -848,15 +896,21 @@ def checkout_complete(request):
         'callback_url': callback_url,
         'profile':profile,
         'user':user,
+        'products':products,
+        
+
     }
 
     return render(request, 'order1.html', context)
 ##############single product##########
+
 def buyNowComplete(request, product_id):
+    
     user = request.user
+    profile = get_object_or_404(UserProfile, user=user) 
     
-    profile = UserProfile.objects.get(user=user) 
-    
+
+
 
     try:
         
@@ -864,11 +918,7 @@ def buyNowComplete(request, product_id):
         total_price = Decimal(product.price * 1)
         print(total_price)
         amount = int(total_price * 100)
-        # Convert total price to paise and round to 2 decimal places
-        # amount_in_paise = int(total_price * 100)
-        # rounded_amount = Decimal(amount_in_paise).quantize(Decimal('1.00'))
-
-        # Create a Razorpay Order
+        
         razorpay_order = razorpay_client.order.create(dict(
             amount=amount,
             currency='INR',
@@ -898,18 +948,13 @@ def buyNowComplete(request, product_id):
             
         )
         
-        # payment.products.add(product)  # Add the product to the Payment object
-
-        # # Save the Payment to generate a Payment ID
-        # payment.save()
-        
-        # Save the order to generate an order ID
         order.save()
         cart_items=Product.objects.get(id=product_id)
         print("echo")
         if request.method == 'POST':
             name = request.POST.get('name')
             email = request.POST.get('email')
+            selected_address_id = request.POST.get('selected_address')
             phone_no = request.POST.get('phone_no')
             aphone_no = request.POST.get('aphone_no')
             addressline1 = request.POST.get('addressline1')
@@ -919,8 +964,10 @@ def buyNowComplete(request, product_id):
             state = request.POST.get('state')
             country = request.POST.get('country')
             pin_code = request.POST.get('pin_code')
-            print(city)
-            print("city")
+            selected_address = Addressuser.objects.get(id=selected_address_id)
+            print(selected_address)
+            print("addressssssss")
+            
             # Create a new OrderItem instance with the form data
             order_item1 = OrderItem(
                 user=request.user,  # Assuming you have a logged-in user
@@ -934,6 +981,7 @@ def buyNowComplete(request, product_id):
                 district=district,
                 state=state,
                 country=country,
+                address=selected_address,
                 pin_code=pin_code
             )
             order_item1.save()
@@ -949,6 +997,7 @@ def buyNowComplete(request, product_id):
             'currency': 'INR',
             'callback_url': callback_url,
             'profile':profile,
+            
 
         }
 

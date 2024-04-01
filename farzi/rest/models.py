@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import date, datetime
 from django.db import models
+from django.dispatch import receiver
 from django.utils import timezone
 from jsonschema import ValidationError
 from accounts.models import Category, CustomUser
@@ -55,7 +56,7 @@ class Furniturerent(models.Model):
     product_code = models.CharField(max_length=255)
     category = models.CharField(max_length=255,null=True)
     description = models.TextField()
-    condition= models.CharField(max_length=100)
+    stock= models.CharField(max_length=100)
     product_images1 = models.FileField(upload_to='sample/', null=True, blank=True, max_length=255)
     product_images2 = models.FileField(upload_to='sample/', null=True, blank=True, max_length=255)
     product_images3 = models.FileField(upload_to='sample/', null=True, blank=True, max_length=255)
@@ -93,6 +94,7 @@ class Rent(models.Model):
     status=models.BooleanField(max_length=555,default=False)
     rejected=models.BooleanField(max_length=555,default=False)
     paid=models.BooleanField(max_length=555,default=False)
+    deliverystatus=models.BooleanField(default=False)
 
 
 class deliveryagent(models.Model):
@@ -108,23 +110,12 @@ class deliveryagent(models.Model):
 
     def __str__(self):
         return self.name
-class deliveryagentcantidates(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField()
-    pin = models.CharField(max_length=6)
-    mobile = models.CharField(max_length=10)
-    status=models.BooleanField(default=False)
-    rejected=models.BooleanField(default=False)
 
-
-
-    def __str__(self):
-        return self.name
 
 
 class DeliveryAgentProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
+    profile_photo = models.FileField(upload_to='profile_photos/', null=True, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     latitude = models.CharField(max_length=50)
@@ -136,6 +127,12 @@ class DeliveryAgentProfile(models.Model):
     routing_number = models.CharField(max_length=20)
     max_delivery_distance = models.PositiveIntegerField()
     emergency_contact = models.CharField(max_length=15)
+    status=models.BooleanField(default=False)
+    rejected=models.BooleanField(default=False)
+    accepted=models.BooleanField(default=False)
+    pin = models.CharField(max_length=6, default='000000')  # Default pin value
+    mobile = models.CharField(max_length=10, default='0000000000')
+
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}'s Profile"
@@ -165,7 +162,7 @@ class Appointment(models.Model):
         created_date = models.DateTimeField(auto_now_add=True, null=True)
         modified_date = models.DateTimeField(auto_now=True, null=True)
         cancelled_date = models.DateTimeField(null=True, blank=True)
-        payment_status= models.BooleanField(default=True)
+        payment_status= models.BooleanField(default=False)
         status=models.BooleanField(default=False)
         status1=models.BooleanField(default=False)
         approved=models.BooleanField(default=False)
@@ -184,8 +181,23 @@ class Appointment(models.Model):
 
         def str(self):
             return f"Appointment with {self.client.name}  on {self.date} at {self.get_time_slot_display()}"
-        def save(self, *args, **kwargs):
-            if self.payment_status == False:
-                # Set the time_slot field to None when status is 'not_paid'
-                self.time_slot = None
-            super(Appointment, self).save(*args, **kwargs)
+from django.db.models.signals import pre_save
+class ServiceBooking(models.Model):
+    
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=None)
+    desc = models.CharField(max_length=255, default='')
+    location = models.CharField(max_length=255, default='')
+    mobile = models.IntegerField(default=0)
+    pet_weight = models.FloatField(default=0.0)
+    date = models.DateField(null=True)
+    time_slot = models.CharField(max_length=50, default='')
+    accepted = models.BooleanField(default=False)
+    rejected = models.BooleanField(default=False)
+    paid = models.BooleanField(default=False)
+    done = models.BooleanField(default=False)
+    rejectionreason = models.CharField(max_length=255, default='')
+    estimatedcost = models.CharField(max_length=10,default='0')
+
+
+
+        

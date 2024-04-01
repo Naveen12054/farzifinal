@@ -204,10 +204,10 @@
               <a href="{% url 'adminuserdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
                 Manage Users
                 </a> >
-                <a href="{% url 'adminuserdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
+                <a href="{% url 'admindeliveryagentsdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
                   Delivery Agents
                   </a> >
-                  <a href="{% url 'adminuserdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
+                  <a href="{% url '' %}" class="btn btn-link text-muted " style="text-decoration:none";>
                     Profiles
                     </a>
               </li>
@@ -316,11 +316,11 @@
                     <div class="container">
                         <div class="row text-center">
                     
-                            {% for user in common_users %}
-                            {% if  user.deliveryagent.status == 1 and user.deliveryagent.rejected == 0 %}
+                            {% for delivery in delivery %}
+                            {% if  delivery.accepted == 1  %}
                             <!-- Team item --><div class="col-sm-6 mb-5">
                               <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-team/teacher-7.jpg" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                                <h5 class="mb-0">{{ user.deliveryagent.name }}</h5>
+                                <h5 class="mb-0">{{ delivery.user }}</h5>
                                 <span class="small text-uppercase text-muted">Mobile: {{ user.deliveryagent.mobile }}</span><br>
                                 <span class="small text-uppercase text-muted">Pin: {{ user.deliveryagent.pin }}</span><br>
                                 <span class="small text-uppercase text-muted">
@@ -342,81 +342,9 @@
 
                                 <ul class="social mb-0 list-inline mt-3">
                                   <li class="list-inline-item">
-                                    <a href="{% url 'update_status_accept' user.deliveryagent.id %}" class="social-link" >
+                                    <a href="{% url 'update_status_accept' delivery.id %}" class="social-link" >
                                         Assignments
                                     </a>
-                                </li>
-                                </ul>
-                            </div>
-                        </div>
-                        {% elif  user.deliveryagent.status == 0 and user.deliveryagent.rejected == 0 %}
-                        <div class="col-sm-6 mb-5">
-                          <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-team/teacher-7.jpg" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                              <h5 class="mb-0">{{ user.deliveryagent.name }}</h5>
-                              <span class="small text-uppercase text-muted">Mobile: {{ user.deliveryagent.mobile }}</span><br>
-                              <span class="small text-uppercase text-muted">Pin: {{ user.deliveryagent.pin }}</span><br>
-                              <span class="small text-uppercase text-muted">
-                                  Driving Lisence: {{ user.deliveryagentprofile.first_name }}
-                              </span><br>
-                              <span class="small text-uppercase text-muted">
-                                Longitude cordinates: {{ user.deliveryagentprofile.longitude }}
-                              </span><br>
-                              <span class="small text-uppercase text-muted">
-                                Latitude cordinates: {{ user.deliveryagentprofile.latitude }}
-                            </span><br>
-                              <span class="small text-uppercase text-muted">Max Delivery Distance: {{ user.deliveryagentprofile.max_delivery_distance }}</span><br>
-                              <span class="small text-uppercase text-muted">Emergency Contact: {{ user.deliveryagentprofile.emergency_contact }}
-                              </span><br>
-                              <span class="small text-uppercase text-muted">Banking Name: {{ user.deliveryagentprofile.banking_name }}
-                              </span><br><span class="small text-uppercase text-muted">Account Number: {{ user.deliveryagentprofile.account_number }}
-                              </span><br><span class="small text-uppercase text-muted">Routing Number: {{ user.deliveryagentprofile.routing_number }}
-                              </span><br>
-
-                              <ul class="social mb-0 list-inline mt-3">
-                                <li class="list-inline-item">
-                                  <a href="{% url 'update_status_accept' user.deliveryagent.id %}" class="social-link" >
-                                      <img src="{% static 'img\tick.png' %}" style="height: 20px;" alt="hai">
-                                  </a>
-                              </li>
-                              
-                              
-                                  <li class="list-inline-item"><a href="{% url 'update_status_reject' user.deliveryagent.id %}" class="social-link">
-                                  <img src="{% static 'img\close.png' %}" style="height: 20px;" alt="hai">
-
-                                                </a></li>
-                                  
-                              </ul>
-                          </div>
-                      </div>
-                            
-                            {% else %}
-                             <!-- Team item --><div class="col-sm-6 mb-5">
-                              <div class="bg-white rounded shadow-sm py-5 px-4"><img src="https://bootstrapious.com/i/snippets/sn-team/teacher-7.jpg" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
-                                <h5 class="mb-0">{{ user.deliveryagent.name }}</h5>
-                                <span class="small text-uppercase text-muted">Mobile: {{ user.deliveryagent.mobile }}</span><br>
-                                <span class="small text-uppercase text-muted">Pin: {{ user.deliveryagent.pin }}</span><br>
-                                <span class="small text-uppercase text-muted">
-                                    Driving Lisence: {{ user.deliveryagentprofile.first_name }}
-                                </span><br>
-                                <span class="small text-uppercase text-muted">
-                                  Longitude cordinates: {{ user.deliveryagentprofile.longitude }}
-                                </span><br>
-                                <span class="small text-uppercase text-muted">
-                                  Latitude cordinates: {{ user.deliveryagentprofile.latitude }}
-                              </span><br>
-                                <span class="small text-uppercase text-muted">Max Delivery Distance: {{ user.deliveryagentprofile.max_delivery_distance }}</span><br>
-                                <span class="small text-uppercase text-muted">Emergency Contact: {{ user.deliveryagentprofile.emergency_contact }}
-                                </span><br>
-                                <span class="small text-uppercase text-muted">Banking Name: {{ user.deliveryagentprofile.banking_name }}
-                                </span><br><span class="small text-uppercase text-muted">Account Number: {{ user.deliveryagentprofile.account_number }}
-                                </span><br><span class="small text-uppercase text-muted">Routing Number: {{ user.deliveryagentprofile.routing_number }}
-                                </span><br>
-
-                                <ul class="social mb-0 list-inline mt-3">
-                                  <li class="list-inline-item">
-                                        <p class="text-danger">
-                                        Cantidate Rejected  by Admin!
-                                        </p>
                                 </li>
                                 </ul>
                             </div>

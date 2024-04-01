@@ -45,123 +45,103 @@
         <div class="col-12 grid-margin">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title" style="margin-left: 40%;">You are almost there..</h4>
+                <h4 class="card-title" style="margin-left: 40%;">Confirm Your Order..</h4>
                 <!-- <p class="card-description " style="margin-left: 50%;">
                     Address
                 </p> -->
                 <form class="form-sample" method="POST" id="payment-form" >
                   {% csrf_token %}
                   
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Full Name:</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="name" name="name" class="form-control" value="{{ user.name }}">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Contact Email:</label>
-                              <div class="col-sm-9">
-                                  <input type="email" class="form-control mt-2" id="email" name="email" value="{{ user.email }}">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  {% comment %} <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Phone Number:</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="phone_no" name="phone_no" class="form-control" value="{{ profile.phone_no }}">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-4 col-form-label">Alternate Number:</label>
-                              <div class="col-sm-8 mt-2">
-                                  <input type="text" class="form-control mt-2" id="aphone_no" name="aphone_no" value="{{ profile.aphone_no }}">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Address 1</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="addressline1" name="addressline1" value="{{ profile.addressline1 }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Address 2</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="addressline2" name="addressline2" value="{{ profile.addressline2 }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                  </div> {% endcomment %}
-                  {% comment %} <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">City</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="city" name="city" value="{{ profile.city }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">District</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="district" name="district" value="{{ profile.district }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">State</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="state" name="state" value="{{ profile.state }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Country</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="country" name="country" value="{{ profile.country }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                  </div> {% endcomment %}
-                  {% comment %} <div class="row">
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Pin Code</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" id="pin_code" name="pin_code" value="{{ profile.pin_code }}" required class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-md-6">
-                          <div class="form-group row">
-                              <label class="col-sm-3 col-form-label">Landmark</label>
-                              <div class="col-sm-9 mt-2">
-                                  <input type="text" class="form-control">
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                   {% endcomment %}
-                  
+                  <div class="container d-flex justify-content-center align-items-center mb-5">
+                    <div class="card mb-3" style="max-width: 740px;">
+                        <p class="card-text">
+                            <small class="text-muted d-block mt-3 mx-auto text-center">My Delivery Address</small>
+
+                        </p>
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{% static 'img\delivery.png' %}" alt="Trendy Pants and Shoes" class="img-fluid rounded-start">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ user.name }}</h5>
+                                    <p class="card-text">
+                                        {{ profile.addressline1 }}, {{ profile.addressline2 }},<br/>
+                                        {{ profile.city }}, {{ profile.district }},<br/>
+                                        {{ profile.state }}, {{ profile.country }},<br/>
+                                        {{ profile.pin_code }},<br/>
+                                        {{ profile.phone_no }}, {{ profile.aphone_no }}<br/>
+
+                                    </p>
+                                    <p class="card-text">
+                                        <small class="text-muted">Date: {% now "Y-m-d H:i:s" %}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="container">
+                    <div class="row">
+                        <p class="card-text">
+                            <small class="text-muted d-block mx-auto text-center">My Products</small>
+                        </p>
+                        {% for products in products %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card" style="max-width: 540px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{{ products.product.product_images1.url }}" alt="Trendy Pants and Shoes" class="img-fluid rounded-start">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ products.product }}</h5>
+                                            <p class="card-text">
+                                                Brand Name: {{ products.product.brand_name }}<br>
+                                                Price: {{products.product.price}}<br>
+                                                Quantity: {{products.quantity}}<br>
+                                            </p>
+                                            {% comment %} <p class="card-text">
+                                                <small class="text-muted">Last updated 3 mins ago</small>
+                                            </p> {% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            
+            
+                  {% if product.id > 0 %}
+                  <div class="container d-flex justify-content-center align-items-center ">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{{ product.product_images1.url }}" alt="Trendy Pants and Shoes" class="img-fluid rounded-start">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product }}</h5>
+                                    <p class="card-text">
+                                        Brand Name: {{ product.brand_name }}<br>
+                                        Price: {{product.price}}<br>
+                                        Quantity: 1<br>
+                                    </p>
+                                    {% comment %} <p class="card-text">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </p> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+                  {% endif %}
+
+
                   <div class="mb-3 text-center">
                     
                       <button class="btn btn-success mt-3" type="submit" id="pay-btn">Place order</button>

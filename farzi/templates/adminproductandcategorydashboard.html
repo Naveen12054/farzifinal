@@ -209,8 +209,8 @@
                 <a href="{% url 'admindashboard' %}" class="btn btn-link text-muted " style="text-decoration:none"; >
                     Admin Dashboard
                   </a> >
-                <a href="{% url 'adminrentdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none";>
-                  Rent
+                <a href="" class="btn btn-link text-muted " style="text-decoration:none";>
+                  Categories and Products
                   </a> 
                 </li>
         </ul>
@@ -377,7 +377,7 @@
               </div>
             
               <div class="row ">
-                <div class="col-xl-6 col-md-12">
+                {% comment %} <div class="col-xl-6 col-md-12">
                   <div class="card overflow-hidden">
                     <div class="card-content">
                       <div class="card-body cleartfix">
@@ -396,7 +396,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> {% endcomment %}
             
                 <div class="col-xl-6 col-md-12">
                   <div class="card">
@@ -421,7 +421,7 @@
             
               </div>
               
-            
+{% comment %}             
               
               <span class="text-black">
                 Number Of Users
@@ -436,7 +436,7 @@
                       </span>
                       <span >{{ count1 }}</span>
                       
-                  
+                   {% endcomment %}
 
             </div>
           </div>

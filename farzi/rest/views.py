@@ -1,5 +1,6 @@
 
 from datetime import date as _Date, timezone
+import json
 import time
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
@@ -10,8 +11,9 @@ from html5lib import serialize
 from sympy import Q
 from accounts.models import Category, CustomUser, Product
 from accounts.views import User
+from main.models import OrderItem, Payment
 from rest.forms import AppointmentForm
-from .models import Addressuser, Appointment, DeliveryAgentProfile, FurniturePrediction, Furniturerent, Rent, deliveryagent, deliveryagentcantidates
+from .models import Addressuser, Appointment, DeliveryAgentProfile, FurniturePrediction, Furniturerent, Rent, ServiceBooking, deliveryagent
 import os
 from twilio.rest import Client
 from PIL import Image
@@ -108,11 +110,11 @@ def check_availability(request):
 
 def rentuser(request,t_id):
     user=request.user
+    error_message=''
     app = get_object_or_404(Furniturerent, id=t_id)
     furniture = Furniturerent.objects.all()
     add = Addressuser.objects.filter(user=user)
-    print("first vheck")
-    max_quantity = app.condition
+    max_quantity = int(app.stock)
     print(max_quantity)
     if request.method == 'POST':
         print("Testing")
@@ -123,32 +125,53 @@ def rentuser(request,t_id):
         end_date = request.POST.get('enddate-chair')
         product_id = t_id  # Assuming it's hardcoded for now, you may need to modify this
         product_price = app.rental_price  # Assuming it's hardcoded for now, you may need to modify this
+        existing_booking = Rent.objects.filter(
+                product_id=product_id,
+                start_date__range=(start_date, end_date),
+                end_date__range=(start_date, end_date),
+            )
         
+        count = 0  # Initialize count before the loop
+        for existing_booking in existing_booking:  # Assuming 'existing_bookings' is the list of bookings
+            count += existing_booking.quantity  # Increment count by the quantity of each booking
+            print(existing_booking.quantity)
+            
+        print("Total sum:", count)  # Print the total sum after the loop completes
+        availablestock=max_quantity - count
+        print("Total sum:",availablestock)
+        # print("Heloo errro")
+        # print(existing_booking)
+        # print("Heloo errro")
+
+        if availablestock < quantity:
+            error_message = f"Only {availablestock} slots are available"
+            
         # Retrieve the selected address
-        selected_address = Addressuser.objects.get(id=selected_address_id)
-        
-        # Calculate price
-        # Assuming product price is hardcoded for now, you may need to modify this
-        price_per_day = product_price
-        days_difference = (datetime.strptime(end_date, '%Y-%m-%d') - datetime.strptime(start_date, '%Y-%m-%d')).days
-        total_price = price_per_day * days_difference * quantity
-        print("hai")
-        print(total_price)
-        # Create Rent object
-        rent = Rent.objects.create(
-            user=user,  # Assuming the user is logged in and you have a way to retrieve the user
-            address=selected_address,
-            product_id=product_id,
-            quantity=quantity,
-            price=total_price,
-            start_date=start_date,
-            end_date=end_date,
-            status=False,  # Assuming the initial status is False
-            paid=False  # Assuming the initial paid status is False
-        )
-        rent.save()
-        return redirect('index')
-    return render(request, "rentuser.html",{'furniture': furniture,'app':app,'add':add,'max_quantity':max_quantity})
+        else:
+            selected_address = Addressuser.objects.get(id=selected_address_id)
+            
+            # Calculate price
+            # Assuming product price is hardcoded for now, you may need to modify this
+            price_per_day = product_price
+            days_difference = (datetime.strptime(end_date, '%Y-%m-%d') - datetime.strptime(start_date, '%Y-%m-%d')).days
+            total_price = price_per_day * days_difference * quantity
+            print("hai")
+            print(total_price)
+            # Create Rent object
+            rent = Rent.objects.create(
+                user=user,  # Assuming the user is logged in and you have a way to retrieve the user
+                address=selected_address,
+                product_id=product_id,
+                quantity=quantity,
+                price=total_price,
+                start_date=start_date,
+                end_date=end_date,
+                status=False,  # Assuming the initial status is False
+                paid=False  # Assuming the initial paid status is False
+            )
+            rent.save()
+            return redirect('userrentsttaus')
+    return render(request, "rentuser.html",{'furniture': furniture,'app':app,'add':add,'max_quantity':max_quantity,'error_message':error_message})
 
 
 
@@ -360,15 +383,7 @@ def addrent(request):
 import string
 import secrets
 
-def generate_random_password():
-    alphabet = string.ascii_letters + string.digits + string.punctuation
-    while True:
-        password = ''.join(secrets.choice(alphabet) for i in range(8))
-        if (any(c.islower() for c in password) and
-            any(c.isupper() for c in password) and
-            any(c.isdigit() for c in password) and
-            any(c in string.punctuation for c in password)):
-            return password
+
         
 def deliveryagentadmin(request,appointment_id):
     app = get_object_or_404(deliveryagentcantidates, id=appointment_id)
@@ -417,20 +432,6 @@ def deliveryagentadmin(request,appointment_id):
                 print(f'Failed to send message: {message_id}')
 
 
-
-            email_subject = 'Registration Successful'
-            email_body = f'Thank you for registering as a delivery agent. Your password is: {password}\n\n'
-            email_body += f'Click on the following link to complete your profile:\nhttp://127.0.0.1:8000/accounts/login/'
-
-            send_mail(
-                email_subject,
-                email_body,
-                email,  # Use the provided email address as the sender
-                [email],
-                fail_silently=False,
-            )
-            
-            
             return redirect('spage')
         except Exception as e:
             return JsonResponse({'error_message': str(e)}, status=400)
@@ -468,6 +469,15 @@ def seller(request):
     return render(request, 'seller.html')
 
 def deliveryagentprofile(request):
+    user=request.user
+    delivery_agents1=get_object_or_404(deliveryagent, user=user)
+    delivery_agents = deliveryagent.objects.filter(user=user)
+    pin1=delivery_agents1.pin
+    mobile1=delivery_agents1.mobile
+    print("hai")
+    print(pin1)
+    print("hello")
+
     if request.method == 'POST':
         # Extract data from the request.POST dictionary
         first_name = request.POST.get('first_name')
@@ -481,6 +491,8 @@ def deliveryagentprofile(request):
         max_delivery_distance = request.POST.get('max_delivery_distance')
         emergency_contact = request.POST.get('emergency_contact')
         current_date = _Date.today()
+        profile_photo = request.FILES.get('profile_photo')
+        print(profile_photo)
         # Create DeliveryAgentProfile instance and save to the database
         profile = DeliveryAgentProfile.objects.create(
             user=request.user,  # Assuming you have a User model linked to the DeliveryAgentProfile
@@ -494,51 +506,120 @@ def deliveryagentprofile(request):
             account_number=account_number,
             routing_number=routing_number,
             max_delivery_distance=max_delivery_distance,
-            emergency_contact=emergency_contact
+            emergency_contact=emergency_contact,
+            profile_photo=profile_photo,
+            pin=pin1,
+            mobile=mobile1
         )
         return redirect('deliveryagentdashboard')  # Redirect to a success page or any other desired page
-
-    return render(request, 'deliveryagentprofile.html')
+    context = {
+        'delivery_agents': delivery_agents
+    }
+    return render(request, 'deliveryagentprofile.html',context)
 def spage(request):
+
     return render(request, "spage.html")
 def deliveryagentdashboard(request):
-    return render(request, "deliveryagentdashboard.html")
-def deliverybase(request):
-    return render(request, "deliverybase.html")
+    orders = Payment.objects.all()
+    orders1 = OrderItem.objects.all()
+
+    
+    context = {
+        'orders': orders,
+        'orders1':orders1
+    }
+    return render(request, "deliveryagentdashboard.html",context)
+from django.db.models import Count
+from django.utils import timezone
+
+# Get the current date
+current_date = timezone.now().date()
 def serviceadmin(request):
-    user_appointments = Appointment.objects.all()
-    return render(request, "serviceadmin.html",{'user_appointments': user_appointments})
+    paid = Appointment.objects.filter(payment_status = 1,
+                                              approved=1
+                                              ).order_by('date')
+    current_date = timezone.now().date()
+    print("Check")
+    for appointment in paid:
+        if appointment.date <= current_date:
+            appointment.status = "Completed"
+        else:
+            appointment.status = "Pending"
+    acceptedservice = Appointment.objects.filter(approved = 1,
+                                                 payment_status=0
+                                                 ).order_by('date')
+    pending = Appointment.objects.filter(rejected = 0,
+                                              payment_status=0,
+                                              approved=0
+                                              ).order_by('date')
+    done = Appointment.objects.filter(payment_status=1, approved=1, date__lte=current_date).order_by('date')
+    
+    # Filtering out appointments already present in the 'paid' queryset
+    doneservice = done.exclude(pk__in=paid.values_list('pk', flat=True))
+    for appointment in doneservice:
+        print(appointment.date, appointment.client)
+    print("doneservice")
+    reject = Appointment.objects.filter(rejected = 1).order_by('date')
+    appointments_count_by_date = (
+        Appointment.objects
+        .values('date')
+        .annotate(num_appointments=Count('id'))
+        .order_by('date')
+    )
+
+# Print appointments count for each date
+    for appointment_count in appointments_count_by_date:
+        print(f"Appointments on {appointment_count['date']}: {appointment_count['num_appointments']}")
+    print("fufuufufu")
+    appointments_count_by_date = (
+        Appointment.objects
+        .values('date')
+        .annotate(num_appointments=Count('id'))
+        .order_by('date')
+    )
+
+    # Prepare data for chart
+    categories = [appointment['date'].strftime('%Y-%m-%d') for appointment in appointments_count_by_date]
+    counts = [appointment['num_appointments'] for appointment in appointments_count_by_date]
+
+    context = {
+        'acceptedservice': acceptedservice,
+        'reject':reject,
+        'pending':pending,
+        'paid':paid,
+        'done':done,
+        'doneservice':doneservice,
+    }
+    return render(request, "serviceadmin.html",context)
 
 def listofservices(request):
     profiles = DeliveryAgentProfile.objects.all()
-    appointments = Appointment.objects.all()
-    return render(request, 'listofservices.html', {'appointments': appointments,'profiles':profiles})
+    appointments = ServiceBooking.objects.all().order_by("-date")
+    current_date = timezone.now().date()
+    return render(request, 'listofservices.html', {'appointments': appointments,'profiles':profiles,'current_date':current_date})
 
 
 def requestpage(request,appointment_id):
     print("hai")
 
-    app = get_object_or_404(Appointment, id=appointment_id)
+    app = get_object_or_404(ServiceBooking, id=appointment_id)
     if request.method == 'POST':
         # Check if the form is submitted
         if 'approve' in request.POST:
             # If the 'Approve' button is clicked, set the 'approved' field to True
-            app.approved = True
-            app.cost = 500
-            app.estimatedcost = request.POST.get('text')
-            app.approved_timestamp = timezone.now()   
+            app.accepted = 1
+            app.estimatedcost = request.POST.get('text') 
             app.save()
-            user_email = app.client.email
+            user_email = app.user.email
             
             # Sending email to the user
             email_subject = 'Appointment Scheduled'
             email_body = f'Greeting form Farzi Furniture Store.Your appointment has been approved.\n\n'
-            email_body += f'Thank you for choosing our service.Please complete the advance payment of ₹ 500 to confirm the request.\n\n'
+            email_body += f'Thank you for choosing our service.Please complete the service charge of ₹ {app.estimatedcost} to confirm the request.\n\n'
             email_body += f'Appointment Details has been mentioned below:\n'
             email_body += f'Date: {app.date}\n'
-            email_body += f'Time: {app.get_time_slot_display()}\n'
-            email_body += f'Estimated Cost after going through the description: {app.estimatedcost}\n'
-            email_body += f'Complete the payment here: \n'
+            email_body += f'Time: {app.time_slot}\n'
+            email_body += f'Complete the payment here: http://127.0.0.1:8000/rest/services/" \n'
 
             
             send_mail(
@@ -553,17 +634,16 @@ def requestpage(request,appointment_id):
         elif 'reject' in request.POST:
             # If the 'Reject' button is clicked, set the 'rejected' field to True
             app.rejected = True
-            app.rejectionreason = "We regret to inform you that your offer has been rejected. Unfortunately, the required maintenance work cannot be accommodated within the current schedule due to high workload and priority tasks. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment."
-            app.approved_timestamp = timezone.now()   # Save the input value to the 'cost' field
+            app.rejectionreason = "We regret to inform you that your appointment has been rejected. Unfortunately, that specific date maintenance is on an off. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment."
             app.save()
 
 
-            user_email = app.client.email
+            user_email = app.user.email
             
             # Sending email to the user
             email_subject = 'Appointment Not Scheduled'
             email_body = f'Your appointment has not been approved.\n\n'
-            email_body += f'We regret to inform you that your offer has been rejected. Unfortunately, the required maintenance work cannot be accommodated within the current schedule due to high workload and priority tasks. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding, kindly schedule another appointment.\n\n'
+            email_body += f'We regret to inform you that your appointment has been rejected. Unfortunately, that specific date maintenance is on an off. We appreciate your interest and hope to collaborate with you in the future when circumstances permit. Thank you for your understanding kindly schedule another appointment.\n\n'
             
             send_mail(
                 email_subject,
@@ -587,26 +667,46 @@ def searchByName(request,name):
 
     # Return the serialized data as JSON response
     return JsonResponse(user_data, safe=False)
+def generate_random_password():
+    alphabet = string.ascii_letters + string.digits + string.punctuation
+    while True:
+        password = ''.join(secrets.choice(alphabet) for i in range(8))
+        if (any(c.islower() for c in password) and
+            any(c.isupper() for c in password) and
+            any(c.isdigit() for c in password) and
+            any(c in string.punctuation for c in password)):
+            return password
 def deliverybase(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         email = request.POST.get('email')
         pin = request.POST.get('pin')
         mobile = request.POST.get('mobile')
+        password = generate_random_password()
+
 
         try:
-            custom_user = deliveryagentcantidates.objects.create(
+            custom_user = User.objects.create(
                 name=name,
+                first_name=name,
                 email=email,
-                pin=pin,
-                mobile=mobile # Assuming DELIVERY corresponds to the 'Delivery' role
+                password = password,
+                role=User.DELIVERY 
+                 # Assuming DELIVERY corresponds to the 'Delivery' role
             )
+            custom_user.set_password(password)
             custom_user.save()
+            deliveryagent.objects.create(
+                user=custom_user,
+                name=custom_user.name,
+                email=custom_user.email,
+                pin=pin,
+                mobile=mobile
+            )
             
-            
-            email_subject = 'Application recieved  Successfully'
-            email_body = f'Thank you for expressing your intrest in working with Fazri Furniture Store as a delivery agent.\n\n'
-            email_body += f'We will send updates on your application soon. Please wait for the next steps.'
+            email_subject = 'Registration Successful'
+            email_body = f'Thank you for registering as a delivery agent. Your password is: {password}\n\n'
+            email_body += f'Click on the following link to complete your profile:\nhttp://127.0.0.1:8000/rest/deliveryagentprofile/'
 
             send_mail(
                 email_subject,
@@ -615,6 +715,8 @@ def deliverybase(request):
                 [email],
                 fail_silently=False,
             )
+            
+            
             return redirect('spage')
         except Exception as e:
             return JsonResponse({'error_message': str(e)}, status=400)
@@ -679,7 +781,8 @@ def admindeliveryagentviews(request):
     return render(request, 'admindeliveryagentviews.html',context)
 def adminsidecatidacydelivery(request):
     users = CustomUser.objects.all()
-    delivery12 = deliveryagentcantidates.objects.filter(status=False)
+    delivery12 = DeliveryAgentProfile.objects.filter(status=False)
+    
    
     context = {
         'users':users,
@@ -688,6 +791,7 @@ def adminsidecatidacydelivery(request):
 
     return render(request, 'adminsidecatidacydelivery.html',context)
 def acceptrent(request,appointment_id):
+    print(appointment_id)
     app = get_object_or_404(Rent, id=appointment_id)
     product=app.product.id
     app.status=1

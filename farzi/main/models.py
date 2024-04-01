@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from accounts.models import CustomUser,Product,UserProfile,Category
+from rest.models import Addressuser
 
 # Create your models here.
 class BookCart(models.Model):
@@ -101,6 +102,9 @@ class OrderItem(models.Model):
     state = models.CharField(max_length=15, blank=True, null=True)
     city = models.CharField(max_length=15, blank=True, null=True)
     pin_code = models.CharField(max_length=6, blank=True, null=True)
+    deliverystatus=models.BooleanField(default=False)
+    address=models.ForeignKey(Addressuser,on_delete=models.CASCADE,null=True)
+
 
 
 

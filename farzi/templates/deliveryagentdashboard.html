@@ -205,7 +205,14 @@
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav text-center ">
-          <h2 class="text-dark "><b>Delivery Agent Dashboard</b></h2>
+          <li class="nav-item "> 
+            <a href="{% url 'deliveryagentdashboard' %}" class="btn btn-link text-muted " style="text-decoration:none"; >
+                Delivery Dashboard
+              </a> >
+            <a href="" class="btn btn-link text-muted " style="text-decoration:none";>
+              Check New Assignemnts
+              </a> 
+            </li>
         </ul>
         <ul style="padding-left: 300px;" class="navbar-nav ms-auto ">
           
@@ -270,30 +277,16 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item nav-category">Panel</li>
-
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'admindashboard' %}">
+            <a class="nav-link" href="{% url 'checkassignments' %}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+              <span class="menu-title">New Assignemnts</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'newcategory' %}">
+            <a class="nav-link" href="{% url 'myassignments' %}">
               <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Add Category</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'category' %}">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Manage Category</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'display_all_objects' %}">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Saller Profiles</span>
+              <span class="menu-title">My Assignemnts</span>
             </a>
           </li>
           
@@ -318,7 +311,7 @@
         </ul>
       </nav>
       <!-- partial -->
-      {% comment %} <div class="main-panel">
+      <div class="main-panel">
         <div class="content-wrapper">
           <div class="row">
             <div class="col-sm-12">
@@ -329,13 +322,13 @@
                     <div class="card-content">
                       <div class="card-body cleartfix">
                         <div class="media align-items-stretch">
-                          <div class="align-self-center"> {% endcomment %}
+                          <div class="align-self-center">
                             {% comment %} <i class="bi bi-person-lines-fill primary font-large-2 mr-2"></i> {% endcomment %}
-                            {% comment %} <i class="icon-pencil primary font-large-2 mr-2"></i>
+                            <i class="icon-pencil primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'display_all_objects' %}" style="text-decoration: none; color: black;">Seller Profiles</a> </b></h4>
-                            <span>Manage your Seller</span>
+                            <h4><b><a href="{% url 'checkassignments' %}" style="text-decoration: none; color: black;">New Assignments</a> </b></h4>
+                            <span>Check New Assignments</span>
                           </div>
                           <div class="align-self-center">
                             <!-- <h1>18,000</h1> -->
@@ -356,8 +349,8 @@
                             <i class="icon-rocket danger font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'category' %}" style="text-decoration: none; color: black;">Category Management</a> </b></h4>
-                            <span>View and delete listed products</span>
+                            <h4><b><a href="{% url 'myassignments' %}" style="text-decoration: none; color: black;">View Assignments</a> </b></h4>
+                            <span>My Assignments</span>
                           </div>
                           <div class="align-self-center"> 
                             <!-- <h1>84,695</h1> -->
@@ -368,26 +361,11 @@
                   </div>
                 </div>
               </div>
-             {% endcomment %}
-<h3 class="text-dark "><b>My Assignments</b></h3>
-
-              {% comment %} <span class="text-black">
-                Number Of Users
-              </span>
-              <span>{{ user_count }}</span>
-              <span class="text-bold-500">
-                Number Of Customers
-                  </span>
-                  <span >{{ count }}</span>
-                  <span class="text-bold-500">
-                    Number Of  Successfull Orders
-                      </span>
-                      <span >{{ count1 }}</span>
-                      
-                  <span class="text-bold-500">
-                    Number Of Orders
-                      </span>
-                      <span >{{ total_amount }}</span> {% endcomment %}
+            
+              
+            
+              
+                  
 
             </div>
           </div>

@@ -394,8 +394,8 @@
                             <i class="icon-cup primary font-large-2 mr-2"></i>
                           </div>
                           <div class="media-body">
-                            <h4><b><a href="{% url 'adminrentrequest' %}" style="text-decoration: none; color: black;">Rent Requests</a> </b></h4>
-                            <span>New Rent Requests.</span>
+                            <h4><b><a href="{% url 'adminrentrequest' %}" style="text-decoration: none; color: black;">Rent Orders</a> </b></h4>
+                            <span>All Rent Orders</span>
                           </div>
                           <div class="align-self-center">
                             <!-- <h1>18,000</h1> -->
@@ -406,7 +406,7 @@
                   </div>
                 </div>
             
-                <div class="col-xl-6 col-md-12">
+                {% comment %} <div class="col-xl-6 col-md-12">
                   <div class="card">
                     <div class="card-content">
                       <div class="card-body cleartfix">
@@ -425,7 +425,7 @@
                       </div>
                     </div>
                   </div>
-                </div> 
+                </div>  {% endcomment %}
             
               </div>
               

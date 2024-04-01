@@ -272,31 +272,35 @@
                     <th>Client Name</th>
                     <th>Date</th>
                     <th>Time Slot</th>
-                    <th>Created Date</th>
+                    <th>Estimated Cost</th>
+                    <th>Review</th>
                     <th>Status</th>
-                    <th>Status</th>
-
-                    
                   </tr>
                 </thead>
                 <tbody>
                   {% for appointment in appointments %}
             <tr>
-              <td>{{ appointment.client.name }}</td>
+              <td>{{ appointment.user.name }}</td>
                 <td>{{ appointment.date }}</td>
-                <td>{{ appointment.get_time_slot_display }}</td>
-                <td>{{ appointment.created_date }}</td>
+                <td>{{ appointment.time_slot }}</td>
+                <td>{{ appointment.estimatedcost }}</td>
                 <td><a href="{% url 'requestpage' appointment.id %}">
                   <button type="button" class="btn btn-inverse-info btn-fw">
                     View Details
                   </button>
                 </a></td>
                 <td>
-                  {% if appointment.approved == 1 %}
+                  {% if appointment.accepted == 1 %}
                   
-                  <button type="button" class="btn btn-primary">
-                    Approved
-                  </button>
+                  {% if appointment.date < current_date %}
+                              <a class="btn btn-secondary mt-3">
+                                Appoinment Done on {{appointment.date}}
+                                </a>
+                                  {% else %}
+                                      <a class="btn btn-success mt-3">
+                                        Appoinment Confirmed
+                                        </a>
+                              {% endif %}
                   {% elif appointment.rejected == 1 %}
                   
                   <button type="button" class="btn btn-danger">

@@ -284,6 +284,8 @@
 
                     <th>Status</th>
                     <th>Download</th>
+                    <th>Review</th>
+
 
                   </tr>
                 </thead>
@@ -307,6 +309,10 @@
                       <a class="btn btn-tertiary btn-sm btn-primary" href="{% url 'print_as_pdf' stid2=payment1.id %}">
                         <i class="bi bi-printer"></i>
                         
+                      </a>
+                    </td>
+                    <td>
+                      <a class="btn btn-tertiary btn-sm btn-primary" href="{% url 'feedback_page' payment1.id %}">write
                       </a>
                     </td>
                   </tr>

@@ -288,25 +288,25 @@
       <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <p><strong>Client:</strong> {{ app.client.name }}</p>
+            <p><strong>Client:</strong> {{ app.user.name }}</p>
             <p><strong>Prefrerd date and time:</strong> {{ app.date }} at {{ app.get_time_slot_display }}</p>
             <p><strong>Location  from google:</strong> {{ app.location }}</p>
             <p><strong>Mobile:</strong> {{ app.mobile }}</p>
             <p><strong>Landmark near the location:</strong> {{ app.order_id }}</p>
             <p><strong>Description of the maintenance:</strong> {{ app.desc }}</p>
+            
             <form method="post" id="appointmentForm">
               {% csrf_token %}
-                                   {% if app.approved == 0 and app.rejected == 0 %}
+                                   {% if app.accepted == 0 and app.rejected == 0 %}
                                    
               <input type="text" id="text" name="text"
               class="form-control form-control-lg placform" placeholder="Enter Amount">
                                    <br>
                                    <button class="btn btn-success" type="submit" name="approve" id="submitBtn">Approve</button>
                                    <button type="submit" name="reject" id="rejectBtn" class="btn btn-danger">Reject</button>
-                                   {% elif app.approved == 1 %}
-                                   <p><strong>Quotation price:</strong> {{ app.cost }}</p>
-                                   <p><strong>Approved on:</strong> {{ app.approved_timestamp }}</p>
-                                   {% elif app.rejected == 1 %}
+                                   {% elif app.accepted == 1 %}
+                                   <p><strong>Quotation price:</strong> {{ app.estimatedcost }}</p>
+                                  
 
                                    {% endif %}
                            </form>

@@ -337,7 +337,7 @@
                 <span class="count"></span>
               </a></li>
             <li class="nav-item ">
-              <a class="nav-link "  href="{% url 'cart'  %}" >
+              <a class="nav-link "  href="{% url 'logout'  %}" >
                 <span class="menu-title"><b>
                   Logout</b></span>
                 <i class="menu-icon mdi mdi-logout"></i>
@@ -758,15 +758,6 @@
 </head>
 
 <body>
-
-
-
-
-  <div class="container-fluid mt-2 w-50">
-    
-    <!-- Rest of your code -->
-  </div>
-
   <div class="container-fluid ">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-md-6">
@@ -829,7 +820,7 @@
 
 
             </tr>
-        {% endfor %}
+           {% endfor %}
           </tbody>
         </table>
         <div class="clearfix">
@@ -960,7 +951,149 @@
     });
   });
 </script>
+<div class="row">
+  <div class="col-lg-8 d-flex flex-column">
+    <div class="row flex-grow">
+      <div class="col-12 col-lg-4 col-lg-12 grid-margin stretch-card">
+        <div class="card card-rounded">
+          <div class="card-body">
+            <div class="d-sm-flex justify-content-between align-items-start">
+              <div>
+               <h4 class="card-title card-title-dash">Product Categories</h4>
+               {% comment %} <h5 class="card-subtitle card-subtitle-dash">Lorem Ipsum is simply dummy text of the printing</h5> {% endcomment %}
+              </div>
+              <div id="performance-line-legend"></div>
+            </div>
+            <div class="chartjs-wrapper mt-5">
+              <canvas class="product_canvas" id="myChart1"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 d-flex flex-column">
+    <div class="row flex-grow">
+      <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+        <div class="card bg-primary card-rounded">
+          <div class="card-body pb-0 text-center">
+            <h4 class="card-title card-title-dash text-white mb-4">Orders Worth</h4>
+            <div class="row m-5">
+              <div class="col-sm-12">
+                <h2 class="text-info">₹{{total_price_sum}}</h2>
+              </div>
+            </div>
+            <h4 class="card-title card-title-dash text-white mb-4">Total Orders</h4>
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 class="text-info">{{totalorderscount}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-12 grid-margin stretch-card">
+        <div class="card card-rounded">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-4">
+              </div>
 
+              <div class="col-sm-8">
+
+                <div class="d-flex justify-content-between align-items-center mb-2 mb-sm-0">
+                  
+                  <div>
+                    <h4 class="card-title card-title-dash text-dark mb-4">Top Customers</h4>
+
+                    {% for order in successful_order|slice:":3" %}
+                    <h6 class="text-left">
+                     {{ order.user__name }}  : {{ order.order_count }} Orders
+                    </h6>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // Access category counts from the JSON string
+  var categoryCounts = JSON.parse('{{ category_counts_json|escapejs }}');
+  console.log(categoryCounts);
+  
+  // Now you can use the categoryCounts object in your JavaScript code
+  // For example, you can access the count of a specific category like this:
+  // var artCount = categoryCounts['Art'];
+</script>
+<div class="canvas">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Retrieve category counts from the template variable
+    var categoryCounts = JSON.parse('{{ category_counts_json|escapejs }}');
+
+    // Extract category names and counts
+    var categories = [];
+    var counts = [];
+    for (var category in categoryCounts) {
+        if (categoryCounts.hasOwnProperty(category)) {
+            categories.push(category);
+            counts.push(categoryCounts[category]);
+        }
+    }
+
+    // Create datasets object dynamically
+    var datasets = [{
+        label: 'Category Counts',
+        data: counts,
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)'
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+    }];
+
+    // Create chart using Chart.js
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: categories,
+            datasets: datasets
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+ 
+  
+  
+</div>
 </html>
           </div>
         </div>
