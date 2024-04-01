@@ -44,25 +44,25 @@ def userlogin(request):
                             elif user.role==2:
                                 auth_login(request,user)
                                 print(user.role)
-                                return redirect('http://127.0.0.1:8000/accounts/sellerpage/')
+                                return redirect('seller')
                             elif user.role==5:
                                 auth_login(request,user)
                                 print(user.role)
-                                return redirect('http://127.0.0.1:8000/rest/listofservices/')
+                                return redirect('listofservices')
                             elif user.role==3:
                                 try:
                                     delivery_agent_profile = DeliveryAgentProfile.objects.get(user=user)
                                     auth_login(request, user)
                                     print(user.role)
-                                    return redirect('http://127.0.0.1:8000/rest/deliveryagentdashboard/')
+                                    return redirect('deliveryagentdashboard')
                                 except DeliveryAgentProfile.DoesNotExist:
                                     auth_login(request, user)
                                     print(user.role)
-                                    return redirect('http://127.0.0.1:8000/rest/deliveryagentprofile/')
+                                    return redirect('deliveryagentprofile')
                             else:
                                 auth_login(request,user)
                                 print(user.role)
-                                return redirect('http://127.0.0.1:8000/accounts/admindashboard/')
+                                return redirect('admindashboard')
         #         auth_login(request, user)
         #         print("User authenticated:", user.email, user.role)
         #         return redirect('http://127.0.0.1:8000/')
