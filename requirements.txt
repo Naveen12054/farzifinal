@@ -46,10 +46,13 @@ flatbuffers==23.5.26
 fqdn==1.5.1
 frozenlist==1.4.1
 gast==0.5.4
+gevent==24.2.1
 google-auth==2.23.2
 google-auth-oauthlib==1.0.0
 google-pasta==0.2.0
+greenlet==3.0.3
 grpcio==1.59.0
+gunicorn==21.2.0
 h11==0.14.0
 h5py==3.9.0
 html5lib==1.1
@@ -191,9 +194,11 @@ webcolors==1.13
 webencodings==0.5.1
 websocket-client==1.6.1
 Werkzeug==3.0.0
+whitenoise==6.6.0
 widgetsnbextension==4.0.8
 wrapt==1.14.1
 wsproto==1.2.0
 xhtml2pdf==0.2.11
 yarl==1.9.4
-gunicorn
+zope.event==5.0
+zope.interface==6.2
