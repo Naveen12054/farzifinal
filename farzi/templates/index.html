@@ -381,63 +381,29 @@
     <div class="about-area section-pt">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 col-md-5 col-12 mt-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="logo">
-                            <a href="{% url 'index' %}">
-                                <img style="width:100px; height:80px;" src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai">
-                            </a>
+                <div class="col-lg-6">
+                    {% comment %} <div class="about-image">
+                        <a href="{% url 'singleview' product.id %} "><img src="{{ product.product_images1.url }}" height="460px" width="480px" alt=""></a>
+                        <span class="text_left text-danger "><b>TOP DEAL OF THE DAY</b></span>
+                    </div> {% endcomment %}
+                    
+                </div>
+                {% comment %} <div class="col-lg-6">
+                    <div class="about-contents">
+                        <h3>{{ product.brand_name }} {{ product.product_name }}</h3>
+                        <div class="price-box">
+                            <span class="new-price"> ₹{{ product.price }}</span>
                         </div>
-                        <form id="search-form" class="search" style="width:100%;">
-                            <div class="input-group">
-                                <input type="text" class="form-control search-input" placeholder="Search..." id="query" name="query">
-                                <button type="submit" class="btn transparent-button">
-                                    <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="Search">
-                                </button>
-                            </div>
-                        </form>
+                        <p>{{ product.product_description }}</p>
+                        <button class="btn shop-btn-two">
+                            <a href="{% url 'singleview' product.id %}" class="btn btn-success mr-3">
+                                GRAB NOW
+                            </a>
+                        </button>
                     </div>
-                </div>
-                <div class="col-lg-6 d-none d-lg-block mt-2">
-                    <div class="main-menu-area text-center">
-                        <nav class="main-navigation">
-                            <ul class="list-inline">
-                                {% if user.is_authenticated %}
-                                    {% if user.role == 1 %}
-                                        <li class="list-inline-item"><a href="{% url 'wishlist' %}" class="nav-link"><img src="{% static 'assets/images/heart.png' %}" alt="" style="height: 20px;"></a></li>
-                                        <li class="list-inline-item"><a href="{% url 'cart' %}" class="nav-link"><img src="{% static 'assets/images/cart.png' %}" alt="" style="height: 20px;"></a></li>
-                                        <li class="list-inline-item"><a href="{% url 'user_orders' %}" class="nav-link"><img src="{% static 'assets/images/booking.png' %}" alt="" style="height: 20px;"></a></li>
-                                    {% endif %}
-                                {% endif %}
-                                {% if user.is_anonymous %}
-                                    <li class="list-inline-item"><a href="{% url 'seller' %}" class="nav-link">Become a Seller</a></li>
-                                {% endif %}
-                                <li class="list-inline-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <b>{{ user.name }}</b>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="userDropdown">
-                                        {% if user.is_authenticated %}
-                                            {% if user.role == 1 %}
-                                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                                                <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                                            {% elif user.role == 2 %}
-                                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                                            {% else %}
-                                                <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-                                            {% endif %}
-                                        {% else %}
-                                            <a class="dropdown-item" href="{% url 'login' %}">Log In</a>
-                                        {% endif %}
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                </div> {% endcomment %}
             </div>
         </div>
-        
     </div>
     <!-- about-area end -->
     
