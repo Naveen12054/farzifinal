@@ -16,7 +16,21 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
-    return render(request,'index.html')
+    stdata = Category.objects.filter(status=False)
+    products12 = Product.objects.filter(status=False, admincontrol=False)
+    products3 = Category.objects.filter(status=False)
+    products1 = Subcategory.objects.filter(status=False)
+    profiles = DeliveryAgentProfile.objects.all()
+    product = Product.objects.get(id=3)
+    context = {
+        'products12': products12, 
+        'stdata':stdata,
+        'products3':products3,
+        'products1':products1,
+        'product':product,
+        'profiles':profiles,
+    }
+    return render(request,'index.html',context)
 def cart(request):
     # Assuming you have the user object for the currently logged-in user
     user_id = request.user.id  # Replace with your user retrieval logic if needed

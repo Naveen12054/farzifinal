@@ -89,7 +89,7 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{% url 'list' %}">All Products</a>           
                   </li>
-                {% comment %} {% for product2 in products1 %}
+                {% for product2 in products1 %}
                 {% if forloop.counter <= 6 %}
 
                 <li class="nav-item active">
@@ -102,7 +102,7 @@
             
           {% endif%}
 
-          {%endfor%} {% endcomment %}
+          {%endfor%}
            <li class="nav-item active">
             <a class="nav-link" href="{% url 'rentuserlist' %}">Rent</a>           
           </li> 
@@ -381,14 +381,14 @@
     <div class="about-area section-pt">
         <div class="container">
             <div class="row">
-                {% comment %} <div class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="about-image">
                         <a href="{% url 'singleview' product.id %} "><img src="{{ product.product_images1.url }}" height="460px" width="480px" alt=""></a>
                         <span class="text_left text-danger "><b>TOP DEAL OF THE DAY</b></span>
                     </div>
                     
-                </div> {% endcomment %}
-                {% comment %} <div class="col-lg-6">
+                </div>
+                <div class="col-lg-6">
                     <div class="about-contents">
                         <h3>{{ product.brand_name }} {{ product.product_name }}</h3>
                         <div class="price-box">
@@ -401,7 +401,7 @@
                             </a>
                         </button>
                     </div>
-                </div> {% endcomment %}
+                </div>
             </div>
         </div>
     </div>
@@ -429,7 +429,7 @@
                         <!-- single-product-wrap start -->
                         <div class="row"id="pro">
 
-                            {% comment %} {% for product in products12 %}
+                            {% for product in products12 %}
                             {% if forloop.counter <= 8 %}
                             <div class="col-md-3 mb-1">
                                 <div class="card"  style="width: 18rem;">
@@ -455,7 +455,7 @@
                             </div>
                             {% endif %}
                             {% endfor %}
-                             {% endcomment %}
+                            
                 </div>
                 <!-- lg-banner-bg start -->
     <div class="lg-banner-area lg-banner-bg section-ptb">
@@ -501,7 +501,7 @@
             <div class="product-warpper">
                 <div class="product-slider row">
                     
-                    {% comment %} {% for product in products3 %}
+                    {% for product in products3 %}
                         <a class="" href="/list/{{product}}" style="text-decoration: none;">
                             <i class=" menu-icon mdi mdi-card-text-outline customIcon  "></i>
                             
@@ -512,7 +512,7 @@
                             </span>
                           </a>
               
-                    {% endfor %} {% endcomment %}
+                    {% endfor %}
                     {% endif %}
 
                 </div>
