@@ -124,192 +124,63 @@
         <div class="header-bottom-area header-sticky">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-md-5 col-5 d-flex mt-2">
-                        <div class="logo " style="margin-top: 20px;  margin-right: 10px;">
-                            <a href="{% url 'index' %}">
-                                <img style="width:100px; height:80px;" src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai"></a>
+                    <div class="col-lg-6 col-md-5 col-12 mt-2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="logo">
+                                <a href="{% url 'index' %}">
+                                    <img style="width:100px; height:80px;" src="{% static 'assets\images\logo\lo.jpg' %}" alt="hai">
+                                </a>
+                            </div>
+                            <form id="search-form" class="search" style="width:100%;">
+                                <div class="input-group">
+                                    <input type="text" class="form-control search-input" placeholder="Search..." id="query" name="query">
+                                    <button type="submit" class="btn transparent-button">
+                                        <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="Search">
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <style>
-                            .transparent-button {
-                                background-color: transparent;
-                                border: none;
-                                color: #000; /* Text color (black in this example) */
-                                cursor: pointer;
-                                font-size: 16px;
-                                padding: 10px 20px; /* Adjust padding as needed */
-                            }
-                            </style>
-                               <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-                               <script>
-                                 // Define a function to handle form submission
-                                 function handleFormSubmission() {
-                                   // Get search query from form
-                                   var query = $("#query").val();
-                                   console.log("Form submitted!");
-                                   console.log("Query:", query);
-                     
-                                   // Send AJAX request
-                                   $.ajax({
-                                     type: "GET",
-                                     url: "/search_product/",  // Replace with the actual URL
-                                     data: { query: query },
-                                     dataType: "json",
-                                     success: function (data) {
-                                       // Check if there are any results
-                                       if (data.product.length === 0) {
-                                         // No results found, display the "no-results" message
-                                         $("#results").html("<p>No products found.</p>");
-                                         // Hide the property listings
-                                         $("#pro").hide();
-                                       } else {
-                                         // Results found, display the results
-                                         var resultsHtml = "<div class='row mb-3'>"; // Open a row div with margin
-                     
-                                         data.product.forEach(function (product, index) {
-                                           // Check if it's divisible by 4 to start a new row
-                                           if (index % 4 === 0) {
-                                             resultsHtml += '</div>'; // Close the previous row
-                                             resultsHtml += '<div class="row mb-3">'; // Open a new row with margin
-                                           }
-                     
-                     
-                     
-                                           // Create the property card HTML
-                                           resultsHtml += '<div class="col-md-4 mb-5">';
-                                           resultsHtml += '<div class="card" style="width: 18rem;">';
-                     
-                                           resultsHtml += '<a href="/singleview/' + product.id + '/" style="text-decoration: none;" >';
-                                           resultsHtml += '<img src="' + product.product_images1 + '" class="card-img-top" style="height: 286px;" >';
-                                           resultsHtml += '<div class="card-body">';
-                                           resultsHtml += '<h6 class="text-dark"><b>' + product.brand_name + '</b></h6>';
-                                           resultsHtml += '<h6 class="text-dark"><b>' + product.product_name + '</b></h6>';
-                                           resultsHtml += '</a>'
-                                           resultsHtml += '<div class="r mt-3" style="display: flex;">';
-                                           resultsHtml += '<h6 class="card-text"><b>₹' + product.price + '</b></h6>';
-                                           resultsHtml += '</div>';
-                                           resultsHtml += '</div>';
-                                           resultsHtml += '</div>';
-                                           resultsHtml += '</div>';
-                                         });
-                                         resultsHtml += "</div>"; // Close the last row with margin
-                                         $("#pro").html(resultsHtml); // Replace the content of #pro with resultsHtml
-                                         // Show the property listings
-                                         $("#pro").show();
-                                       }
-                                     },
-                                     error: function (xhr, status, error) {
-                                       // Log any errors to the console
-                                       console.error(xhr.responseText);
-                                     },
-                                   });
-                                 }
-                     
-                                 // Call the form submission handler function when the document is ready
-                                 $(document).ready(function () {
-                                   $("#search-form").submit(function (e) {
-                                     e.preventDefault();
-                                     handleFormSubmission();
-                                   });
-                                 });
-                               </script>
-                     
-            <form id="search-form">
-                        <div class="search mt-4" style="width:500px;"> 
-                            <input type="text" class="search-input" placeholder="Search..." id="query" name="query"> 
-                <button type="submit" class="transparent-button">
-                    <img src="{% static 'assets\images\search.png' %}" style="height: 20px;" alt="hai">
-
-                </button>
-                            
-                        </div> 
-              <form>
                     </div>
-                    <div class="col-lg-6 d-none d-lg-block " style="margin-top: -30px;">
-                        <div class="main-menu-area text-center ">
-                            <nav class="main-navigation ">
-                            
-                                <ul>
-                                {% if  user.is_authenticated %}
-                                {% if user.role == 1 %}
-
-
-                                    <li><a href="{% url 'wishlist' %}" class="nav-link">
-                                        <img src="{% static 'assets/images/heart.png' %}" alt="" style="height: 20px;">
-                                    </a></li>
-                                    <li><a href="{% url 'cart' %}" class="nav-link">
-                                        <img src="{% static 'assets/images/cart.png' %}" alt="" style="height: 20px;">
-                                    </a></li>
-                                    <li><a href="{% url 'user_orders' %}" class="nav-link">
-                                        <img src="{% static 'assets/images/booking.png' %}" alt="" style="height: 20px;">
-                                    </a></li>
-                                    {% endif%}
-                                    {% endif%}
-                                    
-                            {% if user.is_anonymous %}
-                                    
-                                    <li><a href="{% url 'seller' %}" class="nav-link">Become a Seller</a></li>
-                                    {% endif%}
-
-                                    <li><a href="#" class="nav-link">
-                                        {% comment %} {% if  user.is_authenticated %}
-                                                {% if user.role == 4 %}
-                                                <li><a href="{% url 'admindashboard' %}" class="nav-item nav-link">Dashboard</a></li>
-                                               
-                                                {% elif user.role == 2 %}
-                                                
-                                                <li><a href="{% url 'sellerpage' %}" class="nav-item nav-link">Dashboard</a></li>
-                                                {% elif user.role == 1 %}
-                                                <li><a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a></li>
-                                        {% else %}
-                                       
+                    <div class="col-lg-6 d-none d-lg-block mt-2">
+                        <div class="main-menu-area text-center">
+                            <nav class="main-navigation">
+                                <ul class="list-inline">
+                                    {% if user.is_authenticated %}
+                                        {% if user.role == 1 %}
+                                            <li class="list-inline-item"><a href="{% url 'wishlist' %}" class="nav-link"><img src="{% static 'assets/images/heart.png' %}" alt="" style="height: 20px;"></a></li>
+                                            <li class="list-inline-item"><a href="{% url 'cart' %}" class="nav-link"><img src="{% static 'assets/images/cart.png' %}" alt="" style="height: 20px;"></a></li>
+                                            <li class="list-inline-item"><a href="{% url 'user_orders' %}" class="nav-link"><img src="{% static 'assets/images/booking.png' %}" alt="" style="height: 20px;"></a></li>
                                         {% endif %}
-                                                {% else %}
-                                            
-                                        {% endif %} {% endcomment %}
-                                    </a></li>
-                                    {% comment %} {% if user.name == user.name %}
-                                    {{user.name}}
-                                    <ul class="sub-menu">
-                                        <li><a href="{% url 'logout' %}" class="nav-item nav-link" id="logout">Log Out</a></li>
-                                                <br>
-                                                
-                                    </ul>
-                                    {% else %}
-                                    {{user.email}}
-                                    {%endif%} {% endcomment %}
-                                    <li>
-                                        <b>{{user.name}}</b>
-                                        <ul class="sub-menu">
-                                                {% if  user.is_authenticated %}
+                                    {% endif %}
+                                    {% if user.is_anonymous %}
+                                        <li class="list-inline-item"><a href="{% url 'seller' %}" class="nav-link">Become a Seller</a></li>
+                                    {% endif %}
+                                    <li class="list-inline-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <b>{{ user.name }}</b>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="userDropdown">
+                                            {% if user.is_authenticated %}
                                                 {% if user.role == 1 %}
-                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
-                                                <br>
-                                                <li><a href="{% url 'profile' %}" id="logout" class="nav-item nav-link">Profile</a></li>
+                                                    <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                                                    <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
                                                 {% elif user.role == 2 %}
-                                                
-                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
-                                                
-                                        {% else %}
-                                        <br>
-                                                <li><a href="{% url 'logout' %}" id="logout" class="nav-item nav-link">Log Out</a></li>
-                                                <br>
-                                        {% endif %}
+                                                    <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
                                                 {% else %}
-                                            </ul>
-                                        </li>
-                                        <li><a href="{% url 'login' %}" class="nav-link">
-                                            <img src="{% static 'assets/images/profile.png' %}" alt="" style="height: 20px;">
-                                        </a></li>
-                                        {% endif %}
-                                        
+                                                    <a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+                                                {% endif %}
+                                            {% else %}
+                                                <a class="dropdown-item" href="{% url 'login' %}">Log In</a>
+                                            {% endif %}
+                                        </div>
+                                    </li>
                                 </ul>
                             </nav>
                         </div>
                     </div>
-                    
                 </div>
             </div>
+            
         </div>
     </div>
     <!-- header-area end -->
