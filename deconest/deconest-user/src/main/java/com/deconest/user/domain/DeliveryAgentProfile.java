@@ -61,5 +61,75 @@ public class DeliveryAgentProfile extends BaseEntity {
     public UserAccount getUser() {
         return user;
     }
-}
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public String getAccountHolderName() {
+        return accountHolderName;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getRoutingNumber() {
+        return routingNumber;
+    }
+
+    public Integer getMaxDeliveryDistanceKm() {
+        return maxDeliveryDistanceKm;
+    }
+
+    public LocalDate getInsuranceExpiryDate() {
+        return insuranceExpiryDate;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void updateProfile(
+            String firstName,
+            String lastName,
+            String phoneNumber,
+            String pinCode,
+            String bankName,
+            String accountHolderName,
+            String accountNumber,
+            String routingNumber,
+            Integer maxDeliveryDistanceKm,
+            LocalDate insuranceExpiryDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.pinCode = pinCode;
+        this.bankName = bankName;
+        this.accountHolderName = accountHolderName;
+        this.accountNumber = accountNumber;
+        this.routingNumber = routingNumber;
+        this.maxDeliveryDistanceKm = maxDeliveryDistanceKm;
+        this.insuranceExpiryDate = insuranceExpiryDate;
+    }
+}

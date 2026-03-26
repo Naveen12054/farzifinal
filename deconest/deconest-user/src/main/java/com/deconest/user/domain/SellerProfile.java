@@ -44,5 +44,43 @@ public class SellerProfile extends BaseEntity {
     public UserAccount getUser() {
         return user;
     }
-}
 
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public String getGstNumber() {
+        return gstNumber;
+    }
+
+    public String getPanNumber() {
+        return panNumber;
+    }
+
+    public String getMapLocation() {
+        return mapLocation;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getAlternatePhoneNumber() {
+        return alternatePhoneNumber;
+    }
+
+    public void updateProfile(
+            String ownerName,
+            String gstNumber,
+            String panNumber,
+            String mapLocation,
+            String phoneNumber,
+            String alternatePhoneNumber) {
+        this.ownerName = ownerName;
+        this.gstNumber = gstNumber;
+        this.panNumber = panNumber;
+        this.mapLocation = mapLocation;
+        this.phoneNumber = phoneNumber;
+        this.alternatePhoneNumber = alternatePhoneNumber;
+    }
+}

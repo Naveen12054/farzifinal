@@ -53,5 +53,61 @@ public class UserProfile extends BaseEntity {
     public UserAccount getUser() {
         return user;
     }
-}
 
+    public String getCountry() {
+        return country;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getAlternatePhoneNumber() {
+        return alternatePhoneNumber;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void updateProfile(
+            String country,
+            String state,
+            String city,
+            String district,
+            String addressLine1,
+            String addressLine2,
+            String phoneNumber,
+            String alternatePhoneNumber,
+            String pinCode) {
+        this.country = country;
+        this.state = state;
+        this.city = city;
+        this.district = district;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.phoneNumber = phoneNumber;
+        this.alternatePhoneNumber = alternatePhoneNumber;
+        this.pinCode = pinCode;
+    }
+}
