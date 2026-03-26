@@ -71,6 +71,13 @@ public class UserService {
         return toResponse(account);
     }
 
+    @Transactional(readOnly = true)
+    public UserAccountResponse getUserByEmail(String email) {
+        UserAccount account = userAccountRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + email));
+        return toResponse(account);
+    }
+
     private void provisionDefaultProfile(UserAccount userAccount) {
         if (userAccount.getRole() == UserRole.SELLER) {
             sellerProfileRepository.save(new SellerProfile(userAccount));

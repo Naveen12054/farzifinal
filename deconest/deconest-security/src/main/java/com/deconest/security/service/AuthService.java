@@ -1,6 +1,7 @@
 package com.deconest.security.service;
 
 import com.deconest.security.api.dto.AuthUserResponse;
+import com.deconest.security.api.dto.CurrentUserResponse;
 import com.deconest.security.api.dto.SignupRequest;
 import com.deconest.user.api.dto.CreateUserRequest;
 import com.deconest.user.api.dto.UserAccountResponse;
@@ -30,5 +31,18 @@ public class AuthService {
                 created.role(),
                 created.active(),
                 created.verified());
+    }
+
+    public CurrentUserResponse currentUser(String email) {
+        UserAccountResponse user = userService.getUserByEmail(email);
+
+        return new CurrentUserResponse(
+                user.id(),
+                user.email(),
+                user.fullName(),
+                user.role(),
+                user.active(),
+                user.verified(),
+                user.blacklisted());
     }
 }

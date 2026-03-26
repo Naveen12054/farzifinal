@@ -1,9 +1,12 @@
 package com.deconest.security.api;
 
 import com.deconest.security.api.dto.AuthUserResponse;
+import com.deconest.security.api.dto.CurrentUserResponse;
 import com.deconest.security.api.dto.SignupRequest;
 import com.deconest.security.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,5 +26,9 @@ public class AuthController {
     public AuthUserResponse signup(@Valid @RequestBody SignupRequest request) {
         return authService.signup(request);
     }
-}
 
+    @GetMapping("/me")
+    public CurrentUserResponse me(Authentication authentication) {
+        return authService.currentUser(authentication.getName());
+    }
+}
