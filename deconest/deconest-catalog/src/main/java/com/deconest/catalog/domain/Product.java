@@ -178,5 +178,17 @@ public class Product extends BaseEntity {
     public ProductStatus getStatus() {
         return status;
     }
-}
 
+    public void reserveQuantity(int requestedQuantity) {
+        if (requestedQuantity <= 0) {
+            throw new IllegalArgumentException("Requested quantity must be greater than zero");
+        }
+        if (requestedQuantity > this.quantity) {
+            throw new IllegalArgumentException("Requested quantity exceeds available stock");
+        }
+        this.quantity -= requestedQuantity;
+        if (this.quantity == 0 && this.status == ProductStatus.ACTIVE) {
+            this.status = ProductStatus.INACTIVE;
+        }
+    }
+}
