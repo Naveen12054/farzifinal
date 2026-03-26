@@ -1,5 +1,6 @@
 package com.deconest.user.service;
 
+import com.deconest.common.security.PasswordHasher;
 import com.deconest.user.api.dto.CreateUserRequest;
 import com.deconest.user.api.dto.UserAccountResponse;
 import com.deconest.user.domain.DeliveryAgentProfile;
@@ -14,7 +15,6 @@ import com.deconest.user.repository.UserProfileRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,19 +26,19 @@ public class UserService {
     private final UserProfileRepository userProfileRepository;
     private final SellerProfileRepository sellerProfileRepository;
     private final DeliveryAgentProfileRepository deliveryAgentProfileRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final PasswordHasher passwordHasher;
 
     public UserService(
             UserAccountRepository userAccountRepository,
             UserProfileRepository userProfileRepository,
             SellerProfileRepository sellerProfileRepository,
             DeliveryAgentProfileRepository deliveryAgentProfileRepository,
-            PasswordEncoder passwordEncoder) {
+            PasswordHasher passwordHasher) {
         this.userAccountRepository = userAccountRepository;
         this.userProfileRepository = userProfileRepository;
         this.sellerProfileRepository = sellerProfileRepository;
         this.deliveryAgentProfileRepository = deliveryAgentProfileRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.passwordHasher = passwordHasher;
     }
 
     public UserAccountResponse createUser(CreateUserRequest request) {
@@ -49,7 +49,7 @@ public class UserService {
         UserAccount userAccount = new UserAccount(
                 request.email(),
                 request.fullName(),
-                passwordEncoder.encode(request.password()),
+                passwordHasher.hash(request.password()),
                 request.role());
 
         UserAccount saved = userAccountRepository.save(userAccount);
@@ -96,4 +96,3 @@ public class UserService {
                 userAccount.isBlacklisted());
     }
 }
-
