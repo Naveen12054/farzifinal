@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: deconest
+  datasource:
+    url: ${DECONEST_DB_URL:jdbc:postgresql://localhost:5432/deconest}
+    username: ${DECONEST_DB_USERNAME:deconest}
+    password: ${DECONEST_DB_PASSWORD:deconest}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: false
+
+server:
+  port: ${PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
